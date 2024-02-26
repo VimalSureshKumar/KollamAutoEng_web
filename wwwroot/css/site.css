@@ -18,9 +18,33 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 80px;
+}
+
+.title {
+    font-size: 36px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    text-align: center;
+    padding: 35px;
+    margin-bottom: -45px;
 }
 
 .carousel-inner {
     margin-top: 60px;
 }
+
+.navbar-brand {
+    padding: 0;
+    background-color: transparent;
+}
+
+    .navbar-brand img {
+        background-color: transparent;
+        height: 100px; 
+        width: 120px; 
+        display: block; 
+    }
+
