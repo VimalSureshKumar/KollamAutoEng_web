@@ -14,37 +14,84 @@ html {
 
 html {
   position: relative;
-  min-height: 100%;
+  min-height: 130%;
 }
 
-body {
-  margin-bottom: 80px;
+.navbar {
+    background-color: #FDDA0D; 
+    border: groove;
 }
 
-.title {
-    font-size: 36px;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin: 0;
+.logo {
+    margin-left: -14px;
+    margin-top: auto;
+    width: 150px; 
+    height: 100px; 
+    object-fit: cover; 
+}
+
+.img {
+    border-block: groove;
+    margin-top: -15px;
+}
+
+.bigimg {
+    border-block: groove;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bottomfooter {
+    background-color: #FDDA0D;
+    color: #fff;
+    padding: 20px;
     text-align: center;
-    padding: 35px;
-    margin-bottom: -45px;
+    position: fixed;
+    width: 100%;
 }
-
-.carousel-inner {
-    margin-top: 60px;
-}
-
-.navbar-brand {
-    padding: 0;
-    background-color: transparent;
-}
-
-    .navbar-brand img {
-        background-color: transparent;
-        height: 100px; 
-        width: 120px; 
-        display: block; 
-    }
 
