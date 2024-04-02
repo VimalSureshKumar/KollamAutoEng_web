@@ -10,32 +10,32 @@
 </head>
 <body>
     <header class="header">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="logo" src="~/logotrans.png"/>
+                    <img class="logo" src="~/Images/logotrans.png" alt="logo"/>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Action
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></a></li>
+                                <li><a class="dropdown-item" href="#"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></a></li>
+                            </ul>
+                        </div>
                     <partial name="_LoginPartial.cshtml" />
                 </div>
             </div>
         </nav>
+    </header>
         <div>
             @RenderBody()
         </div>
-    </header>
+        <div class="container">
+        </div>
     <footer class="border-top footer text-muted bottomfooter">
         <div class="container">
             &copy; 2024 - Kollam Auto Engineering - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

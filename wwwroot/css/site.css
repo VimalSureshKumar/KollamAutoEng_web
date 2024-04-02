@@ -14,7 +14,7 @@ html {
 
 html {
   position: relative;
-  min-height: 130%;
+  min-height: 100%;
 }
 
 .navbar {
@@ -30,13 +30,21 @@ html {
     object-fit: cover; 
 }
 
-.img {
-    border-block: groove;
-    margin-top: -15px;
+.bigimg {
+    margin-top: -16px;
 }
 
-.bigimg {
-    border-block: groove;
+.title {
+    display: block;
+    background: red;
+    border: 3px solid black;
+    border-radius: 10px;
+    color: white;
+    margin: 100px;
+    padding: 20px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 20px;
 }
 
 

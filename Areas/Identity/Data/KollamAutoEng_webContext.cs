@@ -1,7 +1,9 @@
-﻿using KollamAutoEng_web.Areas.Identity.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using KollamAutoEng_web.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using KollamAutoEng_web.Models;
 
 namespace KollamAutoEng_web.Areas.Identity.Data;
 
