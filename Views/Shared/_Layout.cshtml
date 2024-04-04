@@ -15,15 +15,36 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img class="logo" src="~/Images/logotrans.png" alt="logo"/>
                 </a>
-
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Action
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></a></li>
-                                <li><a class="dropdown-item" href="#"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></a></li>
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                            Options
+                        </button>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                                <li><a class="dropdown-item" href="#">
+                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </a>
+                            </li>
+                                <li><a class="dropdown-item" href="#">
+                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="nav-item">
+                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Staffs" asp-action="Index">Staff</a>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-item">
+                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-item">
+                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Models" asp-action="Index">Model</a>
+                                </a>
+                            </li>
                             </ul>
                         </div>
                     <partial name="_LoginPartial.cshtml" />
@@ -31,13 +52,17 @@
             </div>
         </nav>
     </header>
+
         <div>
+            <main>
             @RenderBody()
+            </main>
         </div>
         <div class="container">
         </div>
-    <footer class="border-top footer text-muted bottomfooter">
-        <div class="container">
+
+    <footer class="border-top footer text-dark bottomfooter p-4">
+        <div>
             &copy; 2024 - Kollam Auto Engineering - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

@@ -21,4 +21,10 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+    public DbSet<KollamAutoEng_web.Models.Staff> Staff { get; set; } = default!;
+
+    public DbSet<KollamAutoEng_web.Models.Fault> Fault { get; set; } = default!;
+
+    public DbSet<KollamAutoEng_web.Models.Model> Model { get; set; } = default!;
 }
