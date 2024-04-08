@@ -112,7 +112,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("FaultId");
 
-                    b.ToTable("Fault");
+                    b.ToTable("Fault", (string)null);
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Model", b =>
@@ -125,7 +125,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("ModelId");
 
-                    b.ToTable("Model");
+                    b.ToTable("Model", (string)null);
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Staff", b =>
@@ -138,7 +138,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("StaffId");
 
-                    b.ToTable("Staff");
+                    b.ToTable("Staff", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

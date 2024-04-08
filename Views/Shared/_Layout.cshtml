@@ -7,65 +7,71 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KollamAutoEng_web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
 </head>
 <body>
     <header class="header">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
+        <nav class="navbar navbar-light box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="logo" src="~/Images/logotrans.png" alt="logo"/>
+                    <img class="logo" src="~/Images/logotrans.png" alt="logo" />
                 </a>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <div class="btn-group">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-                            Options
-                        </button>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                                <li><a class="dropdown-item" href="#">
-                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h3 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="nav flex-column p-3">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
-                                <li><a class="dropdown-item" href="#">
-                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                </a>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="nav-item">
-                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Staffs" asp-action="Index">Staff</a>
-                                </a>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Staffs" asp-action="Index">Staff</a>
                             </li>
-                            <li>
-                                <a class="nav-item">
-                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
-                                </a>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
                             </li>
-                            <li>
-                                <a class="nav-item">
-                                    <a class="nav-link text-light text-center" asp-area="" asp-controller="Models" asp-action="Index">Model</a>
-                                </a>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Models" asp-action="Index">Model</a>
                             </li>
-                            </ul>
-                        </div>
-                    <partial name="_LoginPartial.cshtml" />
+                            <li class="p-3">
+                                <partial name="_LoginPartial.cshtml" />
+                            </li>
+                        </ul>          
+                    </div>
                 </div>
             </div>
         </nav>
-    </header>
 
-        <div>
-            <main>
-            @RenderBody()
-            </main>
-        </div>
-        <div class="container">
-        </div>
+        @if (ViewBag.ShowImage2 == true)
+        {
+            <div>
+                <img src="~/Images/image2.jpg" class="bigimg w-100" alt="mainimg">
+            </div>
+        }
+    </header>
 
     <footer class="border-top footer text-dark bottomfooter p-4">
         <div>
             &copy; 2024 - Kollam Auto Engineering - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <div class="container">
+        <main role="main" class="pb-5">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

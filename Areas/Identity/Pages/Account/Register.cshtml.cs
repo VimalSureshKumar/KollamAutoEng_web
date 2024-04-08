@@ -71,6 +71,17 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [DataType(DataType.Text)]
+            [Required(ErrorMessage = "Please enter First Name"), MaxLength(30)]
+            [RegularExpression(@"^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*){1,2}$", ErrorMessage = "Please enter a valid name starting with capital letters.")]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; } = null!;
+
+            [DataType(DataType.Text)]
+            [Required(ErrorMessage = "Please enter Last Name"), MaxLength(30)]
+            [RegularExpression(@"^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*){1,2}$", ErrorMessage = "Please enter a valid name starting with capital letters.")]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; } = null!;
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -114,6 +125,9 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

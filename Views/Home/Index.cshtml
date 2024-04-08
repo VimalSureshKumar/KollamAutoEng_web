@@ -2,21 +2,36 @@
     ViewData["Title"] = "Home Page";
 }
 
-<body>
-    <div>
-        <div>
-            <div>
-                <img src="~/Images/image2.jpg" class="bigimg w-100" alt="mainimg">
-            </div>
-            <div class="container">
-                <a class="title">Welcome Kollam Auto Engineering</a>
-                <a class="title">കൊല്ലം ഓട്ടോ എഞ്ചിനീയറിംഗിലേക്ക് സ്വാഗതം</a>
-            </div>
-        </div>
-        <div>
+@model KollamAutoEng_web.Models.Model
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container p-5">
+    <h1>Vechile Details</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
         </div>
     </div>
-</body>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 
 
 
