@@ -10,101 +10,101 @@ using KollamAutoEng_web.Models;
 
 namespace KollamAutoEng_web.Controllers
 {
-    public class StaffsController : Controller
+    public class PartsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
 
-        public StaffsController(KollamAutoEng_webContext context)
+        public PartsController(KollamAutoEng_webContext context)
         {
             _context = context;
         }
 
-        // GET: Staffs
+        // GET: Parts
         public async Task<IActionResult> Index()
         {
-              return _context.Staff != null ? 
-                          View(await _context.Staff.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Staff'  is null.");
+              return _context.Part != null ? 
+                          View(await _context.Part.ToListAsync()) :
+                          Problem("Entity set 'KollamAutoEng_webContext.Part'  is null.");
         }
 
-        // GET: Staffs/Details/5
+        // GET: Parts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Staff == null)
+            if (id == null || _context.Part == null)
             {
                 return NotFound();
             }
 
-            var staff = await _context.Staff
-                .FirstOrDefaultAsync(m => m.StaffId == id);
-            if (staff == null)
+            var part = await _context.Part
+                .FirstOrDefaultAsync(m => m.PartId == id);
+            if (part == null)
             {
                 return NotFound();
             }
 
-            return View(staff);
+            return View(part);
         }
 
-        // GET: Staffs/Create
+        // GET: Parts/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Staffs/Create
+        // POST: Parts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaffId")] Staff staff)
+        public async Task<IActionResult> Create([Bind("PartId,Reference,PartName")] Part part)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _context.Add(staff);
+                _context.Add(part);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(staff);
+            return View(part);
         }
 
-        // GET: Staffs/Edit/5
+        // GET: Parts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Staff == null)
+            if (id == null || _context.Part == null)
             {
                 return NotFound();
             }
 
-            var staff = await _context.Staff.FindAsync(id);
-            if (staff == null)
+            var part = await _context.Part.FindAsync(id);
+            if (part == null)
             {
                 return NotFound();
             }
-            return View(staff);
+            return View(part);
         }
 
-        // POST: Staffs/Edit/5
+        // POST: Parts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StaffId")] Staff staff)
+        public async Task<IActionResult> Edit(int id, [Bind("PartId,Reference,PartName")] Part part)
         {
-            if (id != staff.StaffId)
+            if (id != part.PartId)
             {
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(staff);
+                    _context.Update(part);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StaffExists(staff.StaffId))
+                    if (!PartExists(part.PartId))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(staff);
+            return View(part);
         }
 
-        // GET: Staffs/Delete/5
+        // GET: Parts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Staff == null)
+            if (id == null || _context.Part == null)
             {
                 return NotFound();
             }
 
-            var staff = await _context.Staff
-                .FirstOrDefaultAsync(m => m.StaffId == id);
-            if (staff == null)
+            var part = await _context.Part
+                .FirstOrDefaultAsync(m => m.PartId == id);
+            if (part == null)
             {
                 return NotFound();
             }
 
-            return View(staff);
+            return View(part);
         }
 
-        // POST: Staffs/Delete/5
+        // POST: Parts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Staff == null)
+            if (_context.Part == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Staff'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Part'  is null.");
             }
-            var staff = await _context.Staff.FindAsync(id);
-            if (staff != null)
+            var part = await _context.Part.FindAsync(id);
+            if (part != null)
             {
-                _context.Staff.Remove(staff);
+                _context.Part.Remove(part);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StaffExists(int id)
+        private bool PartExists(int id)
         {
-          return (_context.Staff?.Any(e => e.StaffId == id)).GetValueOrDefault();
+          return (_context.Part?.Any(e => e.PartId == id)).GetValueOrDefault();
         }
     }
 }

@@ -22,9 +22,15 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
         // Add your customizations after calling base.OnModelCreating(builder);
     }
 
-    public DbSet<KollamAutoEng_web.Models.Staff> Staff { get; set; } = default!;
+    public DbSet<KollamAutoEng_web.Models.Employees> Employees { get; set; } = default!;
 
     public DbSet<KollamAutoEng_web.Models.Fault> Fault { get; set; } = default!;
 
     public DbSet<KollamAutoEng_web.Models.Model> Model { get; set; } = default!;
+
+    public DbSet<KollamAutoEng_web.Models.Supervisor> Supervisor { get; set; } = default!;
+
+    public DbSet<KollamAutoEng_web.Models.Customer> Customer { get; set; } = default!;
+
+    public DbSet<KollamAutoEng_web.Models.Part> Part { get; set; } = default!;
 }

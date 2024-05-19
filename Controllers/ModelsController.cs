@@ -56,9 +56,9 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModelId")] Model model)
+        public async Task<IActionResult> Create([Bind("ModelId,Company,VIN,Registration,Odometer,Drivetype")] Model model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Add(model);
                 await _context.SaveChangesAsync();
@@ -88,14 +88,14 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModelId")] Model model)
+        public async Task<IActionResult> Edit(int id, [Bind("ModelId,Company,VIN,Registration,Odometer,Drivetype")] Model model)
         {
             if (id != model.ModelId)
             {
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {

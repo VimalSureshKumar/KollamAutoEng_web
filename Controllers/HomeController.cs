@@ -15,7 +15,6 @@ namespace KollamAutoEng_web.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.ShowImage2 = true;
             return View();
         }
 

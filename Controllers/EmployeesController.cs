@@ -10,87 +10,87 @@ using KollamAutoEng_web.Models;
 
 namespace KollamAutoEng_web.Controllers
 {
-    public class FaultsController : Controller
+    public class EmployeesController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
 
-        public FaultsController(KollamAutoEng_webContext context)
+        public EmployeesController(KollamAutoEng_webContext context)
         {
             _context = context;
         }
 
-        // GET: Faults
+        // GET: Employees
         public async Task<IActionResult> Index()
         {
-              return _context.Fault != null ? 
-                          View(await _context.Fault.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Fault'  is null.");
+              return _context.Employees != null ? 
+                          View(await _context.Employees.ToListAsync()) :
+                          Problem("Entity set 'KollamAutoEng_webContext.Employees'  is null.");
         }
 
-        // GET: Faults/Details/5
+        // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Fault == null)
+            if (id == null || _context.Employees == null)
             {
                 return NotFound();
             }
 
-            var fault = await _context.Fault
-                .FirstOrDefaultAsync(m => m.FaultId == id);
-            if (fault == null)
+            var employees = await _context.Employees
+                .FirstOrDefaultAsync(m => m.EmployeeId == id);
+            if (employees == null)
             {
                 return NotFound();
             }
 
-            return View(fault);
+            return View(employees);
         }
 
-        // GET: Faults/Create
+        // GET: Employees/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Faults/Create
+        // POST: Employees/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FaultId")] Fault fault)
+        public async Task<IActionResult> Create([Bind("EmployeeId,Employee_Name,Employee_Phone_Number,Employee_Status,Employee_Pay,Employee_Hours")] Employees employees)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(fault);
+                _context.Add(employees);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(fault);
+            return View(employees);
         }
 
-        // GET: Faults/Edit/5
+        // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Fault == null)
+            if (id == null || _context.Employees == null)
             {
                 return NotFound();
             }
 
-            var fault = await _context.Fault.FindAsync(id);
-            if (fault == null)
+            var employees = await _context.Employees.FindAsync(id);
+            if (employees == null)
             {
                 return NotFound();
             }
-            return View(fault);
+            return View(employees);
         }
 
-        // POST: Faults/Edit/5
+        // POST: Employees/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FaultId")] Fault fault)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,Employee_Name,Employee_Phone_Number,Employee_Status,Employee_Pay,Employee_Hours")] Employees employees)
         {
-            if (id != fault.FaultId)
+            if (id != employees.EmployeeId)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace KollamAutoEng_web.Controllers
             {
                 try
                 {
-                    _context.Update(fault);
+                    _context.Update(employees);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FaultExists(fault.FaultId))
+                    if (!EmployeesExists(employees.EmployeeId))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(fault);
+            return View(employees);
         }
 
-        // GET: Faults/Delete/5
+        // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Fault == null)
+            if (id == null || _context.Employees == null)
             {
                 return NotFound();
             }
 
-            var fault = await _context.Fault
-                .FirstOrDefaultAsync(m => m.FaultId == id);
-            if (fault == null)
+            var employees = await _context.Employees
+                .FirstOrDefaultAsync(m => m.EmployeeId == id);
+            if (employees == null)
             {
                 return NotFound();
             }
 
-            return View(fault);
+            return View(employees);
         }
 
-        // POST: Faults/Delete/5
+        // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Fault == null)
+            if (_context.Employees == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Fault'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Employees'  is null.");
             }
-            var fault = await _context.Fault.FindAsync(id);
-            if (fault != null)
+            var employees = await _context.Employees.FindAsync(id);
+            if (employees != null)
             {
-                _context.Fault.Remove(fault);
+                _context.Employees.Remove(employees);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FaultExists(int id)
+        private bool EmployeesExists(int id)
         {
-          return (_context.Fault?.Any(e => e.FaultId == id)).GetValueOrDefault();
+          return (_context.Employees?.Any(e => e.EmployeeId == id)).GetValueOrDefault();
         }
     }
 }

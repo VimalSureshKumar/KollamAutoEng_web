@@ -1,41 +1,40 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
 }
 
 .navbar {
-    background-color: #FDDA0D; 
+    background-color: #FDDA0D;
     border: groove;
+}
+
+.bigimage {
+    background-image: url('../Images/image2.jpg');
 }
 
 .logo {
     margin-left: -14px;
-    margin-top: auto;
-    width: 150px; 
-    height: 100px; 
-    object-fit: cover; 
-}
-
-.bigimg {
-    margin-top: -16px;
-}
-
-.row {
-    min-height: 100vh;
-}
-
-.footer {
-    width: 100%;
-    height: auto; 
-    margin-top: -4rem; 
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
 }
 
 .offcanvas-header {
@@ -49,60 +48,10 @@ html {
     text-align: left;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .bottomfooter {
     background-color: #FDDA0D;
-    color: #fff;
     padding: 20px;
     text-align: center;
-    position: fixed;
     width: 100%;
 }
 

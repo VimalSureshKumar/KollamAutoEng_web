@@ -13,6 +13,31 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Company" class="control-label"></label>
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VIN" class="control-label"></label>
+                <input asp-for="VIN" class="form-control" />
+                <span asp-validation-for="VIN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration" class="control-label"></label>
+                <input asp-for="Registration" class="form-control" />
+                <span asp-validation-for="Registration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Odometer" class="control-label"></label>
+                <input asp-for="Odometer" class="form-control" />
+                <span asp-validation-for="Odometer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Drivetype" class="control-label"></label>
+                <input asp-for="Drivetype" class="form-control" />
+                <span asp-validation-for="Drivetype" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

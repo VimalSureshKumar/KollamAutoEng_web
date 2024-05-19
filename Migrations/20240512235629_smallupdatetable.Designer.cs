@@ -4,6 +4,7 @@ using KollamAutoEng_web.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    partial class KollamAutoEng_webContextModelSnapshot : ModelSnapshot
+    [Migration("20240512235629_smallupdatetable")]
+    partial class smallupdatetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,16 +113,14 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("Employee_Name")
                         .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Employee_Pay")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Employee_Phone_Number")
                         .IsRequired()
-                        .HasMaxLength(17)
-                        .HasColumnType("nvarchar(17)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Employee_Status")
                         .HasColumnType("bit");
@@ -149,24 +150,6 @@ namespace KollamAutoEng_web.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModelId"));
-
-                    b.Property<string>("Company")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Drivetype")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Odometer")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Registration")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VIN")
-                        .HasColumnType("int");
 
                     b.HasKey("ModelId");
 

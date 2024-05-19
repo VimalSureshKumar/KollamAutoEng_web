@@ -1,13 +1,12 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Kollam Auto Engineering</title>
+    <title>@ViewData["Title"] - KollamAutoEng_web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KollamAutoEng_web.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
 </head>
 <body>
     <header class="header">
@@ -19,59 +18,55 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h3 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <ul class="nav flex-column p-3">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Staffs" asp-action="Index">Staff</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Models" asp-action="Index">Model</a>
-                            </li>
-                            <li class="p-3">
-                                <partial name="_LoginPartial.cshtml" />
-                            </li>
-                        </ul>          
-                    </div>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Faults" asp-action="Index">Faults</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Index">Parts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Models" asp-action="Index">Models</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Supervisors" asp-action="Index">Supervisors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payments</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial.cshtml" />
                 </div>
             </div>
         </nav>
-
-        @if (ViewBag.ShowImage2 == true)
-        {
-            <div>
-                <img src="~/Images/image2.jpg" class="bigimg w-100" alt="mainimg">
-            </div>
-        }
     </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
     <footer class="border-top footer text-dark bottomfooter p-4">
         <div>
             &copy; 2024 - Kollam Auto Engineering - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
-    <div class="container">
-        <main role="main" class="pb-5">
-            @RenderBody()
-        </main>
-    </div>
-
-    <script src="~/https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
