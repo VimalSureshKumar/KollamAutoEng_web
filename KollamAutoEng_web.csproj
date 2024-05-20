@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Images\logotrans.png" />
+    <Content Remove="wwwroot\logotrans.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\logotrans.png" />
   </ItemGroup>
 
   <ItemGroup>
