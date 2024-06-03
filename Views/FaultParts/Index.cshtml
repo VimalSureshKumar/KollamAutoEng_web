@@ -1,0 +1,47 @@
+﻿@model IEnumerable<KollamAutoEng_web.Models.FaultPart>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fault)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Part)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Appointment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fault.FaultId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Part.PartId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Appointment.AppointmentId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FaultPartId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FaultPartId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FaultPartId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

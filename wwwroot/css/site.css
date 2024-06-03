@@ -51,6 +51,12 @@ body {
     width: 100%;
 }
 
+.bigimage2 {
+    height: auto;
+    display: block;
+    width: 100%;
+}
+
 .footer {
     background-color: #FDDA0D;
     color: #fff;

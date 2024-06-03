@@ -10,87 +10,90 @@ using KollamAutoEng_web.Models;
 
 namespace KollamAutoEng_web.Controllers
 {
-    public class SupervisorsController : Controller
+    public class VehiclesController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
 
-        public SupervisorsController(KollamAutoEng_webContext context)
+        public VehiclesController(KollamAutoEng_webContext context)
         {
             _context = context;
         }
 
-        // GET: Supervisors
+        // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-              return _context.Supervisor != null ? 
-                          View(await _context.Supervisor.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Supervisor'  is null.");
+            var kollamAutoEng_webContext = _context.Vehicle.Include(v => v.Customer);
+            return View(await kollamAutoEng_webContext.ToListAsync());
         }
 
-        // GET: Supervisors/Details/5
+        // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Supervisor == null)
+            if (id == null || _context.Vehicle == null)
             {
                 return NotFound();
             }
 
-            var supervisor = await _context.Supervisor
-                .FirstOrDefaultAsync(m => m.SupervisorId == id);
-            if (supervisor == null)
+            var vehicle = await _context.Vehicle
+                .Include(v => v.Customer)
+                .FirstOrDefaultAsync(m => m.VehicleId == id);
+            if (vehicle == null)
             {
                 return NotFound();
             }
 
-            return View(supervisor);
+            return View(vehicle);
         }
 
-        // GET: Supervisors/Create
+        // GET: Vehicles/Create
         public IActionResult Create()
         {
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId");
             return View();
         }
 
-        // POST: Supervisors/Create
+        // POST: Vehicles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SupervisorId,Supervisor_Name,Supervisor_Phone_Number,Supervisor_Status,Supervisor_Pay,Supervisor_Hours")] Supervisor supervisor)
+        public async Task<IActionResult> Create([Bind("VehicleId,Brand,Model,VIN,Registration,Odometer,DriveType,CustomerId")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(supervisor);
+                _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(supervisor);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", vehicle.CustomerId);
+            return View(vehicle);
         }
 
-        // GET: Supervisors/Edit/5
+        // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Supervisor == null)
+            if (id == null || _context.Vehicle == null)
             {
                 return NotFound();
             }
 
-            var supervisor = await _context.Supervisor.FindAsync(id);
-            if (supervisor == null)
+            var vehicle = await _context.Vehicle.FindAsync(id);
+            if (vehicle == null)
             {
                 return NotFound();
             }
-            return View(supervisor);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", vehicle.CustomerId);
+            return View(vehicle);
         }
 
-        // POST: Supervisors/Edit/5
+        // POST: Vehicles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SupervisorId,Supervisor_Name,Supervisor_Phone_Number,Supervisor_Status,Supervisor_Pay,Supervisor_Hours")] Supervisor supervisor)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,Brand,Model,VIN,Registration,Odometer,DriveType,CustomerId")] Vehicle vehicle)
         {
-            if (id != supervisor.SupervisorId)
+            if (id != vehicle.VehicleId)
             {
                 return NotFound();
             }
@@ -99,12 +102,12 @@ namespace KollamAutoEng_web.Controllers
             {
                 try
                 {
-                    _context.Update(supervisor);
+                    _context.Update(vehicle);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SupervisorExists(supervisor.SupervisorId))
+                    if (!VehicleExists(vehicle.VehicleId))
                     {
                         return NotFound();
                     }
@@ -115,49 +118,51 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(supervisor);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", vehicle.CustomerId);
+            return View(vehicle);
         }
 
-        // GET: Supervisors/Delete/5
+        // GET: Vehicles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Supervisor == null)
+            if (id == null || _context.Vehicle == null)
             {
                 return NotFound();
             }
 
-            var supervisor = await _context.Supervisor
-                .FirstOrDefaultAsync(m => m.SupervisorId == id);
-            if (supervisor == null)
+            var vehicle = await _context.Vehicle
+                .Include(v => v.Customer)
+                .FirstOrDefaultAsync(m => m.VehicleId == id);
+            if (vehicle == null)
             {
                 return NotFound();
             }
 
-            return View(supervisor);
+            return View(vehicle);
         }
 
-        // POST: Supervisors/Delete/5
+        // POST: Vehicles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Supervisor == null)
+            if (_context.Vehicle == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Supervisor'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle'  is null.");
             }
-            var supervisor = await _context.Supervisor.FindAsync(id);
-            if (supervisor != null)
+            var vehicle = await _context.Vehicle.FindAsync(id);
+            if (vehicle != null)
             {
-                _context.Supervisor.Remove(supervisor);
+                _context.Vehicle.Remove(vehicle);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SupervisorExists(int id)
+        private bool VehicleExists(int id)
         {
-          return (_context.Supervisor?.Any(e => e.SupervisorId == id)).GetValueOrDefault();
+          return (_context.Vehicle?.Any(e => e.VehicleId == id)).GetValueOrDefault();
         }
     }
 }

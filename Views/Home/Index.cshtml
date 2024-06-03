@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model KollamAutoEng_web.Models.Vehicle
+@{
+    ViewData["Title"] = "Index";
 }
 
 <body>
@@ -9,25 +10,66 @@
     <div class="container text-center">
         <h1 class="display-4">Vechile Details</h1>
         <hr />
-        <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Create">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- First row -->
+                <form asp-action="Create" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
+                        <label asp-for="Brand" class="control-label"></label>
+                        <input asp-for="Brand" class="form-control" />
+                        <span asp-validation-for="Brand" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Model" class="control-label"></label>
+                        <input asp-for="Model" class="form-control" />
+                        <span asp-validation-for="Model" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="VIN" class="control-label"></label>
+                        <input asp-for="VIN" class="form-control" />
+                        <span asp-validation-for="VIN" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Registration" class="control-label"></label>
+                        <input asp-for="Registration" class="form-control" />
+                        <span asp-validation-for="Registration" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
                         <input type="submit" value="Create" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
-        </div>
-
-        <div>
-            <a asp-action="Index">Back to List</a>
+            <div class="col-md-6">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Odometer" class="control-label"></label>
+                        <input asp-for="Odometer" class="form-control" />
+                        <span asp-validation-for="Odometer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DriveType" class="control-label"></label>
+                        <input asp-for="DriveType" class="form-control" />
+                        <span asp-validation-for="DriveType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CustomerId" class="control-label"></label>
+                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+</body>
+        @section Scripts {
+            @{
+                await Html.RenderPartialAsync("_ValidationScriptsPartial");
+            }
         }
-    }
+
+<body>
+<div>
+    <img class="bigimage2" src="~/Mainimg.png">
+</div>
 </body>

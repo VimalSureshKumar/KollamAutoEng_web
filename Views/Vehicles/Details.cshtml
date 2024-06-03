@@ -1,4 +1,4 @@
-﻿@model KollamAutoEng_web.Models.Model
+﻿@model KollamAutoEng_web.Models.Vehicle
 
 @{
     ViewData["Title"] = "Details";
@@ -7,14 +7,20 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Model</h4>
+    <h4>Vehicle</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Company)
+            @Html.DisplayNameFor(model => model.Brand)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Company)
+            @Html.DisplayFor(model => model.Brand)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Model)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.VIN)
@@ -35,14 +41,20 @@
             @Html.DisplayFor(model => model.Odometer)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Drivetype)
+            @Html.DisplayNameFor(model => model.DriveType)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Drivetype)
+            @Html.DisplayFor(model => model.DriveType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Customer.CustomerId)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ModelId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.VehicleId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

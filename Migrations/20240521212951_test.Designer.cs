@@ -4,6 +4,7 @@ using KollamAutoEng_web.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    partial class KollamAutoEng_webContextModelSnapshot : ModelSnapshot
+    [Migration("20240521212951_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,41 +100,6 @@ namespace KollamAutoEng_web.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("KollamAutoEng_web.Models.Appointment", b =>
-                {
-                    b.Property<int>("AppointmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentId"));
-
-                    b.Property<string>("AppointmentDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("ServiceCost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppointmentId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("Appointment");
-                });
-
             modelBuilder.Entity("KollamAutoEng_web.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -140,27 +108,23 @@ namespace KollamAutoEng_web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
-                    b.Property<string>("DateOfBirth")
+                    b.Property<string>("CustomerDob")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("CustomerEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("CustomerGender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
+                    b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("CustomerPhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -173,7 +137,7 @@ namespace KollamAutoEng_web.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("KollamAutoEng_web.Models.Employee", b =>
+            modelBuilder.Entity("KollamAutoEng_web.Models.Employees", b =>
                 {
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
@@ -181,30 +145,28 @@ namespace KollamAutoEng_web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Hours")
+                    b.Property<decimal>("Employee_Hours")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Employee_Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
-                    b.Property<decimal>("Pay")
+                    b.Property<decimal>("Employee_Pay")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Employee_Phone_Number")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(17)
+                        .HasColumnType("nvarchar(17)");
 
-                    b.Property<bool>("Status")
+                    b.Property<bool>("Employee_Status")
                         .HasColumnType("bit");
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Fault", b =>
@@ -215,41 +177,40 @@ namespace KollamAutoEng_web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FaultId"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("FaultId");
 
                     b.ToTable("Fault");
                 });
 
-            modelBuilder.Entity("KollamAutoEng_web.Models.FaultPart", b =>
+            modelBuilder.Entity("KollamAutoEng_web.Models.Model", b =>
                 {
-                    b.Property<int>("FaultPartId")
+                    b.Property<int>("ModelId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FaultPartId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModelId"));
 
-                    b.Property<int>("AppointmentId")
+                    b.Property<string>("Company")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Drivetype")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Odometer")
                         .HasColumnType("int");
 
-                    b.Property<int>("FaultId")
+                    b.Property<string>("Registration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VIN")
                         .HasColumnType("int");
 
-                    b.Property<int>("PartId")
-                        .HasColumnType("int");
+                    b.HasKey("ModelId");
 
-                    b.HasKey("FaultPartId");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.HasIndex("FaultId");
-
-                    b.HasIndex("PartId");
-
-                    b.ToTable("FaultPart");
+                    b.ToTable("Model");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Part", b =>
@@ -259,9 +220,6 @@ namespace KollamAutoEng_web.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PartId"));
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PartName")
                         .IsRequired()
@@ -276,70 +234,34 @@ namespace KollamAutoEng_web.Migrations
                     b.ToTable("Part");
                 });
 
-            modelBuilder.Entity("KollamAutoEng_web.Models.Payment", b =>
+            modelBuilder.Entity("KollamAutoEng_web.Models.Supervisor", b =>
                 {
-                    b.Property<int>("PaymentId")
+                    b.Property<int>("SupervisorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupervisorId"));
 
-                    b.Property<decimal>("Amount")
+                    b.Property<decimal>("Supervisor_Hours")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Date")
+                    b.Property<string>("Supervisor_Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PaymentId");
+                    b.Property<decimal>("Supervisor_Pay")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.HasIndex("AppointmentId");
-
-                    b.ToTable("Payment");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Vehicle", b =>
-                {
-                    b.Property<int>("VehicleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleId"));
-
-                    b.Property<string>("Brand")
+                    b.Property<string>("Supervisor_Phone_Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<bool>("Supervisor_Status")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("DriveType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("SupervisorId");
 
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Odometer")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Registration")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VIN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("VehicleId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Vehicle");
+                    b.ToTable("Supervisor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -479,82 +401,6 @@ namespace KollamAutoEng_web.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("KollamAutoEng_web.Models.Appointment", b =>
-                {
-                    b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
-                        .WithMany("Appointments")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KollamAutoEng_web.Models.Employee", "Employee")
-                        .WithMany("Appointments")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KollamAutoEng_web.Models.Vehicle", "Vehicle")
-                        .WithMany("Appointments")
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Vehicle");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.FaultPart", b =>
-                {
-                    b.HasOne("KollamAutoEng_web.Models.Appointment", "Appointment")
-                        .WithMany("FaultParts")
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KollamAutoEng_web.Models.Fault", "Fault")
-                        .WithMany("FaultParts")
-                        .HasForeignKey("FaultId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KollamAutoEng_web.Models.Part", "Part")
-                        .WithMany("FaultParts")
-                        .HasForeignKey("PartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Fault");
-
-                    b.Navigation("Part");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Payment", b =>
-                {
-                    b.HasOne("KollamAutoEng_web.Models.Appointment", "Appointment")
-                        .WithMany("Payments")
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Vehicle", b =>
-                {
-                    b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -604,40 +450,6 @@ namespace KollamAutoEng_web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Appointment", b =>
-                {
-                    b.Navigation("FaultParts");
-
-                    b.Navigation("Payments");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Customer", b =>
-                {
-                    b.Navigation("Appointments");
-
-                    b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Employee", b =>
-                {
-                    b.Navigation("Appointments");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Fault", b =>
-                {
-                    b.Navigation("FaultParts");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Part", b =>
-                {
-                    b.Navigation("FaultParts");
-                });
-
-            modelBuilder.Entity("KollamAutoEng_web.Models.Vehicle", b =>
-                {
-                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }

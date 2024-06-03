@@ -56,7 +56,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FaultId")] Fault fault)
+        public async Task<IActionResult> Create([Bind("FaultId,Description")] Fault fault)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FaultId")] Fault fault)
+        public async Task<IActionResult> Edit(int id, [Bind("FaultId,Description")] Fault fault)
         {
             if (id != fault.FaultId)
             {

@@ -10,87 +10,90 @@ using KollamAutoEng_web.Models;
 
 namespace KollamAutoEng_web.Controllers
 {
-    public class ModelsController : Controller
+    public class PaymentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
 
-        public ModelsController(KollamAutoEng_webContext context)
+        public PaymentsController(KollamAutoEng_webContext context)
         {
             _context = context;
         }
 
-        // GET: Models
+        // GET: Payments
         public async Task<IActionResult> Index()
         {
-              return _context.Model != null ? 
-                          View(await _context.Model.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Model'  is null.");
+            var kollamAutoEng_webContext = _context.Payment.Include(p => p.Appointment);
+            return View(await kollamAutoEng_webContext.ToListAsync());
         }
 
-        // GET: Models/Details/5
+        // GET: Payments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Model == null)
+            if (id == null || _context.Payment == null)
             {
                 return NotFound();
             }
 
-            var model = await _context.Model
-                .FirstOrDefaultAsync(m => m.ModelId == id);
-            if (model == null)
+            var payment = await _context.Payment
+                .Include(p => p.Appointment)
+                .FirstOrDefaultAsync(m => m.PaymentId == id);
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            return View(model);
+            return View(payment);
         }
 
-        // GET: Models/Create
+        // GET: Payments/Create
         public IActionResult Create()
         {
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId");
             return View();
         }
 
-        // POST: Models/Create
+        // POST: Payments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModelId,Company,VIN,Registration,Odometer,Drivetype")] Model model)
+        public async Task<IActionResult> Create([Bind("PaymentId,Amount,Date,AppointmentId")] Payment payment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(model);
+                _context.Add(payment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", payment.AppointmentId);
+            return View(payment);
         }
 
-        // GET: Models/Edit/5
+        // GET: Payments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Model == null)
+            if (id == null || _context.Payment == null)
             {
                 return NotFound();
             }
 
-            var model = await _context.Model.FindAsync(id);
-            if (model == null)
+            var payment = await _context.Payment.FindAsync(id);
+            if (payment == null)
             {
                 return NotFound();
             }
-            return View(model);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", payment.AppointmentId);
+            return View(payment);
         }
 
-        // POST: Models/Edit/5
+        // POST: Payments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModelId,Company,VIN,Registration,Odometer,Drivetype")] Model model)
+        public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,Date,AppointmentId")] Payment payment)
         {
-            if (id != model.ModelId)
+            if (id != payment.PaymentId)
             {
                 return NotFound();
             }
@@ -99,12 +102,12 @@ namespace KollamAutoEng_web.Controllers
             {
                 try
                 {
-                    _context.Update(model);
+                    _context.Update(payment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ModelExists(model.ModelId))
+                    if (!PaymentExists(payment.PaymentId))
                     {
                         return NotFound();
                     }
@@ -115,49 +118,51 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", payment.AppointmentId);
+            return View(payment);
         }
 
-        // GET: Models/Delete/5
+        // GET: Payments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Model == null)
+            if (id == null || _context.Payment == null)
             {
                 return NotFound();
             }
 
-            var model = await _context.Model
-                .FirstOrDefaultAsync(m => m.ModelId == id);
-            if (model == null)
+            var payment = await _context.Payment
+                .Include(p => p.Appointment)
+                .FirstOrDefaultAsync(m => m.PaymentId == id);
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            return View(model);
+            return View(payment);
         }
 
-        // POST: Models/Delete/5
+        // POST: Payments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Model == null)
+            if (_context.Payment == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Model'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Payment'  is null.");
             }
-            var model = await _context.Model.FindAsync(id);
-            if (model != null)
+            var payment = await _context.Payment.FindAsync(id);
+            if (payment != null)
             {
-                _context.Model.Remove(model);
+                _context.Payment.Remove(payment);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ModelExists(int id)
+        private bool PaymentExists(int id)
         {
-          return (_context.Model?.Any(e => e.ModelId == id)).GetValueOrDefault();
+          return (_context.Payment?.Any(e => e.PaymentId == id)).GetValueOrDefault();
         }
     }
 }
