@@ -59,7 +59,7 @@ namespace KollamAutoEng_web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VehicleId,Brand,Model,VIN,Registration,Odometer,DriveType,CustomerId")] Vehicle vehicle)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
@@ -98,7 +98,7 @@ namespace KollamAutoEng_web.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {

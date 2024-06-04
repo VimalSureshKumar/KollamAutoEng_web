@@ -58,7 +58,7 @@ namespace KollamAutoEng_web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FaultId,Description")] Fault fault)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(fault);
                 await _context.SaveChangesAsync();
@@ -95,7 +95,7 @@ namespace KollamAutoEng_web.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {

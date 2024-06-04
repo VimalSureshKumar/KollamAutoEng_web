@@ -4,6 +4,7 @@ using KollamAutoEng_web.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    partial class KollamAutoEng_webContextModelSnapshot : ModelSnapshot
+    [Migration("20240603215519_new_updatedModels")]
+    partial class new_updatedModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,11 +126,13 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("AppointmentId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Appointment", (string)null);
+                    b.ToTable("Appointment");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Customer", b =>
@@ -148,32 +153,27 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(17)
-                        .HasColumnType("nvarchar(17)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reference")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customer", (string)null);
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Employee", b =>
@@ -186,32 +186,28 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Hours")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Pay")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(17)
-                        .HasColumnType("nvarchar(17)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
-                        .HasMaxLength(5)
                         .HasColumnType("bit");
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employee", (string)null);
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Fault", b =>
@@ -228,7 +224,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("FaultId");
 
-                    b.ToTable("Fault", (string)null);
+                    b.ToTable("Fault");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.FaultPart", b =>
@@ -256,7 +252,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("PartId");
 
-                    b.ToTable("FaultPart", (string)null);
+                    b.ToTable("FaultPart");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Part", b =>
@@ -272,8 +268,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("PartName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reference")
                         .IsRequired()
@@ -281,7 +276,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("PartId");
 
-                    b.ToTable("Part", (string)null);
+                    b.ToTable("Part");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Payment", b =>
@@ -306,7 +301,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("Payment", (string)null);
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Vehicle", b =>
@@ -347,7 +342,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Vehicle", (string)null);
+                    b.ToTable("Vehicle");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -489,15 +484,15 @@ namespace KollamAutoEng_web.Migrations
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Appointment", b =>
                 {
-                    b.HasOne("KollamAutoEng_web.Models.Employee", "Employee")
+                    b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
                         .WithMany("Appointments")
-                        .HasForeignKey("EmployeeId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
+                    b.HasOne("KollamAutoEng_web.Models.Employee", "Employee")
                         .WithMany("Appointments")
-                        .HasForeignKey("VehicleId")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

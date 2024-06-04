@@ -5,7 +5,7 @@
 namespace KollamAutoEng_web.Migrations
 {
     /// <inheritdoc />
-    public partial class newupdatedModels : Migration
+    public partial class new_updatedModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
