@@ -4,7 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="text-center">Fault Part</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<form asp-controller="Fault Part" asp-action="Index">
+    <p>
+        Search Fault Parts: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -31,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Fault.FaultId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Part.PartId)
+                @Html.DisplayFor(modelItem => item.Part.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Appointment.AppointmentId)

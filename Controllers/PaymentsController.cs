@@ -57,7 +57,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentId,Amount,Date,AppointmentId")] Payment payment)
+        public async Task<IActionResult> Create([Bind("PaymentId,Amount,PaymentDate,AppointmentId")] Payment payment)
         {
             if (!ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,Date,AppointmentId")] Payment payment)
+        public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,PaymentDate,AppointmentId")] Payment payment)
         {
             if (id != payment.PaymentId)
             {

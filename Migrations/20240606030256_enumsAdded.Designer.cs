@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    [Migration("20240603225740_some_dataAnnotations")]
-    partial class some_dataAnnotations
+    [Migration("20240606030256_enumsAdded")]
+    partial class enumsAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,8 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("AppointmentId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("VehicleId");
@@ -154,10 +156,8 @@ namespace KollamAutoEng_web.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)");
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -208,9 +208,8 @@ namespace KollamAutoEng_web.Migrations
                         .HasMaxLength(17)
                         .HasColumnType("nvarchar(17)");
 
-                    b.Property<bool>("Status")
-                        .HasMaxLength(5)
-                        .HasColumnType("bit");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
 
@@ -327,9 +326,8 @@ namespace KollamAutoEng_web.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DriveType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DriveType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -492,15 +490,15 @@ namespace KollamAutoEng_web.Migrations
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Appointment", b =>
                 {
-                    b.HasOne("KollamAutoEng_web.Models.Employee", "Employee")
+                    b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
                         .WithMany("Appointments")
-                        .HasForeignKey("EmployeeId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
+                    b.HasOne("KollamAutoEng_web.Models.Employee", "Employee")
                         .WithMany("Appointments")
-                        .HasForeignKey("VehicleId")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

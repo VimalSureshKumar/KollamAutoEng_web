@@ -22,9 +22,8 @@ namespace KollamAutoEng_web.Controllers
         // GET: Faults
         public async Task<IActionResult> Index()
         {
-              return _context.Fault != null ? 
-                          View(await _context.Fault.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Fault'  is null.");
+            var kollamAutoEng_webContext = _context.Fault.Include(f => f.Customer).Include(f => f.Vehicle);
+            return View(await kollamAutoEng_webContext.ToListAsync());
         }
 
         // GET: Faults/Details/5
@@ -36,6 +35,8 @@ namespace KollamAutoEng_web.Controllers
             }
 
             var fault = await _context.Fault
+                .Include(f => f.Customer)
+                .Include(f => f.Vehicle)
                 .FirstOrDefaultAsync(m => m.FaultId == id);
             if (fault == null)
             {
@@ -48,6 +49,8 @@ namespace KollamAutoEng_web.Controllers
         // GET: Faults/Create
         public IActionResult Create()
         {
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");
             return View();
         }
 
@@ -56,7 +59,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FaultId,Description")] Fault fault)
+        public async Task<IActionResult> Create([Bind("FaultId,VehicleId,CustomerId")] Fault fault)
         {
             if (!ModelState.IsValid)
             {
@@ -64,6 +67,8 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", fault.CustomerId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", fault.VehicleId);
             return View(fault);
         }
 
@@ -80,6 +85,8 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", fault.CustomerId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", fault.VehicleId);
             return View(fault);
         }
 
@@ -88,7 +95,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FaultId,Description")] Fault fault)
+        public async Task<IActionResult> Edit(int id, [Bind("FaultId,VehicleId,CustomerId")] Fault fault)
         {
             if (id != fault.FaultId)
             {
@@ -115,6 +122,8 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", fault.CustomerId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", fault.VehicleId);
             return View(fault);
         }
 
@@ -127,6 +136,8 @@ namespace KollamAutoEng_web.Controllers
             }
 
             var fault = await _context.Fault
+                .Include(f => f.Customer)
+                .Include(f => f.Vehicle)
                 .FirstOrDefaultAsync(m => m.FaultId == id);
             if (fault == null)
             {

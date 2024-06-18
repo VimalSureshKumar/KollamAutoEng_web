@@ -5,27 +5,26 @@ namespace KollamAutoEng_web.Models
 {
     public class Part
     {
-        // This property represents the Part's unique identifier.
         [Key]
-        [Required]
         [Display(Name = "Part ID")]
         public int PartId { get; set; } // Primary Key
 
+        [Display(Name = "Reference")]
         public string Reference { get; set; }
 
-        // This property represents the Part's name.
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please enter Part Name"), MaxLength(75)]
-        public string PartName { get; set; }
+        [Display(Name = "Part")]
+        public string Name { get; set; }
 
-        // This property represents the Cost for each part.
-        [DataType(DataType.Currency)] // Specifies that it contains currency data.
+        [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Part Cost")]
-        [RegularExpression(@"^\$?\d+(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")] // Validates that the fee follows the specific format and provides a error message if not.
-        [Display(Name = "Part Cost")]
+        [RegularExpression(@"^\$?\d+(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")]
+        [Display(Name = "Cost")]
         public decimal Cost { get; set; }
 
         // Navigation property
-        public ICollection<FaultPart> FaultParts { get; set; } = new List<FaultPart>();
+        public virtual ICollection<FaultPart> FaultParts { get; set; }
     }
+
 }

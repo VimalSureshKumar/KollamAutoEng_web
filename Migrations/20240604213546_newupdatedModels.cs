@@ -5,7 +5,7 @@
 namespace KollamAutoEng_web.Migrations
 {
     /// <inheritdoc />
-    public partial class new_updatedModels : Migration
+    public partial class newupdatedModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,30 +19,36 @@ namespace KollamAutoEng_web.Migrations
             migrationBuilder.DropTable(
                 name: "Supervisor");
 
+            migrationBuilder.DropColumn(
+                name: "CustomerDob",
+                table: "Customer");
+
+            migrationBuilder.DropColumn(
+                name: "CustomerEmail",
+                table: "Customer");
+
+            migrationBuilder.DropColumn(
+                name: "CustomerGender",
+                table: "Customer");
+
             migrationBuilder.RenameColumn(
                 name: "CustomerPhoneNumber",
                 table: "Customer",
-                newName: "PhoneNumber");
+                newName: "Email");
 
             migrationBuilder.RenameColumn(
                 name: "CustomerName",
                 table: "Customer",
-                newName: "LastName");
+                newName: "DateOfBirth");
 
-            migrationBuilder.RenameColumn(
-                name: "CustomerGender",
-                table: "Customer",
-                newName: "Gender");
-
-            migrationBuilder.RenameColumn(
-                name: "CustomerEmail",
-                table: "Customer",
-                newName: "FirstName");
-
-            migrationBuilder.RenameColumn(
-                name: "CustomerDob",
-                table: "Customer",
-                newName: "Email");
+            migrationBuilder.AlterColumn<string>(
+                name: "PartName",
+                table: "Part",
+                type: "nvarchar(75)",
+                maxLength: 75,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
 
             migrationBuilder.AddColumn<decimal>(
                 name: "Cost",
@@ -58,10 +64,44 @@ namespace KollamAutoEng_web.Migrations
                 nullable: false,
                 defaultValue: "");
 
-            migrationBuilder.AddColumn<string>(
-                name: "DateOfBirth",
+            migrationBuilder.AlterColumn<string>(
+                name: "Reference",
                 table: "Customer",
-                type: "nvarchar(max)",
+                type: "nvarchar(15)",
+                maxLength: 15,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
+
+            migrationBuilder.AddColumn<string>(
+                name: "FirstName",
+                table: "Customer",
+                type: "nvarchar(25)",
+                maxLength: 25,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Gender",
+                table: "Customer",
+                type: "nvarchar(6)",
+                maxLength: 6,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "LastName",
+                table: "Customer",
+                type: "nvarchar(25)",
+                maxLength: 25,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "PhoneNumber",
+                table: "Customer",
+                type: "nvarchar(17)",
+                maxLength: 17,
                 nullable: false,
                 defaultValue: "");
 
@@ -71,10 +111,10 @@ namespace KollamAutoEng_web.Migrations
                 {
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(17)", maxLength: 17, nullable: false),
+                    Status = table.Column<bool>(type: "bit", maxLength: 5, nullable: false),
                     Pay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Hours = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -140,7 +180,7 @@ namespace KollamAutoEng_web.Migrations
                         column: x => x.VehicleId,
                         principalTable: "Vehicle",
                         principalColumn: "VehicleId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -265,33 +305,69 @@ namespace KollamAutoEng_web.Migrations
                 table: "Fault");
 
             migrationBuilder.DropColumn(
-                name: "DateOfBirth",
+                name: "FirstName",
                 table: "Customer");
 
-            migrationBuilder.RenameColumn(
-                name: "PhoneNumber",
-                table: "Customer",
-                newName: "CustomerPhoneNumber");
-
-            migrationBuilder.RenameColumn(
-                name: "LastName",
-                table: "Customer",
-                newName: "CustomerName");
-
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "Gender",
-                table: "Customer",
-                newName: "CustomerGender");
+                table: "Customer");
 
-            migrationBuilder.RenameColumn(
-                name: "FirstName",
-                table: "Customer",
-                newName: "CustomerEmail");
+            migrationBuilder.DropColumn(
+                name: "LastName",
+                table: "Customer");
+
+            migrationBuilder.DropColumn(
+                name: "PhoneNumber",
+                table: "Customer");
 
             migrationBuilder.RenameColumn(
                 name: "Email",
                 table: "Customer",
-                newName: "CustomerDob");
+                newName: "CustomerPhoneNumber");
+
+            migrationBuilder.RenameColumn(
+                name: "DateOfBirth",
+                table: "Customer",
+                newName: "CustomerName");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "PartName",
+                table: "Part",
+                type: "nvarchar(max)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(75)",
+                oldMaxLength: 75);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Reference",
+                table: "Customer",
+                type: "nvarchar(max)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(15)",
+                oldMaxLength: 15);
+
+            migrationBuilder.AddColumn<string>(
+                name: "CustomerDob",
+                table: "Customer",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "CustomerEmail",
+                table: "Customer",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "CustomerGender",
+                table: "Customer",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.CreateTable(
                 name: "Employees",

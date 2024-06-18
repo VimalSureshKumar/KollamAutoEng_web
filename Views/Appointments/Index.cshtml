@@ -4,11 +4,18 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="text-center">Appointments</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+<form asp-controller="Appointments" asp-action="Index">
+    <p>
+        Search Appointment: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -40,13 +47,13 @@
                 @Html.DisplayFor(modelItem => item.ServiceCost)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerId)
+                @Html.DisplayFor(modelItem => item.Customer.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Vehicle.VehicleId)
+                @Html.DisplayFor(modelItem => item.Vehicle.Registration)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Employee.EmployeeId)
+                @Html.DisplayFor(modelItem => item.Employee.FirstName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |

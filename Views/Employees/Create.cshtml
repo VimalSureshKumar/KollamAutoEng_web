@@ -27,10 +27,10 @@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Pay" class="control-label"></label>

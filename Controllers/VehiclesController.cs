@@ -22,7 +22,7 @@ namespace KollamAutoEng_web.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var kollamAutoEng_webContext = _context.Vehicle.Include(v => v.Customer);
+            var kollamAutoEng_webContext = _context.Vehicle.Include(v => v.Customer).Include(v => v.VehicleBrand).Include(v => v.VehicleModel);
             return View(await kollamAutoEng_webContext.ToListAsync());
         }
 
@@ -36,6 +36,8 @@ namespace KollamAutoEng_web.Controllers
 
             var vehicle = await _context.Vehicle
                 .Include(v => v.Customer)
+                .Include(v => v.VehicleBrand)
+                .Include(v => v.VehicleModel)
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {
@@ -48,7 +50,9 @@ namespace KollamAutoEng_web.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId");
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
+            ViewData["ModelId"] = new SelectList(_context.VehicleModel, "ModelId", "ModelName");
             return View();
         }
 
@@ -57,7 +61,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleId,Brand,Model,VIN,Registration,Odometer,DriveType,CustomerId")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("VehicleId,BrandId,ModelId,VIN,Registration,Odometer,DriveType,CustomerId")] Vehicle vehicle)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +69,9 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", vehicle.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", vehicle.CustomerId);
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicle.BrandId);
+            ViewData["ModelId"] = new SelectList(_context.VehicleModel, "ModelId", "ModelName", vehicle.ModelId);
             return View(vehicle);
         }
 
@@ -82,7 +88,9 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", vehicle.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", vehicle.CustomerId);
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicle.BrandId);
+            ViewData["ModelId"] = new SelectList(_context.VehicleModel, "ModelId", "ModelName", vehicle.ModelId);
             return View(vehicle);
         }
 
@@ -91,7 +99,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,Brand,Model,VIN,Registration,Odometer,DriveType,CustomerId")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,BrandId,ModelId,VIN,Registration,Odometer,DriveType,CustomerId")] Vehicle vehicle)
         {
             if (id != vehicle.VehicleId)
             {
@@ -118,7 +126,9 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", vehicle.CustomerId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", vehicle.CustomerId);
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicle.BrandId);
+            ViewData["ModelId"] = new SelectList(_context.VehicleModel, "ModelId", "ModelName", vehicle.ModelId);
             return View(vehicle);
         }
 
@@ -132,6 +142,8 @@ namespace KollamAutoEng_web.Controllers
 
             var vehicle = await _context.Vehicle
                 .Include(v => v.Customer)
+                .Include(v => v.VehicleBrand)
+                .Include(v => v.VehicleModel)
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {

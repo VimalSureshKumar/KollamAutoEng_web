@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 
@@ -6,41 +7,42 @@ namespace KollamAutoEng_web.Models
 {
     public class Appointment
     {
-        // This property represents the Appointment unique identifier.
         [Key]
-        [Display(Name = "Appointment ID")] // Sets the display name for this property.
+        [Display(Name = "Appointment ID")]
         public int AppointmentId { get; set; } // Primary Key
 
-        public string AppointmentDate { get; set; }
+        [Required(ErrorMessage = "Appointment date is required.")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Appointment Date")]
+        public DateTime AppointmentDate { get; set; }
 
         [Required]
+        [Display(Name = "Customer")]
         public int CustomerId { get; set; } // Foreign Key to Customer
 
         [Required]
+        [Display(Name = "Vehicle")]
         public int VehicleId { get; set; } // Foreign Key to Vehicle
 
         [Required]
+        [Display(Name = "Employee")]
         public int EmployeeId { get; set; } // Foreign Key to Employee
 
-        // This property represents the Service Cost.
-        [DataType(DataType.Currency)] // Specifies that it contains currency data.
+        [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Service Cost")]
-        [RegularExpression(@"^\$?\d+(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")] // Validates that the cost follows the specific format and provides a error message if not.
+        [RegularExpression(@"^\$?\d+(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")]
         [Display(Name = "Service Cost")]
         public decimal ServiceCost { get; set; }
 
         // Navigation properties
-        [ForeignKey("VehicleId")]
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
-        [ForeignKey("VehicleId")]
-        public Vehicle Vehicle { get; set; }
+        public virtual Vehicle Vehicle { get; set; }
 
-        [ForeignKey("EmployeeId")]
-        public Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; }
 
-        public ICollection<FaultPart> FaultParts { get; set; } = new List<FaultPart>();
-
-        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        public virtual ICollection<FaultPart> FaultParts { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
     }
+
 }

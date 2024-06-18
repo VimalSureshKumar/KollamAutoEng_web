@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    [Migration("20240603215519_new_updatedModels")]
-    partial class new_updatedModels
+    [Migration("20240604213546_newupdatedModels")]
+    partial class newupdatedModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,23 +153,28 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(17)
+                        .HasColumnType("nvarchar(17)");
 
                     b.Property<string>("Reference")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("CustomerId");
 
@@ -186,23 +191,27 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<decimal>("Hours")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<decimal>("Pay")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(17)
+                        .HasColumnType("nvarchar(17)");
 
                     b.Property<bool>("Status")
+                        .HasMaxLength(5)
                         .HasColumnType("bit");
 
                     b.HasKey("EmployeeId");
@@ -268,7 +277,8 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("PartName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
 
                     b.Property<string>("Reference")
                         .IsRequired()

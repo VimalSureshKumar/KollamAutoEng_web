@@ -4,7 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="text-center">Payments</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<form asp-controller="Payments" asp-action="Index">
+    <p>
+        Search Payments: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,7 +26,7 @@
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => model.PaymentDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Appointment)
@@ -31,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => item.PaymentDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Appointment.AppointmentId)

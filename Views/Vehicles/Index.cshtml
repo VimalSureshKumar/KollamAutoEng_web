@@ -4,20 +4,21 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="text-center">Vehicles</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+<form asp-controller="Vehicles" asp-action="Index">
+    <p>
+        Search Vehicles: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Brand)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.VIN)
             </th>
@@ -33,18 +34,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleBrand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleModel)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Brand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VIN)
             </td>
@@ -58,7 +59,13 @@
                 @Html.DisplayFor(modelItem => item.DriveType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerId)
+                @Html.DisplayFor(modelItem => item.Customer.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleBrand.BrandName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleModel.ModelName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |

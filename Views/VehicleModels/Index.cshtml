@@ -1,0 +1,51 @@
+﻿@model IEnumerable<KollamAutoEng_web.Models.VehicleModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center">Vehicle Model</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<form asp-controller="VehicleBrands" asp-action="Index">
+    <p>
+        Search Models: <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleBrand)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleBrand.BrandName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ModelId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ModelId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ModelId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

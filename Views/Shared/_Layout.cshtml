@@ -29,40 +29,43 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">Appointment</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Faults" asp-action="Index">Faults</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Index">Parts</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employee</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="FaultParts" asp-action="Index">FaultParts</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="FaultParts" asp-action="Index">Fault Part</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Index">Part</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payments</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payment</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicle</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="VehicleBrands" asp-action="Index">Vehicle Brand</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="VehicleModels" asp-action="Index">Vehicle Model</a>
                             </li>
                         </ul>
-                        <div class="row align-items-start">
-                            <div class="col">
-                                <partial name="_LoginPartial.cshtml" />
-                            </div>
-                        </div>
+                            <partial name="_LoginPartial.cshtml" />
                     </div>
                 </div>
+            </div>
         </nav>
     </header>
-    <div>
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

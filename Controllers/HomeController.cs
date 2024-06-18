@@ -25,14 +25,13 @@ namespace KollamAutoEng_web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Vehicle model) // Ensure your model is named correctly
+        public IActionResult Create(Vehicle vehicle) 
         {
             if (ModelState.IsValid)
             {
-                // Save the model data to the database or process it as needed
-                return RedirectToAction("Index"); // or any other action
+                return RedirectToAction("Index");
             }
-            return View("Index", model);
+            return View("Index", vehicle);
         }
 
         public IActionResult Privacy()

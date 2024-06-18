@@ -8,22 +8,21 @@
         <img class="bigimage" src="~/Mainimg.png">
     </div>
     <div class="container text-center">
-        <h1 class="display-4">Vechile Details</h1>
+        <h1 class="display-4">Vehicle Details</h1>
         <hr />
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <!-- First row -->
-                <form asp-action="Create" method="post">
+                <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Brand" class="control-label"></label>
-                        <input asp-for="Brand" class="form-control" />
-                        <span asp-validation-for="Brand" class="text-danger"></span>
+                        <label asp-for="BrandId" class="control-label"></label>
+                        <input asp-for="BrandId" class="form-control" />
+                        <span asp-validation-for="BrandId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Model" class="control-label"></label>
-                        <input asp-for="Model" class="form-control" />
-                        <span asp-validation-for="Model" class="text-danger"></span>
+                        <label asp-for="ModelId" class="control-label"></label>
+                        <input asp-for="ModelId" class="form-control" />
+                        <span asp-validation-for="ModelId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="VIN" class="control-label"></label>
@@ -35,14 +34,6 @@
                         <input asp-for="Registration" class="form-control" />
                         <span asp-validation-for="Registration" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <form asp-action="Create" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Odometer" class="control-label"></label>
                         <input asp-for="Odometer" class="form-control" />
@@ -50,24 +41,25 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="DriveType" class="control-label"></label>
-                        <input asp-for="DriveType" class="form-control" />
+                        <select asp-for="DriveType" class="form-control"></select>
                         <span asp-validation-for="DriveType" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CustomerId" class="control-label"></label>
                         <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
                     </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
                 </form>
             </div>
         </div>
-    </div>
 </body>
         @section Scripts {
             @{
                 await Html.RenderPartialAsync("_ValidationScriptsPartial");
             }
         }
-
 <body>
 <div>
     <img class="bigimage2" src="~/Mainimg.png">

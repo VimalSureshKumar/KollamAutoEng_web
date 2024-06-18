@@ -50,9 +50,9 @@ namespace KollamAutoEng_web.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId");
-            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "EmployeeId");
-            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "VehicleId");
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName");
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");
             return View();
         }
 
@@ -69,9 +69,9 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", appointment.CustomerId);
-            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "EmployeeId", appointment.EmployeeId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "VehicleId", appointment.VehicleId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", appointment.CustomerId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName", appointment.EmployeeId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", appointment.VehicleId);
             return View(appointment);
         }
 
@@ -88,9 +88,9 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", appointment.CustomerId);
-            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "EmployeeId", appointment.EmployeeId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "VehicleId", appointment.VehicleId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", appointment.CustomerId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName", appointment.EmployeeId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", appointment.VehicleId);
             return View(appointment);
         }
 
@@ -126,9 +126,9 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "CustomerId", appointment.CustomerId);
-            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "EmployeeId", appointment.EmployeeId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "VehicleId", appointment.VehicleId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", appointment.CustomerId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName", appointment.EmployeeId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", appointment.VehicleId);
             return View(appointment);
         }
 

@@ -52,7 +52,7 @@ namespace KollamAutoEng_web.Controllers
         {
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId");
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultId");
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartId");
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name");
             return View();
         }
 
@@ -71,7 +71,7 @@ namespace KollamAutoEng_web.Controllers
             }
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultId", faultPart.FaultId);
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartId", faultPart.PartId);
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name", faultPart.PartId);
             return View(faultPart);
         }
 
@@ -90,7 +90,7 @@ namespace KollamAutoEng_web.Controllers
             }
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultId", faultPart.FaultId);
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartId", faultPart.PartId);
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name", faultPart.PartId);
             return View(faultPart);
         }
 
@@ -128,7 +128,7 @@ namespace KollamAutoEng_web.Controllers
             }
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultId", faultPart.FaultId);
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartId", faultPart.PartId);
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name", faultPart.PartId);
             return View(faultPart);
         }
 
