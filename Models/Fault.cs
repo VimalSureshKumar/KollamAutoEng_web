@@ -11,6 +11,10 @@ namespace KollamAutoEng_web.Models
         public int FaultId { get; set; } // Primary Key
 
         [Required]
+        [Display(Name = "Fault Name")]
+        public string FaultName { get; set; }
+
+        [Required]
         [Display(Name = "Vehicle")]
         public int VehicleId { get; set; } // Foreign Key to Vehicle
 

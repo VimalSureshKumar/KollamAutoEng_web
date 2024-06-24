@@ -7,9 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllerbra : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class VehicleBrandsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,11 +30,50 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleBrands
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-              return _context.VehicleBrand != null ? 
-                          View(await _context.VehicleBrand.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.VehicleBrand'  is null.");
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            if (_context.VehicleBrand == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleBrand' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var brands = from bra in _context.VehicleBrand
+                            select bra;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                brands = brands.Where(m =>
+                    m.BrandName.Contains(searchString) 
+                       );
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    brands = brands.OrderByDescending(m => m.BrandName);
+                    break;
+                default:
+                    brands = brands.OrderBy(m => m.BrandName);
+                    break;
+            }
+
+            var brandsList = await brands.ToListAsync();
+            int pageSize = 10;
+            return View(await PaginatedList<VehicleBrand>.CreateAsync(brands.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: VehicleBrands/Details/5

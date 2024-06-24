@@ -7,9 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllerEmp : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,11 +30,54 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-              return _context.Employee != null ? 
-                          View(await _context.Employee.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Employee'  is null.");
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["LastNameSortParm"] = sortOrder == "LastName" ? "last_name_desc" : "LastName";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            if (_context.Employee == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.Employee' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var employees = from emp in _context.Employee
+                            select emp;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                employees = employees.Where(m =>
+                    m.FirstName.Contains(searchString) ||
+                    m.LastName.Contains(searchString) ||
+                    m.PhoneNumber.Contains(searchString)||
+
+                    m.Pay.ToString().Contains(searchString) ||
+                    m.Hours.ToString().Contains(searchString)
+                );
+            }
+
+            switch (sortOrder)
+            {
+                case "LastName":
+                    employees = employees.OrderBy(c => c.LastName);
+                    break;
+                case "last_name_desc":
+                    employees = employees.OrderByDescending(c => c.LastName);
+                    break;
+            }
+
+            int pageSize = 5;
+            return View(await PaginatedList<Employee>.CreateAsync(employees.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Employees/Details/5

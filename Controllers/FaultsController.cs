@@ -7,9 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllerfau : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class FaultsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,10 +30,30 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Faults
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
         {
-            var kollamAutoEng_webContext = _context.Fault.Include(f => f.Customer).Include(f => f.Vehicle);
-            return View(await kollamAutoEng_webContext.ToListAsync());
+            if (_context.Fault == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.Fault' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var faults = from fau in _context.Fault
+                               .Include(m => m.Vehicle)
+                               .Include(m => m.Customer)
+                               select fau;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                faults = faults.Where(m =>
+                   m.Vehicle.Registration.Contains(searchString) ||
+                   m.Customer.FirstName.Contains(searchString) 
+                       );
+            }
+
+            int pageSize = 5;
+            return View(await PaginatedList<Fault>.CreateAsync(faults.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Faults/Details/5

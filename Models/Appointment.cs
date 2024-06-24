@@ -30,7 +30,8 @@ namespace KollamAutoEng_web.Models
 
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Service Cost")]
-        [RegularExpression(@"^\$?\d+(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")]
+        [Range(0, 1000000, ErrorMessage = "Please enter a value between 0 and 1,000,000.")]
+        [RegularExpression(@"^\$?(0|[1-9]\d{0,5})(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")]
         [Display(Name = "Service Cost")]
         public decimal ServiceCost { get; set; }
 

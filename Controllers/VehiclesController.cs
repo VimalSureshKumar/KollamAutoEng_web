@@ -7,9 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using NuGet.Protocol.Plugins;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllerveh : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class VehiclesController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,10 +31,57 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index()
+        // Controller Code
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            var kollamAutoEng_webContext = _context.Vehicle.Include(v => v.Customer).Include(v => v.VehicleBrand).Include(v => v.VehicleModel);
-            return View(await kollamAutoEng_webContext.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["Customer.FirstNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            if (_context.Vehicle == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var vehicles = from veh in _context.Vehicle
+                                .Include(m => m.Customer)
+                                .Include(m => m.VehicleBrand)
+                                .Include(m => m.VehicleModel)
+                           select veh;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vehicles = vehicles.Where(m =>
+                    m.VIN.Contains(searchString) ||
+                    m.Registration.Contains(searchString) ||
+                    m.Customer.FirstName.Contains(searchString) ||
+                    m.VehicleBrand.BrandName.Contains(searchString) ||
+                    m.VehicleModel.ModelName.Contains(searchString)
+                );
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    vehicles = vehicles.OrderByDescending(m => m.Customer.FirstName);
+                    break;
+                default:
+                    vehicles = vehicles.OrderBy(m => m.Customer.FirstName);
+                    break;
+            }
+
+            int pageSize = 10;
+            return View(await PaginatedList<Vehicle>.CreateAsync(vehicles.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Vehicles/Details/5

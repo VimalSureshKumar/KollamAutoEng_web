@@ -7,9 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllermod : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class VehicleModelsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,10 +30,59 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleModels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            var kollamAutoEng_webContext = _context.VehicleModel.Include(v => v.VehicleBrand);
-            return View(await kollamAutoEng_webContext.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+
+            else
+            {
+                searchString = currentFilter;
+            }
+            if (_context.VehicleModel == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var models = from mod in _context.VehicleModel
+                             .Include(m => m.VehicleBrand)
+                         select mod;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                models = models.Where(m =>
+                    m.ModelName.Contains(searchString) ||
+                    m.VehicleBrand.BrandName.Contains(searchString)
+                       );
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    models = models.OrderByDescending(m => m.ModelName);
+                    break;
+                case "brand_name":
+                    models = models.OrderBy(m => m.VehicleBrand.BrandName);
+                    break;
+                case "brand_name_desc":
+                    models = models.OrderByDescending(m => m.VehicleBrand.BrandName);
+                    break;
+                default:
+                    models = models.OrderBy(m => m.ModelName);
+                    break;
+            }
+
+            var modelsList = await models.ToListAsync();
+
+            int pageSize = 10;
+            return View(await PaginatedList<VehicleModel>.CreateAsync(models.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: VehicleModels/Details/5

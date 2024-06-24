@@ -7,9 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllerCus : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,11 +30,53 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-              return _context.Customer != null ? 
-                          View(await _context.Customer.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Customer'  is null.");
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["LastNameSortParm"] = sortOrder == "LastName" ? "last_name_desc" : "LastName";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            if (_context.Customer == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.Customer' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var customers = from cus in _context.Customer
+                            select cus;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(m =>
+                    m.FirstName.Contains(searchString) ||
+                    m.LastName.Contains(searchString) ||
+                    m.Email.Contains(searchString) ||
+                    m.PhoneNumber.Contains(searchString) ||
+                    m.Reference.Contains(searchString)
+                );
+            }
+
+            switch (sortOrder)
+            {
+                case "LastName":
+                    customers = customers.OrderBy(c => c.LastName);
+                    break;
+                case "last_name_desc":
+                    customers = customers.OrderByDescending(c => c.LastName);
+                    break;
+            }
+
+            int pageSize = 5;
+            return View(await PaginatedList<Customer>.CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Customers/Details/5

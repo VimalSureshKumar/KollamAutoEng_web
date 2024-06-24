@@ -7,9 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllerpay : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class PaymentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,10 +30,30 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Payments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? pageNumber)
         {
-            var kollamAutoEng_webContext = _context.Payment.Include(p => p.Appointment);
-            return View(await kollamAutoEng_webContext.ToListAsync());
+            if (_context.Payment == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.Payment' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var payments = from pay in _context.Payment
+                           .Include(m => m.Appointment)
+                           select pay;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                payments = payments.Where(m =>
+                    m.Amount.ToString().Contains(searchString) ||
+                    m.PaymentDate.ToString().Contains(searchString) ||
+                    m.Appointment.AppointmentDate.ToString().Contains(searchString)
+                );
+            }
+
+            int pageSize = 5;
+            return View(await PaginatedList<Payment>.CreateAsync(payments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Payments/Details/5

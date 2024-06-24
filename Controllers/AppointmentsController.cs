@@ -7,9 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Drawing.Printing;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class AppointmentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,31 +31,60 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            var kollamAutoEng_webContext = _context.Appointment.Include(a => a.Customer).Include(a => a.Employee).Include(a => a.Vehicle);
-            return View(await kollamAutoEng_webContext.ToListAsync());
-        }
+            ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
 
-        // GET: Appointments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Appointment == null)
+            if (searchString != null)
             {
-                return NotFound();
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
             }
 
-            var appointment = await _context.Appointment
-                .Include(a => a.Customer)
-                .Include(a => a.Employee)
-                .Include(a => a.Vehicle)
-                .FirstOrDefaultAsync(m => m.AppointmentId == id);
-            if (appointment == null)
+            if (_context.Appointment == null)
             {
-                return NotFound();
+                return Problem("Entity set 'KollamAutoEng_webContext.Appointment' is null.");
             }
 
-            return View(appointment);
+            ViewData["CurrentFilter"] = searchString;
+
+            var appointments = from app in _context.Appointment
+                               .Include(m => m.Customer)
+                               .Include(m => m.Vehicle)
+                               .Include(m => m.Employee)
+                               select app;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                appointments = appointments.Where(m =>
+                   m.Customer.FirstName.Contains(searchString) ||
+                   m.Customer.LastName.Contains(searchString) ||
+                   m.Employee.FirstName.Contains(searchString) ||
+                   m.Employee.LastName.Contains(searchString) ||
+                   m.Vehicle.Registration.Contains(searchString) ||
+                   m.ServiceCost.ToString().Contains(searchString)
+                       );
+            }
+
+            switch (sortOrder)
+            {
+                case "Customer":
+                    appointments = appointments.OrderBy(s => s.Customer.FirstName);
+                    appointments = appointments.OrderBy(s => s.Customer.LastName);
+                    break;
+                case "customer_desc":
+                    appointments = appointments.OrderByDescending(s => s.Customer.FirstName);
+                    appointments = appointments.OrderByDescending(s => s.Customer.LastName);
+                    break;
+            }
+
+            var appointmentsList = await appointments.ToListAsync();
+
+            int pageSize = 5;
+            return View(await PaginatedList<Appointment>.CreateAsync(appointments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Appointments/Create

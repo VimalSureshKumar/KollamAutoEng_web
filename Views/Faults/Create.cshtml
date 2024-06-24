@@ -21,6 +21,11 @@
                 <select asp-for="CustomerId" class ="form-control" asp-items="ViewBag.CustomerId"></select>
             </div>
             <div class="form-group">
+                <label asp-for="FaultName" class="control-label"></label>
+                <input asp-for="FaultName" class="form-control" />
+                <span asp-validation-for="FaultName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

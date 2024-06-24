@@ -20,6 +20,7 @@ namespace KollamAutoEng_web.Models
         public DateTime PaymentDate { get; set; }
 
         [Required]
+        [Display(Name = "Appointment")]
         public int AppointmentId { get; set; } // Foreign Key to Appointment
 
         // Navigation property

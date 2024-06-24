@@ -7,9 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    public class AdminControllerpar : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+    [Authorize]
     public class PartsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -20,11 +30,51 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Parts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-              return _context.Part != null ? 
-                          View(await _context.Part.ToListAsync()) :
-                          Problem("Entity set 'KollamAutoEng_webContext.Part'  is null.");
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CostParm"] = sortOrder == "Cost" ? "cost_desc" : "Cost";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            if (_context.Part == null)
+            {
+                return Problem("Entity set 'KollamAutoEng_webContext.Part' is null.");
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var parts = from par in _context.Part
+                            select par;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                parts = parts.Where(m =>
+                    m.Reference.Contains(searchString) ||
+                    m.Name.Contains(searchString) ||
+                    m.Cost.ToString().Contains(searchString) 
+                );
+            }
+
+            switch (sortOrder)
+            {
+                case "Cost":
+                    parts = parts.OrderBy(c => c.Cost);
+                    break;
+                case "cost_desc":
+                    parts = parts.OrderByDescending(c => c.Cost);
+                    break;
+            }
+
+            int pageSize = 5;
+            return View(await PaginatedList<Part>.CreateAsync(parts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Parts/Details/5

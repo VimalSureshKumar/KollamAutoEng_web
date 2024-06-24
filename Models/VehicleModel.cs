@@ -18,6 +18,7 @@ namespace KollamAutoEng_web.Models
         public int BrandId { get; set; } // Foreign Key to VehicleBrand
 
         // Navigation properties
+        [Display(Name = "Vehicle Brand")]
         public virtual VehicleBrand VehicleBrand { get; set; }
         public virtual ICollection<Vehicle> Vehicles { get; set; }
     }

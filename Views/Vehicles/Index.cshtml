@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KollamAutoEng_web.Models.Vehicle>
+﻿@model PaginatedList<KollamAutoEng_web.Models.Vehicle>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,10 +9,11 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<form asp-controller="Vehicles" asp-action="Index">
+<form asp-controller="Vehicles" asp-action="Index" method="get">
     <p>
-        Search Vehicles: <input type="text" name="SearchString" />
-        <input type="submit" value="Search" />
+        Search Vehicles: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+        <a href="@Url.Action("Index", "Vehicles")" class="btn btn-secondary">Clear</a>
     </p>
 </form>
 
@@ -20,59 +21,82 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.VIN)
+                @Html.DisplayNameFor(model => model[0].VIN)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Registration)
+                @Html.DisplayNameFor(model => model[0].Registration)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Odometer)
+                @Html.DisplayNameFor(model => model[0].Odometer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DriveType)
+                @Html.DisplayNameFor(model => model[0].DriveType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["Customer.FirstNameSortParm"]">Customer</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VehicleBrand)
+                @Html.DisplayNameFor(model => model[0].VehicleBrand.BrandName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VehicleModel)
+                @Html.DisplayNameFor(model => model[0].VehicleModel.ModelName)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VIN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Registration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Odometer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DriveType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleBrand.BrandName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleModel.ModelName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VIN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Odometer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriveType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleBrand.BrandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleModel.ModelName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item @prevDisabled">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+        </li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            var active = i == Model.PageIndex ? "active" : "";
+            <li class="page-item @active">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+            </li>
+        }
+        <li class="page-item @nextDisabled">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+        </li>
+    </ul>
+</nav>

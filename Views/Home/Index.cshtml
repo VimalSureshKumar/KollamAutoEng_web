@@ -11,18 +11,16 @@
         <h1 class="display-4">Vehicle Details</h1>
         <hr />
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="BrandId" class="control-label"></label>
-                        <input asp-for="BrandId" class="form-control" />
-                        <span asp-validation-for="BrandId" class="text-danger"></span>
+                        <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
                     </div>
                     <div class="form-group">
                         <label asp-for="ModelId" class="control-label"></label>
-                        <input asp-for="ModelId" class="form-control" />
-                        <span asp-validation-for="ModelId" class="text-danger"></span>
+                        <select asp-for="ModelId" class="form-control" asp-items="ViewBag.ModelId"></select>
                     </div>
                     <div class="form-group">
                         <label asp-for="VIN" class="control-label"></label>
@@ -41,7 +39,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="DriveType" class="control-label"></label>
-                        <select asp-for="DriveType" class="form-control"></select>
+                        <select asp-for="DriveType" class="form-control" asp-items="Html.GetEnumSelectList<DriveType>()"></select>
                         <span asp-validation-for="DriveType" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -54,6 +52,7 @@
                 </form>
             </div>
         </div>
+    </div>
 </body>
         @section Scripts {
             @{
