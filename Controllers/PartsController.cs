@@ -106,7 +106,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PartId,Reference,Name,Cost")] Part part)
+        public async Task<IActionResult> Create([Bind("PartId,Reference,PartName,Cost")] Part part)
         {
             if (!ModelState.IsValid)
             {
@@ -138,7 +138,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PartId,Reference,Name,Cost")] Part part)
+        public async Task<IActionResult> Edit(int id, [Bind("PartId,Reference,PartName,Cost")] Part part)
         {
             if (id != part.PartId)
             {

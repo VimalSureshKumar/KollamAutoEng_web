@@ -42,13 +42,13 @@ namespace KollamAutoEng_web.Controllers
             var faults = from fau in _context.Fault
                                .Include(m => m.Vehicle)
                                .Include(m => m.Customer)
-                               select fau;
+                         select fau;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 faults = faults.Where(m =>
                    m.Vehicle.Registration.Contains(searchString) ||
-                   m.Customer.FirstName.Contains(searchString) 
+                   m.Customer.FirstName.Contains(searchString)
                        );
             }
 
@@ -89,7 +89,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FaultId,VehicleId,CustomerId")] Fault fault)
+        public async Task<IActionResult> Create([Bind("FaultId,VehicleId,CustomerId,FaultName")] Fault fault)
         {
             if (!ModelState.IsValid)
             {
@@ -125,7 +125,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FaultId,VehicleId,CustomerId")] Fault fault)
+        public async Task<IActionResult> Edit(int id, [Bind("FaultId,VehicleId,CustomerId,FaultName")] Fault fault)
         {
             if (id != fault.FaultId)
             {
@@ -191,14 +191,14 @@ namespace KollamAutoEng_web.Controllers
             {
                 _context.Fault.Remove(fault);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FaultExists(int id)
         {
-          return (_context.Fault?.Any(e => e.FaultId == id)).GetValueOrDefault();
+            return (_context.Fault?.Any(e => e.FaultId == id)).GetValueOrDefault();
         }
     }
 }

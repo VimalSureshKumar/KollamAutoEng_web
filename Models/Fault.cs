@@ -10,13 +10,9 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Fault ID")]
         public int FaultId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter Faulty Part"), MaxLength(25)]
         [Display(Name = "Fault Name")]
         public string FaultName { get; set; }
-
-        [Required]
-        [Display(Name = "Part Name")]
-        public string PartName { get; set; }
 
         [Required]
         [Display(Name = "Vehicle ID")]
