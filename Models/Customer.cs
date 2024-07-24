@@ -7,11 +7,12 @@ namespace KollamAutoEng_web.Models
     {
         Male, Female, Other, [Display(Name = "Prefer not to say")] Prefer_not_to_say
     }
+
     public class Customer
     {
         [Key]
         [Display(Name = "Customer ID")]
-        public int CustomerId { get; set; } // Primary Key
+        public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "Please enter Customer First Name"), MaxLength(25)]
         [Display(Name = "First Name")]
@@ -22,7 +23,6 @@ namespace KollamAutoEng_web.Models
         public string LastName { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", ErrorMessage = "Email is not valid.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -38,12 +38,9 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Date of Birth")]
         public DateTime DateOfBirth { get; set; }
 
-        [Display(Name = "Reference")]
-        public string Reference { get; set; }
-
-        // Navigation properties
         public virtual ICollection<Vehicle> Vehicles { get; set; }
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Fault> Faults { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

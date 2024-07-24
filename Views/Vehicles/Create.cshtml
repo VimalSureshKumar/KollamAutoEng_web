@@ -31,14 +31,19 @@
                 <span asp-validation-for="Registration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Odometer" class="control-label"></label>
-                <input asp-for="Odometer" class="form-control" />
-                <span asp-validation-for="Odometer" class="text-danger"></span>
+                <label asp-for="Colour" class="control-label"></label>
+                <select asp-for="Colour" class="form-control" asp-items="Html.GetEnumSelectList<Colour>()"></select>
+                <span asp-validation-for="Colour" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DriveType" class="control-label"></label>
                 <select asp-for="DriveType" class="form-control" asp-items="Html.GetEnumSelectList<DriveType>()"></select>
                 <span asp-validation-for="DriveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Odometer" class="control-label"></label>
+                <input asp-for="Odometer" class="form-control" />
+                <span asp-validation-for="Odometer" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CustomerId" class="control-label"></label>

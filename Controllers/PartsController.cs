@@ -58,7 +58,7 @@ namespace KollamAutoEng_web.Controllers
             {
                 parts = parts.Where(m =>
                     m.Reference.Contains(searchString) ||
-                    m.Name.Contains(searchString) ||
+                    m.PartName.Contains(searchString) ||
                     m.Cost.ToString().Contains(searchString) 
                 );
             }

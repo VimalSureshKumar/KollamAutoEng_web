@@ -21,25 +21,28 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model[0].VehicleBrand.BrandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].VehicleModel.ModelName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model[0].VIN)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model[0].Registration)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Odometer)
+                @Html.DisplayNameFor(model => model[0].Colour)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model[0].DriveType)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model[0].Odometer)
+            </th>
+            <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["Customer.FirstNameSortParm"]">Customer</a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].VehicleBrand.BrandName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].VehicleModel.ModelName)
             </th>
             <th></th>
         </tr>
@@ -49,25 +52,28 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.VehicleBrand.BrandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleModel.ModelName)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.VIN)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Registration)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Odometer)
+                    @Html.DisplayFor(modelItem => item.Colour)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DriveType)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Odometer)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Customer.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehicleBrand.BrandName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehicleModel.ModelName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |

@@ -33,7 +33,7 @@ namespace KollamAutoEng_web.Controllers
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["ModelNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             if (searchString != null)
             {
@@ -58,8 +58,7 @@ namespace KollamAutoEng_web.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 models = models.Where(m =>
-                    m.ModelName.Contains(searchString) ||
-                    m.VehicleBrand.BrandName.Contains(searchString)
+                    m.ModelName.Contains(searchString)
                        );
             }
 
@@ -67,12 +66,6 @@ namespace KollamAutoEng_web.Controllers
             {
                 case "name_desc":
                     models = models.OrderByDescending(m => m.ModelName);
-                    break;
-                case "brand_name":
-                    models = models.OrderBy(m => m.VehicleBrand.BrandName);
-                    break;
-                case "brand_name_desc":
-                    models = models.OrderByDescending(m => m.VehicleBrand.BrandName);
                     break;
                 default:
                     models = models.OrderBy(m => m.ModelName);

@@ -8,26 +8,28 @@ namespace KollamAutoEng_web.Models
     {
         [Key]
         [Display(Name = "Fault ID")]
-        public int FaultId { get; set; } // Primary Key
+        public int FaultId { get; set; }
 
         [Required]
         [Display(Name = "Fault Name")]
         public string FaultName { get; set; }
 
         [Required]
-        [Display(Name = "Vehicle")]
-        public int VehicleId { get; set; } // Foreign Key to Vehicle
+        [Display(Name = "Part Name")]
+        public string PartName { get; set; }
 
         [Required]
-        [Display(Name = "Customer")]
-        public int CustomerId { get; set; } // Foreign Key to Customer
+        [Display(Name = "Vehicle ID")]
+        public int VehicleId { get; set; }
 
-        // Navigation properties
         public virtual Vehicle Vehicle { get; set; }
+
+        [Required]
+        [Display(Name = "Customer ID")]
+        public int CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }
 
-        public virtual ICollection<FaultPart> FaultParts { get; set; }
+        public virtual ICollection<FaultPart> FaultParts { get; set; } = new List<FaultPart>();
     }
-
 }

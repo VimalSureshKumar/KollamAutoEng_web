@@ -40,7 +40,7 @@ namespace KollamAutoEng_web.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var payments = from pay in _context.Payment
-                           .Include(m => m.Appointment)
+                           .Include(m => m.Customer)
                            select pay;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -48,7 +48,7 @@ namespace KollamAutoEng_web.Controllers
                 payments = payments.Where(m =>
                     m.Amount.ToString().Contains(searchString) ||
                     m.PaymentDate.ToString().Contains(searchString) ||
-                    m.Appointment.AppointmentDate.ToString().Contains(searchString)
+                    m.Customer.CustomerId.ToString().Contains(searchString)
                 );
             }
 
@@ -65,7 +65,7 @@ namespace KollamAutoEng_web.Controllers
             }
 
             var payment = await _context.Payment
-                .Include(p => p.Appointment)
+                .Include(p => p.Customer)
                 .FirstOrDefaultAsync(m => m.PaymentId == id);
             if (payment == null)
             {
@@ -78,7 +78,7 @@ namespace KollamAutoEng_web.Controllers
         // GET: Payments/Create
         public IActionResult Create()
         {
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId");
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
             return View();
         }
 
@@ -87,7 +87,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentId,Amount,PaymentDate,AppointmentId")] Payment payment)
+        public async Task<IActionResult> Create([Bind("PaymentId,Amount,PaymentDate,CustomerId")] Payment payment)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", payment.AppointmentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", payment.CustomerId);
             return View(payment);
         }
 
@@ -112,7 +112,7 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", payment.AppointmentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", payment.CustomerId);
             return View(payment);
         }
 
@@ -121,7 +121,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,PaymentDate,AppointmentId")] Payment payment)
+        public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,PaymentDate,CustomerId")] Payment payment)
         {
             if (id != payment.PaymentId)
             {
@@ -148,7 +148,7 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", payment.AppointmentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", payment.CustomerId);
             return View(payment);
         }
 
@@ -161,7 +161,7 @@ namespace KollamAutoEng_web.Controllers
             }
 
             var payment = await _context.Payment
-                .Include(p => p.Appointment)
+                .Include(p => p.Customer)
                 .FirstOrDefaultAsync(m => m.PaymentId == id);
             if (payment == null)
             {

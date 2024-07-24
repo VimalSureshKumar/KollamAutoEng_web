@@ -7,11 +7,10 @@ namespace KollamAutoEng_web.Models
     {
         [Key]
         [Display(Name = "Payment ID")]
-        public int PaymentId { get; set; } // Primary Key
+        public int PaymentId { get; set; }
 
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Payment Amount")]
-        [RegularExpression(@"^\$?\d+(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")]
         [Display(Name = "Amount")]
         public decimal Amount { get; set; }
 
@@ -20,20 +19,9 @@ namespace KollamAutoEng_web.Models
         public DateTime PaymentDate { get; set; }
 
         [Required]
-        [Display(Name = "Appointment")]
-        public int AppointmentId { get; set; } // Foreign Key to Appointment
+        [Display(Name = "Customer ID")]
+        public int CustomerId { get; set; }
 
-        // Navigation property
-        public virtual Appointment Appointment { get; set; }
-
-        public decimal CalculateTotalCost()
-        {
-            decimal totalCost = Appointment.ServiceCost;
-            foreach (var faultPart in Appointment.FaultParts)
-            {
-                totalCost += faultPart.Part.Cost;
-            }
-            return totalCost;
-        }
+        public virtual Customer Customer { get; set; }
     }
 }

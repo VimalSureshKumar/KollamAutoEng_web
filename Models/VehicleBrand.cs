@@ -6,14 +6,13 @@ namespace KollamAutoEng_web.Models
     {
         [Key]
         [Display(Name = "Brand ID")]
-        public int BrandId { get; set; } // Primary Key
+        public int BrandId { get; set; }
 
         [Required]
         [Display(Name = "Brand Name")]
-        public string BrandName { get; set; } // Brand Name
+        public string BrandName { get; set; }
 
-        // Navigation properties
-        public virtual ICollection<VehicleModel> VehicleModels { get; set; }
         public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public virtual ICollection<VehicleModel> VehicleModels { get; set; }
     }
 }

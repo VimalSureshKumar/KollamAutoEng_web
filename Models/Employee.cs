@@ -7,18 +7,17 @@ namespace KollamAutoEng_web.Models
     {
         Active, Inactive
     }
+
     public class Employee
     {
         [Key]
         [Display(Name = "Employee ID")]
-        public int EmployeeId { get; set; } // Primary Key
+        public int EmployeeId { get; set; }
 
-        [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please enter Employee First Name"), MaxLength(25)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please enter Employee Last Name"), MaxLength(25)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
@@ -32,7 +31,6 @@ namespace KollamAutoEng_web.Models
 
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Employee Pay")]
-        [RegularExpression(@"^\$?\d+(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")]
         [Display(Name = "Pay")]
         public decimal Pay { get; set; }
 
@@ -40,7 +38,6 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Hours")]
         public decimal Hours { get; set; }
 
-        // Navigation property
         public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }

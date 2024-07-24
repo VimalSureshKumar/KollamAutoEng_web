@@ -92,9 +92,9 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Payment>()
-            .HasOne(p => p.Appointment)
+            .HasOne(p => p.Customer)
             .WithMany(a => a.Payments)
-            .HasForeignKey(p => p.AppointmentId)
+            .HasForeignKey(p => p.CustomerId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 

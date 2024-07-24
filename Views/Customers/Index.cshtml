@@ -38,9 +38,6 @@
             <th>
                 @Html.DisplayNameFor(model => model[0].DateOfBirth)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Reference)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -65,9 +62,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateOfBirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Reference)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |

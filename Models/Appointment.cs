@@ -9,7 +9,7 @@ namespace KollamAutoEng_web.Models
     {
         [Key]
         [Display(Name = "Appointment ID")]
-        public int AppointmentId { get; set; } // Primary Key
+        public int AppointmentId { get; set; }
 
         [Required(ErrorMessage = "Appointment date is required.")]
         [DataType(DataType.Date)]
@@ -17,33 +17,29 @@ namespace KollamAutoEng_web.Models
         public DateTime AppointmentDate { get; set; }
 
         [Required]
-        [Display(Name = "Customer")]
-        public int CustomerId { get; set; } // Foreign Key to Customer
+        [Display(Name = "Customer ID")]
+        public int CustomerId { get; set; }
+
+        public virtual Customer Customer { get; set; }
 
         [Required]
-        [Display(Name = "Vehicle")]
-        public int VehicleId { get; set; } // Foreign Key to Vehicle
+        [Display(Name = "Vehicle ID")]
+        public int VehicleId { get; set; }
+
+        public virtual Vehicle Vehicle { get; set; }
 
         [Required]
-        [Display(Name = "Employee")]
-        public int EmployeeId { get; set; } // Foreign Key to Employee
+        [Display(Name = "Employee ID")]
+        public int EmployeeId { get; set; }
+
+        public virtual Employee Employee { get; set; }
 
         [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Service Cost")]
         [Range(0, 1000000, ErrorMessage = "Please enter a value between 0 and 1,000,000.")]
-        [RegularExpression(@"^\$?(0|[1-9]\d{0,5})(\.\d{2})?$", ErrorMessage = "Please enter a valid amount.")]
         [Display(Name = "Service Cost")]
         public decimal ServiceCost { get; set; }
 
-        // Navigation properties
-        public virtual Customer Customer { get; set; }
-
-        public virtual Vehicle Vehicle { get; set; }
-
-        public virtual Employee Employee { get; set; }
-
         public virtual ICollection<FaultPart> FaultParts { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
     }
-
 }

@@ -6,54 +6,57 @@ namespace KollamAutoEng_web.Models
 {
     public enum DriveType
     {
-        FWD, 
-        RWD,
-        [Display(Name = "4WD")]
-        _4WD, 
-        AWD
+        FWD, RWD, [Display(Name = "4WD")] _4WD, AWD
     }
+
+    public enum Colour
+    {
+        Red, White, Black, Grey, Blue, Cyan, Yellow, Orange, Other
+    }
+
     public class Vehicle
     {
         [Key]
-        [Display(Name = "Vehicle")]
-        public int VehicleId { get; set; } // Primary Key
+        [Display(Name = "Vehicle ID")]
+        public int VehicleId { get; set; }
 
         [Required]
-        [Display(Name = "Brand")]
-        public int BrandId { get; set; } // Foreign Key to VehicleBrand
+        [Display(Name = "Brand ID")]
+        public int BrandId { get; set; }
+
+        public virtual VehicleBrand VehicleBrand { get; set; }
 
         [Required]
-        [Display(Name = "Model")]
-        public int ModelId { get; set; } // Foreign Key to VehicleModel
+        [Display(Name = "Model ID")]
+        public int ModelId { get; set; }
+
+        public virtual VehicleModel VehicleModel { get; set; }
 
         [Required]
         [Display(Name = "VIN")]
-        public string VIN { get; set; } // Vehicle Identification Number
+        public string VIN { get; set; }
 
         [Required]
         [Display(Name = "Registration")]
-        public string Registration { get; set; } // Vehicle Registration
+        public string Registration { get; set; }
 
         [Required]
-        [Display(Name = "Odometer")]
-        public int Odometer { get; set; } // Odometer Reading
+        [Display(Name = "Colour")]
+        public Colour Colour { get; set; }
 
         [Required]
         [Display(Name = "Drive Type")]
         public DriveType DriveType { get; set; }
 
         [Required]
-        [Display(Name = "Customer")]
-        public int CustomerId { get; set; } // Foreign Key to Customer
+        [Display(Name = "Odometer")]
+        public int Odometer { get; set; }
 
-        // Navigation properties
+        [Required]
+        [Display(Name = "Customer ID")]
+        public int CustomerId { get; set; }
+
         public virtual Customer Customer { get; set; }
-
-        [Display(Name = "Vehicle Brand")]
-        public virtual VehicleBrand VehicleBrand { get; set; }
-
-        [Display(Name = "Vehicle Model")]
-        public virtual VehicleModel VehicleModel { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Fault> Faults { get; set; }

@@ -24,7 +24,7 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["ModelNameSortParm"]">Model Name</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandNameSortParm"]">Brand Name</a>
+                @Html.DisplayNameFor(model => model[0].VehicleBrand.BrandName)
             </th>
             <th></th>
         </tr>

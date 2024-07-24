@@ -7,24 +7,23 @@ namespace KollamAutoEng_web.Models
     {
         [Key]
         [Display(Name = "FaultPart ID")]
-        public int FaultPartId { get; set; } // Primary Key
+        public int FaultPartId { get; set; }
 
         [Required]
-        [Display(Name = "Fault")]
-        public int FaultId { get; set; } // Foreign Key to Fault
+        [Display(Name = "Fault ID")]
+        public int FaultId { get; set; }
 
-        [Required]
-        [Display(Name = "Part")]
-        public int PartId { get; set; } // Foreign Key to Part
-
-        [Required]
-        [Display(Name = "Appointment")]
-        public int AppointmentId { get; set; } // Foreign Key to Appointment
-
-        // Navigation properties
         public virtual Fault Fault { get; set; }
 
+        [Required]
+        [Display(Name = "Part ID")]
+        public int PartId { get; set; }
+
         public virtual Part Part { get; set; }
+
+        [Required]
+        [Display(Name = "Appointment ID")]
+        public int AppointmentId { get; set; }
 
         public virtual Appointment Appointment { get; set; }
     }

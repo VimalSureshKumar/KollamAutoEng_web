@@ -7,19 +7,18 @@ namespace KollamAutoEng_web.Models
     {
         [Key]
         [Display(Name = "Model ID")]
-        public int ModelId { get; set; } // Primary Key
+        public int ModelId { get; set; }
 
         [Required]
         [Display(Name = "Model Name")]
-        public string ModelName { get; set; } // Model Name
+        public string ModelName { get; set; }
 
         [Required]
-        [Display(Name = "Brand")]
-        public int BrandId { get; set; } // Foreign Key to VehicleBrand
+        [Display(Name = "Brand ID")]
+        public int BrandId { get; set; }
 
-        // Navigation properties
-        [Display(Name = "Vehicle Brand")]
         public virtual VehicleBrand VehicleBrand { get; set; }
+
         public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
 }
