@@ -90,6 +90,7 @@ namespace KollamAutoEng_web.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate");
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
             ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName");
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");

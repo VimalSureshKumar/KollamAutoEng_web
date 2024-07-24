@@ -14,7 +14,7 @@ namespace KollamAutoEng_web.Models
         public string ModelName { get; set; }
 
         [Required]
-        [Display(Name = "Brand ID")]
+        [Display(Name = "Vehicle Brand")]
         public int BrandId { get; set; }
 
         public virtual VehicleBrand VehicleBrand { get; set; }

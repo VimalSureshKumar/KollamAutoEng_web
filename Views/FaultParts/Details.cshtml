@@ -28,6 +28,18 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Appointment.AppointmentId)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.CustomerId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vehicle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vehicle.VehicleId)
+        </dd>
     </dl>
 </div>
 <div>

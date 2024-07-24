@@ -21,13 +21,13 @@ namespace KollamAutoEng_web.Models
         public int VehicleId { get; set; }
 
         [Required]
-        [Display(Name = "Brand ID")]
+        [Display(Name = "Vehicle Brand")]
         public int BrandId { get; set; }
 
         public virtual VehicleBrand VehicleBrand { get; set; }
 
         [Required]
-        [Display(Name = "Model ID")]
+        [Display(Name = "Vehicle Model")]
         public int ModelId { get; set; }
 
         public virtual VehicleModel VehicleModel { get; set; }
@@ -53,7 +53,7 @@ namespace KollamAutoEng_web.Models
         public int Odometer { get; set; }
 
         [Required]
-        [Display(Name = "Customer ID")]
+        [Display(Name = "Customer")]
         public int CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }

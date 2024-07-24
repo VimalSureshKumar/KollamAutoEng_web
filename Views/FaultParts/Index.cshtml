@@ -29,6 +29,12 @@
             <th>
                 @Html.DisplayNameFor(model => model[0].Appointment)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Vehicle)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,6 +47,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Appointment.AppointmentId)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CustomerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Vehicle.VehicleId)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.FaultPartId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.FaultPartId">Details</a> |

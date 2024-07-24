@@ -82,9 +82,11 @@ namespace KollamAutoEng_web.Controllers
         // GET: FaultParts/Create
         public IActionResult Create()
         {
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId");
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentDate");
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName");
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name");
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName");
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");
             return View();
         }
 
@@ -93,7 +95,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FaultPartId,FaultId,PartId,AppointmentId")] FaultPart faultPart)
+        public async Task<IActionResult> Create([Bind("FaultPartId,FaultId,PartId,AppointmentId,CustomerId,VehicleId")] FaultPart faultPart)
         {
             if (!ModelState.IsValid)
             {
@@ -101,9 +103,11 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", faultPart.AppointmentId);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name", faultPart.PartId);
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", faultPart.VehicleId);
             return View(faultPart);
         }
 
@@ -120,9 +124,11 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", faultPart.AppointmentId);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name", faultPart.PartId);
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", faultPart.VehicleId);
             return View(faultPart);
         }
 
@@ -131,7 +137,7 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FaultPartId,FaultId,PartId,AppointmentId")] FaultPart faultPart)
+        public async Task<IActionResult> Edit(int id, [Bind("FaultPartId,FaultId,PartId,AppointmentId,CustomerId,VehicleId")] FaultPart faultPart)
         {
             if (id != faultPart.FaultPartId)
             {
@@ -158,9 +164,11 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentId", faultPart.AppointmentId);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
-            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "Name", faultPart.PartId);
+            ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
+            ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", faultPart.VehicleId);
             return View(faultPart);
         }
 

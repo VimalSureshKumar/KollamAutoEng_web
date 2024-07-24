@@ -15,13 +15,13 @@ namespace KollamAutoEng_web.Models
         public string FaultName { get; set; }
 
         [Required]
-        [Display(Name = "Vehicle ID")]
+        [Display(Name = "Vehicle")]
         public int VehicleId { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }
 
         [Required]
-        [Display(Name = "Customer ID")]
+        [Display(Name = "Customer")]
         public int CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }

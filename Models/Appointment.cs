@@ -17,19 +17,19 @@ namespace KollamAutoEng_web.Models
         public DateTime AppointmentDate { get; set; }
 
         [Required]
-        [Display(Name = "Customer ID")]
+        [Display(Name = "Customer")]
         public int CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }
 
         [Required]
-        [Display(Name = "Vehicle ID")]
+        [Display(Name = "Vehicle")]
         public int VehicleId { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }
 
         [Required]
-        [Display(Name = "Employee ID")]
+        [Display(Name = "Employee")]
         public int EmployeeId { get; set; }
 
         public virtual Employee Employee { get; set; }

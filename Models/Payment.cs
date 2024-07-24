@@ -19,7 +19,7 @@ namespace KollamAutoEng_web.Models
         public DateTime PaymentDate { get; set; }
 
         [Required]
-        [Display(Name = "Customer ID")]
+        [Display(Name = "Customer")]
         public int CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }
