@@ -11,6 +11,10 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Appointment ID")]
         public int AppointmentId { get; set; }
 
+        [Required(ErrorMessage = "Please enter Customer First Name"), MaxLength(25)]
+        [Display(Name = "Appointment Name")]
+        public string AppointmentName { get; set; }
+
         [Required(ErrorMessage = "Appointment date is required.")]
         [DataType(DataType.Date)]
         [Display(Name = "Appointment Date")]

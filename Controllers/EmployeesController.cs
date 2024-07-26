@@ -60,7 +60,7 @@ namespace KollamAutoEng_web.Controllers
                     m.FirstName.Contains(searchString) ||
                     m.LastName.Contains(searchString) ||
                     m.PhoneNumber.Contains(searchString)||
-
+                    m.Status.ToString().Contains(searchString) ||
                     m.Pay.ToString().Contains(searchString) ||
                     m.Hours.ToString().Contains(searchString)
                 );

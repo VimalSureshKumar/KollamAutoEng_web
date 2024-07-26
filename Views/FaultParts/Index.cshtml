@@ -42,17 +42,20 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Fault.FaultName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Part.PartName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Appointment.AppointmentId)
+                @Html.DisplayFor(modelItem => item.Appointment.AppointmentName)
             </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Customer.CustomerId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Vehicle.VehicleId)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehicle.Registration)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.FaultPartId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.FaultPartId">Details</a> |

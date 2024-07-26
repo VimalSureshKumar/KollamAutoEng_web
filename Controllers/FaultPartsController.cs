@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
 using Microsoft.AspNetCore.Authorization;
+using KollamAutoEng_web.Migrations;
 
 namespace KollamAutoEng_web.Controllers
 {
@@ -43,6 +44,8 @@ namespace KollamAutoEng_web.Controllers
                                .Include(m => m.Fault)
                                .Include(m => m.Part)
                                .Include(m => m.Appointment)
+                               .Include(m => m.Customer)
+                               .Include(m => m.Vehicle)
                              select faultp;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -70,6 +73,8 @@ namespace KollamAutoEng_web.Controllers
                 .Include(f => f.Appointment)
                 .Include(f => f.Fault)
                 .Include(f => f.Part)
+                .Include(f => f.Customer)
+                .Include(f => f.Vehicle)
                 .FirstOrDefaultAsync(m => m.FaultPartId == id);
             if (faultPart == null)
             {
@@ -82,7 +87,7 @@ namespace KollamAutoEng_web.Controllers
         // GET: FaultParts/Create
         public IActionResult Create()
         {
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentDate");
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName");
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName");
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName");
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
@@ -103,7 +108,7 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate", faultPart.AppointmentId);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
@@ -124,7 +129,7 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate", faultPart.AppointmentId);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
@@ -164,7 +169,7 @@ namespace KollamAutoEng_web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate", faultPart.AppointmentId);
+            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
@@ -184,6 +189,8 @@ namespace KollamAutoEng_web.Controllers
                 .Include(f => f.Appointment)
                 .Include(f => f.Fault)
                 .Include(f => f.Part)
+                .Include(f => f.Customer)
+                .Include(f => f.Vehicle)
                 .FirstOrDefaultAsync(m => m.FaultPartId == id);
             if (faultPart == null)
             {

@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Drawing.Printing;
 
 namespace KollamAutoEng_web.Controllers
 {
@@ -20,6 +19,7 @@ namespace KollamAutoEng_web.Controllers
             return View();
         }
     }
+
     [Authorize]
     public class AppointmentsController : Controller
     {
@@ -66,31 +66,47 @@ namespace KollamAutoEng_web.Controllers
                    m.Employee.LastName.Contains(searchString) ||
                    m.Vehicle.Registration.Contains(searchString) ||
                    m.ServiceCost.ToString().Contains(searchString)
-                       );
+                );
             }
 
             switch (sortOrder)
             {
                 case "Customer":
-                    appointments = appointments.OrderBy(s => s.Customer.FirstName);
-                    appointments = appointments.OrderBy(s => s.Customer.LastName);
+                    appointments = appointments.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
                     break;
                 case "customer_desc":
-                    appointments = appointments.OrderByDescending(s => s.Customer.FirstName);
-                    appointments = appointments.OrderByDescending(s => s.Customer.LastName);
+                    appointments = appointments.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
                     break;
             }
-
-            var appointmentsList = await appointments.ToListAsync();
 
             int pageSize = 5;
             return View(await PaginatedList<Appointment>.CreateAsync(appointments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+        // GET: Appointments/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var appointment = await _context.Appointment
+                .Include(a => a.Customer)
+                .Include(a => a.Employee)
+                .Include(a => a.Vehicle)
+                .FirstOrDefaultAsync(m => m.AppointmentId == id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            return View(appointment);
+        }
+
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentDate");
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
             ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName");
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");
@@ -98,13 +114,11 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: Appointments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
@@ -136,18 +150,16 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: Appointments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
             if (id != appointment.AppointmentId)
             {
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -201,21 +213,21 @@ namespace KollamAutoEng_web.Controllers
         {
             if (_context.Appointment == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Appointment'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Appointment' is null.");
             }
             var appointment = await _context.Appointment.FindAsync(id);
             if (appointment != null)
             {
                 _context.Appointment.Remove(appointment);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AppointmentExists(int id)
         {
-          return (_context.Appointment?.Any(e => e.AppointmentId == id)).GetValueOrDefault();
+            return (_context.Appointment?.Any(e => e.AppointmentId == id)).GetValueOrDefault();
         }
     }
 }

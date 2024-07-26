@@ -14,7 +14,7 @@
             @Html.DisplayNameFor(model => model.Fault)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fault.FaultId)
+            @Html.DisplayFor(model => model.Fault.FaultName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Part)
@@ -26,19 +26,19 @@
             @Html.DisplayNameFor(model => model.Appointment)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Appointment.AppointmentId)
+            @Html.DisplayFor(model => model.Appointment.AppointmentName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Customer)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Customer.CustomerId)
+            @Html.DisplayFor(model => model.Customer.FirstName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Vehicle)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Vehicle.VehicleId)
+            @Html.DisplayFor(model => model.Vehicle.Registration)
         </dd>
     </dl>
 </div>

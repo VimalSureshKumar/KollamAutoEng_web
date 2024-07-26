@@ -74,7 +74,7 @@ namespace KollamAutoEng_web.Controllers
 
             var modelsList = await models.ToListAsync();
 
-            int pageSize = 10;
+            int pageSize = 5;
             return View(await PaginatedList<VehicleModel>.CreateAsync(models.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

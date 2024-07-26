@@ -72,7 +72,7 @@ namespace KollamAutoEng_web.Controllers
             }
 
             var brandsList = await brands.ToListAsync();
-            int pageSize = 10;
+            int pageSize = 5;
             return View(await PaginatedList<VehicleBrand>.CreateAsync(brands.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
