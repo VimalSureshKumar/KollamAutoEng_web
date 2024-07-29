@@ -10,20 +10,22 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Fault ID")]
         public int FaultId { get; set; }
 
-        [Required(ErrorMessage = "Please enter Faulty Part"), MaxLength(25)]
+        [Required(ErrorMessage = "Please enter Faulty Part")]
+        [MaxLength(50, ErrorMessage = "The Fault Name cannot exceed 50 characters.")]
+        [RegularExpression(@"^[A-Za-z\s]*$", ErrorMessage = "Only letters and spaces are allowed.")]
         [Display(Name = "Fault Name")]
         public string FaultName { get; set; }
 
         [Required]
         [Display(Name = "Vehicle")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid vehicle")]
         public int VehicleId { get; set; }
-
         public virtual Vehicle Vehicle { get; set; }
 
         [Required]
         [Display(Name = "Customer")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<FaultPart> FaultParts { get; set; } = new List<FaultPart>();

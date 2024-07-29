@@ -12,7 +12,9 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Appointment ID")]
         public int AppointmentId { get; set; }
 
-        [Required(ErrorMessage = "Please enter Customer First Name"), MaxLength(25)]
+        [Required(ErrorMessage = "Please enter valid Appointment Name")]
+        [MaxLength(25)]
+        [RegularExpression("^[A-Za-z\\s]+$", ErrorMessage = "Only letters and spaces are allowed.")]
         [Display(Name = "Appointment Name")]
         public string AppointmentName { get; set; }
 
@@ -24,25 +26,25 @@ namespace KollamAutoEng_web.Models
 
         [Required]
         [Display(Name = "Customer")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-
         public virtual Customer Customer { get; set; }
 
         [Required]
         [Display(Name = "Vehicle")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid vehicle")]
         public int VehicleId { get; set; }
-
         public virtual Vehicle Vehicle { get; set; }
 
         [Required]
         [Display(Name = "Employee")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Employee")]
         public int EmployeeId { get; set; }
-
         public virtual Employee Employee { get; set; }
 
-        [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Service Cost")]
-        [Range(0, 1000000, ErrorMessage = "Please enter a value between 0 and 1,000,000.")]
+        [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
+        [Range(0, 100000, ErrorMessage = "Please enter a value between 0 and 100,000.")]
         [Display(Name = "Service Cost")]
         public decimal ServiceCost { get; set; }
 

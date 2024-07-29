@@ -10,9 +10,10 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Payment ID")]
         public int PaymentId { get; set; }
 
-        [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Please enter Payment Amount")]
-        [Display(Name = "Amount")]
+        [Required(ErrorMessage = "Please enter Paymet Amount")]
+        [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
+        [Range(0, 500000, ErrorMessage = "Please enter a value between 0 and 500,000.")]
+        [Display(Name = "Payment Amount")]
         public decimal Amount { get; set; }
 
         [Required]
@@ -23,8 +24,8 @@ namespace KollamAutoEng_web.Models
 
         [Required]
         [Display(Name = "Customer")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-
         public virtual Customer Customer { get; set; }
     }
 }
