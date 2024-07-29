@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using KollamAutoEng_web.ValidationAttributes;
+using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 
 namespace KollamAutoEng_web.Models
@@ -33,8 +34,9 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Gender")]
         public Gender? Gender { get; set; }
 
+        [Required]
+        [DateValidator2(ErrorMessage = "Invalid Date of Birth")]
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Please Enter valid Date of Birth")]
         [Display(Name = "Date of Birth")]
         public DateTime DateOfBirth { get; set; }
 

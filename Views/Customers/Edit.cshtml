@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Edit";
+
+    var currentDate = DateTime.Now;
+    var maxDate = currentDate.ToString("yyyy-MM-dd");
+    var minDate = currentDate.AddYears(-100).ToString("yyyy-MM-dd");
 }
 
 <h1>Edit</h1>
@@ -40,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+                <input asp-for="DateOfBirth" class="form-control" type="date" min="@minDate" max="@maxDate" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">

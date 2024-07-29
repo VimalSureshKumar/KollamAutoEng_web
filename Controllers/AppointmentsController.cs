@@ -118,7 +118,7 @@ namespace KollamAutoEng_web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
@@ -159,7 +159,7 @@ namespace KollamAutoEng_web.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -231,3 +231,6 @@ namespace KollamAutoEng_web.Controllers
         }
     }
 }
+
+
+

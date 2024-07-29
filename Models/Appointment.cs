@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using KollamAutoEng_web.ValidationAttributes;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
@@ -15,7 +16,8 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Appointment Name")]
         public string AppointmentName { get; set; }
 
-        [Required(ErrorMessage = "Appointment date is required.")]
+        [Required]
+        [DateValidator(ErrorMessage = "The appointment date must be within one year from today.")]
         [DataType(DataType.Date)]
         [Display(Name = "Appointment Date")]
         public DateTime AppointmentDate { get; set; }

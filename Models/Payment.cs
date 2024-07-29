@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using KollamAutoEng_web.ValidationAttributes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KollamAutoEng_web.Models
@@ -14,6 +15,8 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Amount")]
         public decimal Amount { get; set; }
 
+        [Required]
+        [DateValidator(ErrorMessage = "The payment date must be within one year from today.")]
         [DataType(DataType.Date)]
         [Display(Name = "Payment Date")]
         public DateTime PaymentDate { get; set; }
