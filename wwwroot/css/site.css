@@ -33,36 +33,94 @@ body {
     object-fit: cover;
 }
 
+.background {
+    background-color: #00001b;
+}
+
+.bigimage {
+    max-width: 100%;
+    height: auto;
+    margin-top: -16px;
+}
+
 .offcanvas-header {
     background-color: #ffd800;
     color: black;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
 }
 
 .offcanvas-body {
     font-size: 22px;
     padding: 30px;
     text-align: left;
-}
-
-.bigimage {
-    margin-top: -16px;
-    height: auto;
-    display: block;
-    width: 100%;
-}
-
-.bigimage2 {
-    height: auto;
-    display: block;
-    width: 100%;
+    background-color: #343434;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
 }
 
 .footer {
     background-color: #FDDA0D;
-    color: #fff;
     text-align: center;
     position: fixed;
     width: 100%;
     height: auto;
     margin-top: 4rem;
+}
+
+.create-button {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    .create-button:hover {
+        background-color: darkgreen;
+        color: white;
+    }
+
+.edit-button, .detail-button {
+    background-color: dodgerblue;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-button {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-button:hover {
+    background-color: darkblue;
+    color: white;
+}
+
+.detail-button:hover {
+    background-color: darkblue;
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+    color: white;
 }

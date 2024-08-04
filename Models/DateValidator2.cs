@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace KollamAutoEng_web.ValidationAttributes
+namespace KollamAutoEng_web.Models
 {
     public class DateValidator2 : ValidationAttribute
     {
@@ -11,7 +10,7 @@ namespace KollamAutoEng_web.ValidationAttributes
             {
                 var date = (DateTime)value;
                 var currentDate = DateTime.Now;
-                var hundredYearBefore = currentDate.AddYears(-80);
+                var hundredYearBefore = currentDate.AddYears(-100);
 
                 if (date < currentDate.Date || date > hundredYearBefore.Date)
                 {

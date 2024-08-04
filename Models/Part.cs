@@ -22,10 +22,10 @@ namespace KollamAutoEng_web.Models
 
         [Required(ErrorMessage = "Please enter Part Cost")]
         [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
-        [Range(0, 100000, ErrorMessage = "Please enter a value between 0 and 100,000.")]
+        [Range(0.99, 50000, ErrorMessage = "Please enter a value between 0 and 100,000.")]
         [Display(Name = "Part Cost")]
         public decimal Cost { get; set; }
 
-        public virtual ICollection<FaultPart> FaultParts { get; set; }
+        public virtual ICollection<FaultPart>? FaultParts { get; set; }
     }
 }

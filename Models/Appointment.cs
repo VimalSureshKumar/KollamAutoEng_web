@@ -22,32 +22,29 @@ namespace KollamAutoEng_web.Models
         [DateValidator(ErrorMessage = "The appointment date must be within one year from today.")]
         [DataType(DataType.Date)]
         [Display(Name = "Appointment Date")]
-        public DateTime AppointmentDate { get; set; }
+        public DateTime? AppointmentDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please Select Customer")]
         [Display(Name = "Customer")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please Select Vehicle")]
         [Display(Name = "Vehicle")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid vehicle")]
         public int VehicleId { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
+        public virtual Vehicle? Vehicle { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please Select Employee")]
         [Display(Name = "Employee")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Employee")]
         public int EmployeeId { get; set; }
-        public virtual Employee Employee { get; set; }
+        public virtual Employee? Employee { get; set; }
 
-        [Required(ErrorMessage = "Please enter Service Cost")]
+        [Required(ErrorMessage = "Please enter Paymet Amount")]
         [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
-        [Range(0, 100000, ErrorMessage = "Please enter a value between 0 and 100,000.")]
+        [Range(0.99, 50000, ErrorMessage = "Please enter a value between 0.99 and 50,000.")]
         [Display(Name = "Service Cost")]
         public decimal ServiceCost { get; set; }
 
-        public virtual ICollection<FaultPart> FaultParts { get; set; }
+        public virtual ICollection<FaultPart>? FaultParts { get; set; }
     }
 }

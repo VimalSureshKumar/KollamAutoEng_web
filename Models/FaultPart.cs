@@ -11,32 +11,27 @@ namespace KollamAutoEng_web.Models
 
         [Required]
         [Display(Name = "Fault")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Fault")]
         public int FaultId { get; set; }
-        public virtual Fault Fault { get; set; }
+        public virtual Fault? Fault { get; set; }
 
         [Required]
         [Display(Name = "Part")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Part")]
         public int PartId { get; set; }
-        public virtual Part Part { get; set; }
+        public virtual Part? Part { get; set; }
 
         [Required]
         [Display(Name = "Appointment")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Appointment")]
         public int AppointmentId { get; set; }
-        public virtual Appointment Appointment { get; set; }
+        public virtual Appointment? Appointment { get; set; }
 
         [Required]
         [Display(Name ="Customer")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
 
         [Required]
         [Display(Name = "Vehicle")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid vehicle")]
         public int VehicleId { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
+        public virtual Vehicle? Vehicle { get; set; }
     }
 }

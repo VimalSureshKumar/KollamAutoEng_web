@@ -4,6 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KollamAutoEng_web.Models
 {
+    public enum PaymentMethod
+    {
+        [Display(Name = "Credit Card")] CreditCard, [Display(Name = "Debit Card")] DebitCard, [Display(Name = "Online Banking")] Online_Banking
+    }
+
     public class Payment
     {
         [Key]
@@ -20,12 +25,15 @@ namespace KollamAutoEng_web.Models
         [DateValidator(ErrorMessage = "The payment date must be within one year from today.")]
         [DataType(DataType.Date)]
         [Display(Name = "Payment Date")]
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
+
+        [Required]
+        [Display(Name = "Payment Method")]
+        public PaymentMethod? PaymentMethod { get; set; }
 
         [Required]
         [Display(Name = "Customer")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
     }
 }

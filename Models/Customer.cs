@@ -33,13 +33,13 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Please enter an phone number")]
         [DataType(DataType.PhoneNumber)]
         [MaxLength(17)] 
         [RegularExpression(@"^(\+64|0)\d{2,4}[\s-]?\d{4}[\s-]?\d{3,4}$|^(\+91|0)\d{10}$", ErrorMessage = "Please enter a valid phone number in New Zealand or India format.")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-        [MaxLength(20)]
         [Display(Name = "Gender")]
         public Gender? Gender { get; set; }
 
@@ -47,11 +47,11 @@ namespace KollamAutoEng_web.Models
         [DateValidator2(ErrorMessage = "Invalid Date of Birth")]
         [DataType(DataType.Date)]
         [Display(Name = "Date of Birth")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
-        public virtual ICollection<Vehicle> Vehicles { get; set; }
-        public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual ICollection<Fault> Faults { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Vehicle>? Vehicles { get; set; }
+        public virtual ICollection<Appointment>? Appointments { get; set; }
+        public virtual ICollection<Fault>? Faults { get; set; }
+        public virtual ICollection<Payment>? Payments { get; set; }
     }
 }

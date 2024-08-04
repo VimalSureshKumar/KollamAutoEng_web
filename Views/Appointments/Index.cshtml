@@ -7,7 +7,7 @@
 <h1 class="text-center">Appointments</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="create-button">Create New</a>
 </p>
 <form asp-controller="Appointments" asp-action="Index">
     <p>
@@ -64,9 +64,9 @@
                     @Html.DisplayFor(modelItem => item.ServiceCost)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.AppointmentId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.AppointmentId">Delete</a>
+                    <a asp-action="Edit", class="edit-button" asp-route-id="@item.AppointmentId">Edit</a> |
+                    <a asp-action="Details", class="detail-button" asp-route-id="@item.AppointmentId">Details</a> |
+                    <a asp-action="Delete", class="delete-button" asp-route-id="@item.AppointmentId">Delete</a>
                 </td>
             </tr>
         }

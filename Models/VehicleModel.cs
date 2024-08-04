@@ -17,10 +17,9 @@ namespace KollamAutoEng_web.Models
 
         [Required]
         [Display(Name = "Vehicle Brand")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Brannd")]
         public int BrandId { get; set; }
-        public virtual VehicleBrand VehicleBrand { get; set; }
+        public virtual VehicleBrand? VehicleBrand { get; set; }
 
-        public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public virtual ICollection<Vehicle>? Vehicles { get; set; }
     }
 }

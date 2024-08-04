@@ -14,7 +14,7 @@ namespace KollamAutoEng_web.Models
         [RegularExpression(@"^[A-Za-z\s]+$", ErrorMessage = "The brand name can only contain letters and spaces.")]
         public string BrandName { get; set; }
 
-        public virtual ICollection<Vehicle> Vehicles { get; set; }
-        public virtual ICollection<VehicleModel> VehicleModels { get; set; }
+        public virtual ICollection<Vehicle>? Vehicles { get; set; }
+        public virtual ICollection<VehicleModel>? VehicleModels { get; set; }
     }
 }

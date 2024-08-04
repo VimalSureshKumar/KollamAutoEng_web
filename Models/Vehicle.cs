@@ -22,15 +22,13 @@ namespace KollamAutoEng_web.Models
 
         [Required]
         [Display(Name = "Vehicle Brand")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Brand")]
         public int BrandId { get; set; }
-        public virtual VehicleBrand VehicleBrand { get; set; }
+        public virtual VehicleBrand? VehicleBrand { get; set; }
 
         [Required]
         [Display(Name = "Vehicle Model")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Model")]
         public int ModelId { get; set; }
-        public virtual VehicleModel VehicleModel { get; set; }
+        public virtual VehicleModel? VehicleModel { get; set; }
 
         [Required(ErrorMessage = "Please enter the Vehicle Identification Number (VIN).")]
         [Display(Name = "VIN")]
@@ -40,18 +38,16 @@ namespace KollamAutoEng_web.Models
 
         [Required(ErrorMessage = "Please enter the vehicle registration number.")]
         [Display(Name = "Registration")]
-        [RegularExpression(@"^([A-Z]{2}\d{2}[A-Z]{2}\d{4}|[A-Z]{3}\d{3}|[A-Z]{2}\d{4}|[A-Z]{5})$", ErrorMessage = "The registration number must be in a valid format (e.g., MH12AB1234, ABC123, AB1234, or ABCDE).")]
+        [RegularExpression(@"^([A-Z]{2}\d{2}[A-Z]{2}\d{4}|[A-Z]{3}\d{3}|[A-Z]{2}\d{4}|[A-Z]{5}|[A-Z]{3}\d{3}[A-Z]?|[A-Z]{2}\d{4})$", ErrorMessage = "The registration number must be in a valid format (e.g., MH12AB1234, ABC123, AB1234, ABCDE, ABC123, or ABC123D).")]
         public string Registration { get; set; }
 
         [Required]
         [Display(Name = "Colour")]
-        [MaxLength(10)]
-        public Colour Colour { get; set; }
+        public Colour? Colour { get; set; }
 
         [Required]
         [Display(Name = "Drive Type")]
-        [MaxLength(3)]
-        public DriveType DriveType { get; set; }
+        public DriveType? DriveType { get; set; }
 
         [Required(ErrorMessage = "Please enter the odometer reading.")]
         [Display(Name = "Odometer")]
@@ -60,11 +56,10 @@ namespace KollamAutoEng_web.Models
 
         [Required]
         [Display(Name = "Customer")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
 
-        public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual ICollection<Fault> Faults { get; set; }
+        public virtual ICollection<Appointment>? Appointments { get; set; }
+        public virtual ICollection<Fault>? Faults { get; set; }
     }
 }

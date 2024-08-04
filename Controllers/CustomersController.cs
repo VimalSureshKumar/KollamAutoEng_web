@@ -19,6 +19,7 @@ namespace KollamAutoEng_web.Controllers
             return View();
         }
     }
+
     [Authorize]
     public class CustomersController : Controller
     {
@@ -60,7 +61,9 @@ namespace KollamAutoEng_web.Controllers
                     m.FirstName.Contains(searchString) ||
                     m.LastName.Contains(searchString) ||
                     m.Email.Contains(searchString) ||
-                    m.PhoneNumber.Contains(searchString)
+                    m.PhoneNumber.Contains(searchString) ||
+                    m.Gender.ToString().Contains(searchString) ||
+                    m.DateOfBirth.ToString().Contains(searchString)
                 );
             }
 
@@ -103,13 +106,11 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
@@ -135,8 +136,6 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
@@ -146,7 +145,7 @@ namespace KollamAutoEng_web.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -201,14 +200,14 @@ namespace KollamAutoEng_web.Controllers
             {
                 _context.Customer.Remove(customer);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(int id)
         {
-          return (_context.Customer?.Any(e => e.CustomerId == id)).GetValueOrDefault();
+            return (_context.Customer?.Any(e => e.CustomerId == id)).GetValueOrDefault();
         }
     }
 }

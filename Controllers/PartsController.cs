@@ -108,7 +108,7 @@ namespace KollamAutoEng_web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartId,Reference,PartName,Cost")] Part part)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Add(part);
                 await _context.SaveChangesAsync();
@@ -145,7 +145,7 @@ namespace KollamAutoEng_web.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {

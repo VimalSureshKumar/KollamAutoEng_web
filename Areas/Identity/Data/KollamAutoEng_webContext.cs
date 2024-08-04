@@ -18,84 +18,83 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configuring the relationships and disabling cascade delete
         modelBuilder.Entity<Vehicle>()
             .HasOne(v => v.Customer)
             .WithMany(c => c.Vehicles)
             .HasForeignKey(v => v.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Vehicle>()
             .HasOne(v => v.VehicleBrand)
             .WithMany(b => b.Vehicles)
             .HasForeignKey(v => v.BrandId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Vehicle>()
             .HasOne(v => v.VehicleModel)
             .WithMany(m => m.Vehicles)
             .HasForeignKey(v => v.ModelId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<VehicleModel>()
             .HasOne(vm => vm.VehicleBrand)
             .WithMany(vb => vb.VehicleModels)
             .HasForeignKey(vm => vm.BrandId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Appointment>()
             .HasOne(a => a.Customer)
             .WithMany(c => c.Appointments)
             .HasForeignKey(a => a.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Appointment>()
             .HasOne(a => a.Vehicle)
             .WithMany(v => v.Appointments)
             .HasForeignKey(a => a.VehicleId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Appointment>()
             .HasOne(a => a.Employee)
             .WithMany(e => e.Appointments)
             .HasForeignKey(a => a.EmployeeId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Fault>()
             .HasOne(f => f.Customer)
             .WithMany(c => c.Faults)
             .HasForeignKey(f => f.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Fault>()
             .HasOne(f => f.Vehicle)
             .WithMany(v => v.Faults)
             .HasForeignKey(f => f.VehicleId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<FaultPart>()
             .HasOne(fp => fp.Fault)
             .WithMany(f => f.FaultParts)
             .HasForeignKey(fp => fp.FaultId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<FaultPart>()
             .HasOne(fp => fp.Part)
             .WithMany(p => p.FaultParts)
             .HasForeignKey(fp => fp.PartId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<FaultPart>()
             .HasOne(fp => fp.Appointment)
             .WithMany(a => a.FaultParts)
             .HasForeignKey(fp => fp.AppointmentId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Payment>()
             .HasOne(p => p.Customer)
             .WithMany(a => a.Payments)
             .HasForeignKey(p => p.CustomerId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     public DbSet<KollamAutoEng_web.Models.Employee> Employee { get; set; } = default!;

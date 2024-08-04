@@ -18,16 +18,14 @@ namespace KollamAutoEng_web.Models
 
         [Required]
         [Display(Name = "Vehicle")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid vehicle")]
         public int VehicleId { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
+        public virtual Vehicle? Vehicle { get; set; }
 
         [Required]
         [Display(Name = "Customer")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid Customer")]
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
 
-        public virtual ICollection<FaultPart> FaultParts { get; set; } = new List<FaultPart>();
+        public virtual ICollection<FaultPart>? FaultParts { get; set; }
     }
 }

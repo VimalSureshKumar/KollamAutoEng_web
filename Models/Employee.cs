@@ -32,13 +32,12 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-        [MaxLength(10)]
         [Display(Name = "Employee Status")]
-        public Status Status { get; set; }
+        public Status? Status { get; set; }
 
         [Required(ErrorMessage = "Please enter Employee Pay")]
         [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
-        [Range(0, 100000, ErrorMessage = "Please enter a value between 0 and 100,000.")]
+        [Range(0.99, 50000, ErrorMessage = "Please enter a value between 0 and 100,000.")]
         [Display(Name = "Employee Pay")]
         public decimal Pay { get; set; }
 
@@ -48,9 +47,6 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Hours")]
         public decimal Hours { get; set; }
 
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Appointment>? Appointments { get; set; }
     }
 }
-
-
-

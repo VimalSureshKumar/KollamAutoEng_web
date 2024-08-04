@@ -48,6 +48,7 @@ namespace KollamAutoEng_web.Controllers
                 payments = payments.Where(m =>
                     m.Amount.ToString().Contains(searchString) ||
                     m.PaymentDate.ToString().Contains(searchString) ||
+                    m.PaymentMethod.ToString().Contains(searchString) ||
                     m.Customer.CustomerId.ToString().Contains(searchString)
                 );
             }
@@ -87,9 +88,9 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentId,Amount,PaymentDate,CustomerId")] Payment payment)
+        public async Task<IActionResult> Create([Bind("PaymentId,Amount,PaymentDate,PaymentMethod,CustomerId")] Payment payment)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Add(payment);
                 await _context.SaveChangesAsync();
@@ -121,14 +122,14 @@ namespace KollamAutoEng_web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,PaymentDate,CustomerId")] Payment payment)
+        public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,PaymentDate,PaymentMethod,CustomerId")] Payment payment)
         {
             if (id != payment.PaymentId)
             {
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {

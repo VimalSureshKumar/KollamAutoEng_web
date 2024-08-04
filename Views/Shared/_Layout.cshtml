@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var isIndexPage = ViewContext.RouteData.Values["controller"]?.ToString() == "Home"
+                      && ViewContext.RouteData.Values["action"]?.ToString() == "Index";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,43 +25,43 @@
                 </button>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
-                        <h3 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h3>
+                        <h3 class="offcanvas-title" id="offcanvasNavbarLabel">MENU</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">Appointment</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Appointments" asp-action="Index">Appointment</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employee</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Employees" asp-action="Index">Employee</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="FaultParts" asp-action="Index">Fault Part</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="FaultParts" asp-action="Index">Fault Part</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Parts" asp-action="Index">Part</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Parts" asp-action="Index">Part</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payment</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Payments" asp-action="Index">Payment</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicle</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicle</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="VehicleBrands" asp-action="Index">Vehicle Brand</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="VehicleBrands" asp-action="Index">Vehicle Brand</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="VehicleModels" asp-action="Index">Vehicle Model</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="VehicleModels" asp-action="Index">Vehicle Model</a>
                             </li>
                         </ul>
                             <partial name="_LoginPartial.cshtml" />
@@ -65,11 +70,21 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    @if (!isIndexPage)
+    {
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
+    }
 
     <footer class="border-top footer text-dark p-4">
         <div class="container">
