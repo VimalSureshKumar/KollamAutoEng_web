@@ -30,6 +30,7 @@ namespace KollamAutoEng_web.Models
         [Required(ErrorMessage = "Please enter an email address")]
         [DataType(DataType.EmailAddress)]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Please enter a valid email address.")]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

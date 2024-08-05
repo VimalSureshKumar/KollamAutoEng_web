@@ -25,16 +25,6 @@ namespace KollamAutoEng_web.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Create(Vehicle vehicle) 
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
-            return View("Index", vehicle);
-        }
-
         public IActionResult Privacy()
         {
             return View();

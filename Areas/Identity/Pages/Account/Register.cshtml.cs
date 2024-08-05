@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KollamAutoEng_web.Areas.Identity.Pages.Account
 {
@@ -30,13 +32,15 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<KollamAutoEng_webUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<KollamAutoEng_webUser> userManager,
             IUserStore<KollamAutoEng_webUser> userStore,
             SignInManager<KollamAutoEng_webUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +48,7 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -71,15 +76,15 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [DataType(DataType.Text)]
-            [Required(ErrorMessage = "Please enter First Name"), MaxLength(30)]
-            [RegularExpression(@"^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*){1,2}$", ErrorMessage = "Please enter a valid name starting with capital letters.")]
+            [Required(ErrorMessage = "Please enter Last Name")]
+            [MaxLength(25)]
+            [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
             [Display(Name = "First Name")]
             public string FirstName { get; set; } = null!;
 
-            [DataType(DataType.Text)]
-            [Required(ErrorMessage = "Please enter Last Name"), MaxLength(30)]
-            [RegularExpression(@"^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*){1,2}$", ErrorMessage = "Please enter a valid name starting with capital letters.")]
+            [Required(ErrorMessage = "Please enter Last Name")]
+            [MaxLength(25)]
+            [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
             [Display(Name = "Last Name")]
             public string LastName { get; set; } = null!;
             /// <summary>
@@ -109,6 +114,11 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            public string? Role { get; set; }
+
+            [ValidateNever]
+            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 
@@ -116,6 +126,15 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            Input = new InputModel()
+            {
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                })
+            };
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -126,16 +145,19 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _userManager.AddToRoleAsync(user, Input.Role);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
