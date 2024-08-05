@@ -11,14 +11,15 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class AdminControllerpar : Controller
+    [Authorize(Roles = "Admin,Employee")]
+    public class AppRolePart : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
     }
+
     [Authorize]
     public class PartsController : Controller
     {
@@ -77,6 +78,7 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Part>.CreateAsync(parts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+        [Authorize]
         // GET: Parts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -95,6 +97,7 @@ namespace KollamAutoEng_web.Controllers
             return View(part);
         }
 
+        [Authorize]
         // GET: Parts/Create
         public IActionResult Create()
         {
@@ -105,6 +108,7 @@ namespace KollamAutoEng_web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartId,Reference,PartName,Cost")] Part part)
         {
@@ -117,6 +121,7 @@ namespace KollamAutoEng_web.Controllers
             return View(part);
         }
 
+        [Authorize]
         // GET: Parts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -137,6 +142,7 @@ namespace KollamAutoEng_web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PartId,Reference,PartName,Cost")] Part part)
         {
@@ -168,6 +174,7 @@ namespace KollamAutoEng_web.Controllers
             return View(part);
         }
 
+        [Authorize]
         // GET: Parts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -188,6 +195,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Parts/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

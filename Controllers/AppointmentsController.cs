@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,Employees,User")]
-    public class AdminController : Controller
+    public class AppRoleAppointment : Controller
     {
         public IActionResult Index()
         {
@@ -83,7 +83,7 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Appointment>.CreateAsync(appointments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        [Authorize(Roles = "Admin,Employees,User")]
+        [Authorize]
         // GET: Appointments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -105,6 +105,7 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
+        [Authorize]
         // GET: Appointments/Create
         public IActionResult Create()
         {
@@ -132,6 +133,7 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
+        [Authorize]
         // GET: Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -152,8 +154,8 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: Appointments/Edit/5
-        [Authorize(Roles = "Admin,Employees")]
         [HttpPost]
+        [Authorize(Roles = "Admin,Employees")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
@@ -188,6 +190,7 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
+        [Authorize]
         // GET: Appointments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -210,8 +213,8 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: Appointments/Delete/5
-        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

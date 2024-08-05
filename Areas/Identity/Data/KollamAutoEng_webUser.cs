@@ -10,14 +10,14 @@ namespace KollamAutoEng_web.Areas.Identity.Data;
 
 public class KollamAutoEng_webUser : IdentityUser
 {
-    [DataType(DataType.Text)]
-    [Required(ErrorMessage = "Please enter Full Name"), MaxLength(30)]
-    [RegularExpression(@"^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*){1,2}$", ErrorMessage = "Please enter a valid name starting with capital letters.")]
+    [Required(ErrorMessage = "Please enter First Name")]
+    [MaxLength(25)]
+    [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
     [Display(Name = "First Name")]
     public string FirstName { get; set; }
-    [DataType(DataType.Text)]
-    [Required(ErrorMessage = "Please enter Full Name"), MaxLength(30)]
-    [RegularExpression(@"^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*){1,2}$", ErrorMessage = "Please enter a valid name starting with capital letters.")]
+    [Required(ErrorMessage = "Please enter Last Name")]
+    [MaxLength(25)]
+    [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
     [Display(Name = "Last Name")]
     public string LastName { get; set; }
 

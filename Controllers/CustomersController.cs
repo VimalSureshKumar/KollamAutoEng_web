@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class AdminControllerCus : Controller
+    [Authorize(Roles = "Admin,User")]
+    public class AppRoleCustomer : Controller
     {
         public IActionResult Index()
         {
@@ -81,6 +81,7 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Customer>.CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+        [Authorize(Roles = "User")]
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -99,6 +100,7 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
+        [Authorize]
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -107,6 +109,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Customers/Create
         [HttpPost]
+        [Authorize(Roles = "Admin,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
@@ -119,6 +122,7 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
+        [Authorize]
         // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -137,6 +141,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Customers/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
@@ -169,6 +174,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Customers/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Customer == null)
@@ -186,6 +192,7 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
