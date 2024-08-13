@@ -32,13 +32,13 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "Employee Status")]
+        [Display(Name = "Status")]
         public Status? Status { get; set; }
 
         [Required(ErrorMessage = "Please enter Employee Pay")]
         [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
         [Range(0.99, 50000, ErrorMessage = "Please enter a value between 0 and 100,000.")]
-        [Display(Name = "Employee Pay")]
+        [Display(Name = "Pay")]
         public decimal Pay { get; set; }
 
         [Required(ErrorMessage = "Please enter Employee Hours")]

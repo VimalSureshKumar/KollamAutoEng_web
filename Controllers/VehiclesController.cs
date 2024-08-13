@@ -13,15 +13,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,Employee,User")]
-    public class AppRolesVehicle : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
     public class VehiclesController : Controller
     {
         private readonly KollamAutoEng_webContext _context;

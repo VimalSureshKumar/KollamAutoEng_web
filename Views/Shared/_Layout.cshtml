@@ -92,14 +92,61 @@
                 @RenderBody()
             </main>
         </div>
-        <div class="image-container">
+@*         <div class="image-container">
             <img src="~/Mainimg.png" class="bigimage">
-        </div>
+        </div> *@
     }
 
-    <footer class="border-top footer text-dark p-4">
+    <footer class="site-footer">
         <div class="container">
-            &copy; 2024 - Kollam Auto Engineering - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>About</h6>
+                    <p class="text-justify">Kollam Auto Engineering </p>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Categories</h6>
+                    <ul class="footer-links">
+                        <li><a asp-area="" asp-controller="Appointments" asp-action="Index">Appointments</a></li>
+                        <li><a asp-area="" asp-controller="Customers" asp-action="Index">Customers</a></li>
+                        <li><a asp-area="" asp-controller="Employees" asp-action="Index">Employees</a></li>
+                        <li><a asp-area="" asp-controller="Faults" asp-action="Index">Faults</a></li>
+                        <li><a asp-area="" asp-controller="FaultParts" asp-action="Index">Fault Parts</a></li>
+                        <li><a asp-area="" asp-controller="Parts" asp-action="Index">Parts</a></li>
+                        <li><a asp-area="" asp-controller="Payments" asp-action="Index">Payments</a></li>
+                        <li><a asp-area="" asp-controller="VehicleBrands" asp-action="Index">Vehicle Brands</a></li>
+                        <li><a asp-area="" asp-controller="VehicleModels" asp-action="Index">Vehicle Models</a></li>
+                        <li><a asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links2">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">
+                        &copy; 2024 - Kollam Auto Engineering
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </p>
+                </div>
+
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="instagram" href="https://instagram.com/"><i class="fa fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

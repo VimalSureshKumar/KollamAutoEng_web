@@ -17,10 +17,6 @@ html {
     min-height: 100%;
 }
 
-body {
-    margin-bottom: 100px;
-}
-
 .navbar {
     background-color: #FDDA0D;
     border: groove;
@@ -33,16 +29,19 @@ body {
     object-fit: cover;
 }
 
-.background {
-    background-color: #00001b;
-}
-
+/*-----<Index Page CSS>-----*/
 .bigimage {
     max-width: 100%;
     max-height: 1280%;
     margin-top: -16px;
 }
 
+.intro {
+    font-size: 28px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/*-----<Off Canvas CSS>-----*/
 .offcanvas-header {
     background-color: #ffd800;
     color: black;
@@ -57,15 +56,7 @@ body {
     font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
 }
 
-.footer {
-    background-color: #FDDA0D;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    height: auto;
-    margin-top: 4rem;
-}
-
+/*-----<CRUD CSS>-----*/
 .create-button {
     background-color: green;
     border: none;
@@ -80,12 +71,25 @@ body {
 }
 
     .create-button:hover {
-        background-color: darkgreen;
+        background-color:darkgreen;
         color: white;
     }
 
-.edit-button, .detail-button {
-    background-color: dodgerblue;
+.edit-button {
+    background-color: deepskyblue;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.detail-button {
+    background-color: orange;
     border: none;
     color: white;
     padding: 10px;
@@ -123,4 +127,230 @@ body {
 .delete-button:hover {
     background-color: darkred;
     color: white;
+}
+
+/*-----<Login & Register CSS>-----*/
+.authenticate {
+    background-color: #e9f2f9; 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+    .authenticate h1 {
+        font-size: 2.5rem;
+        color: #343a40;
+        margin-bottom: 20px;
+    }
+
+.authbody {
+    background-color: #002244;
+}
+
+.form-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.form-floating {
+    flex: 1 1 48%;
+    min-width: 280px;
+}
+
+    .form-floating label {
+        font-size: 1rem;
+    }
+
+    .form-floating input,
+    .form-floating select {
+        width: 100%;
+        padding: 1rem; 
+        font-size: 1.1rem; 
+        height: 60px;
+    }
+
+#registerSubmit {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 15px; 
+    font-size: 1.5rem; 
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+    #registerSubmit:hover {
+        background-color: #0056b3;
+    }
+
+/*-----<Footer CSS>-----*/
+.site-footer {
+    background-color: #26272b;
+    padding: 45px 0 20px;
+    font-size: 15px;
+    line-height: 24px;
+    color: #737373;
+}
+
+    .site-footer hr {
+        border-top-color: #bbb;
+        opacity: 0.5
+    }
+
+        .site-footer hr.small {
+            margin: 20px 0
+        }
+
+    .site-footer h6 {
+        color: #fff;
+        font-size: 16px;
+        text-transform: uppercase;
+        margin-top: 5px;
+        letter-spacing: 2px;
+        text-align: center;
+    }
+
+    .site-footer a {
+        color: #737373;
+    }
+
+        .site-footer a:hover {
+            color: #3366cc;
+            text-decoration: none;
+        }
+
+.footer-links {
+    padding-left: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px 30px;
+}
+
+    .footer-links li {
+        margin: 0;
+    }
+
+    .footer-links a {
+        color: #737373;
+        text-decoration: none; 
+    }
+
+        .footer-links a:active,
+        .footer-links a:focus,
+        .footer-links a:hover {
+            text-decoration: none;
+        }
+        
+.footer-links2 {
+    padding-left: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px 30px;
+    text-align: center;
+}
+
+.site-footer .social-icons {
+    text-align: right
+}
+
+    .site-footer .social-icons a {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        margin-left: 6px;
+        margin-right: 0;
+        border-radius: 100%;
+        background-color: #33353d
+    }
+
+.copyright-text {
+    margin: 0
+}
+
+@media (max-width:991px) {
+    .site-footer [class^=col-] {
+        margin-bottom: 30px
+    }
+}
+
+@media (max-width:767px) {
+    .site-footer {
+        padding-bottom: 0
+    }
+
+        .site-footer .copyright-text, .site-footer .social-icons {
+            text-align: center
+        }
+}
+
+.social-icons {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none
+}
+
+    .social-icons li {
+        display: inline-block;
+        margin-bottom: 4px
+    }
+
+        .social-icons li.title {
+            margin-right: 15px;
+            text-transform: uppercase;
+            color: #96a2b2;
+            font-weight: 700;
+            font-size: 13px
+        }
+
+    .social-icons a {
+        background-color: #eceeef;
+        color: #818a91;
+        font-size: 16px;
+        display: inline-block;
+        line-height: 44px;
+        width: 44px;
+        height: 44px;
+        text-align: center;
+        margin-right: 8px;
+        border-radius: 100%;
+        -webkit-transition: all .2s linear;
+        -o-transition: all .2s linear;
+        transition: all .2s linear
+    }
+
+        .social-icons a:active, .social-icons a:focus, .social-icons a:hover {
+            color: #fff;
+            background-color: #29aafe
+        }
+
+    .social-icons.size-sm a {
+        line-height: 34px;
+        height: 34px;
+        width: 34px;
+        font-size: 14px
+    }
+
+    .social-icons a.facebook:hover {
+        background-color: #3b5998
+    }
+
+    .social-icons a.twitter:hover {
+        background-color: #00aced
+    }
+
+    .social-icons a.instagram:hover {
+        background-color: #ea4c89
+    }
+
+@media (max-width:767px) {
+    .social-icons li.title {
+        display: block;
+        margin-right: 0;
+        font-weight: 600
+    }
 }

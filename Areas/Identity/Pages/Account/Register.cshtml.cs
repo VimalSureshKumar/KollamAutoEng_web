@@ -76,7 +76,7 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required(ErrorMessage = "Please enter Last Name")]
+            [Required(ErrorMessage = "Please enter First Name")]
             [MaxLength(25)]
             [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
             [Display(Name = "First Name")]
@@ -114,6 +114,8 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
 
             public string? Role { get; set; }
 

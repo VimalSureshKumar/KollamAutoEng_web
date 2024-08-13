@@ -6,7 +6,16 @@ namespace KollamAutoEng_web.Models
 {
     public enum PaymentMethod
     {
-        [Display(Name = "Credit Card")] CreditCard, [Display(Name = "Debit Card")] DebitCard, [Display(Name = "Online Banking")] Online_Banking
+        [Display(Name = "Credit Card")]
+        CreditCard = 0,
+
+        [Display(Name = "Debit Card")]
+        DebitCard = 1,
+
+        [Display(Name = "Online Banking")]
+        Online_Banking = 2,
+
+        Cash = 3
     }
 
     public class Payment

@@ -12,15 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
-    public class AppRolesFault : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
     public class FaultsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -53,7 +44,7 @@ namespace KollamAutoEng_web.Controllers
                        );
             }
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<Fault>.CreateAsync(faults.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

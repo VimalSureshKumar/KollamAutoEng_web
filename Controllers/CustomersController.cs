@@ -12,15 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,User")]
-    public class AppRoleCustomer : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
     public class CustomersController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -61,9 +52,7 @@ namespace KollamAutoEng_web.Controllers
                     m.FirstName.Contains(searchString) ||
                     m.LastName.Contains(searchString) ||
                     m.Email.Contains(searchString) ||
-                    m.PhoneNumber.Contains(searchString) ||
-                    m.Gender.ToString().Contains(searchString) ||
-                    m.DateOfBirth.ToString().Contains(searchString)
+                    m.PhoneNumber.Contains(searchString) 
                 );
             }
 
@@ -77,7 +66,7 @@ namespace KollamAutoEng_web.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<Customer>.CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
@@ -100,7 +89,7 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,User")]
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -122,7 +111,7 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,User")]
         // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -173,8 +162,8 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Customers/Delete/5
-        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Customer == null)
@@ -192,9 +181,9 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
-        [Authorize(Roles = "Admin")]
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

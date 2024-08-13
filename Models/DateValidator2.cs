@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace KollamAutoEng_web.Models
+namespace KollamAutoEng_web.ValidationAttributes
 {
     public class DateValidator2 : ValidationAttribute
     {
@@ -12,9 +13,9 @@ namespace KollamAutoEng_web.Models
                 var currentDate = DateTime.Now;
                 var hundredYearBefore = currentDate.AddYears(-100);
 
-                if (date < currentDate.Date || date > hundredYearBefore.Date)
+                if (date > currentDate.Date || date < hundredYearBefore.Date)
                 {
-                    return new ValidationResult($"The date of birth must be between {currentDate:MM/dd/yyyy} and {hundredYearBefore:MM/dd/yyyy}.");
+                    return new ValidationResult($"The date of birth must be between {currentDate:d/MM/yyyy} and {hundredYearBefore:d/MM/yyyy}.");
                 }
             }
             return ValidationResult.Success;

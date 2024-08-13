@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using KollamAutoEng_web.Models; // Ensure this is the correct namespace
+using KollamAutoEng_web.Models; 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize]
     public class AppRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

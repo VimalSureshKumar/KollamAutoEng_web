@@ -12,15 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
-    public class AppRoleEmployee : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -60,10 +51,7 @@ namespace KollamAutoEng_web.Controllers
                 employees = employees.Where(m =>
                     m.FirstName.Contains(searchString) ||
                     m.LastName.Contains(searchString) ||
-                    m.PhoneNumber.Contains(searchString)||
-                    m.Status.ToString().Contains(searchString) ||
-                    m.Pay.ToString().Contains(searchString) ||
-                    m.Hours.ToString().Contains(searchString)
+                    m.PhoneNumber.Contains(searchString)
                 );
             }
 
@@ -77,7 +65,7 @@ namespace KollamAutoEng_web.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<Employee>.CreateAsync(employees.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

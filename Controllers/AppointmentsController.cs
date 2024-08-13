@@ -11,16 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employees,User")]
-    public class AppRoleAppointment : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
+    [Authorize(Roles = "Admin,Employee,User")]
     public class AppointmentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -64,8 +55,7 @@ namespace KollamAutoEng_web.Controllers
                    m.Customer.LastName.Contains(searchString) ||
                    m.Employee.FirstName.Contains(searchString) ||
                    m.Employee.LastName.Contains(searchString) ||
-                   m.Vehicle.Registration.Contains(searchString) ||
-                   m.ServiceCost.ToString().Contains(searchString)
+                   m.Vehicle.Registration.Contains(searchString) 
                 );
             }
 
@@ -79,7 +69,7 @@ namespace KollamAutoEng_web.Controllers
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<Appointment>.CreateAsync(appointments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

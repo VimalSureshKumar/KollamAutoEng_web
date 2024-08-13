@@ -6,12 +6,22 @@ namespace KollamAutoEng_web.Models
 {
     public enum DriveType
     {
-        FWD, RWD, [Display(Name = "4WD")] _4WD, AWD
+        FWD = 0,
+        RWD = 1,
+        [Display(Name = "4WD")] _4WD = 2,
+        AWD = 3
     }
-
     public enum Colour
     {
-        Red, White, Black, Grey, Blue, Cyan, Yellow, Orange, Other
+        Red = 0,
+        White = 1,
+        Black = 2,
+        Grey = 3,
+        Blue = 4,
+        Cyan = 5,
+        Yellow = 6,
+        Orange = 7,
+        Other = 8
     }
 
     public class Vehicle

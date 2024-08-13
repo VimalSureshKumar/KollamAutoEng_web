@@ -12,15 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,Employee,User")]
-    public class AppRoleModel : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
     public class VehicleModelsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -59,7 +50,8 @@ namespace KollamAutoEng_web.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 models = models.Where(m =>
-                    m.ModelName.Contains(searchString)
+                    m.ModelName.Contains(searchString) ||
+                    m.VehicleBrand.BrandName.Contains(searchString)
                        );
             }
 
@@ -75,7 +67,7 @@ namespace KollamAutoEng_web.Controllers
 
             var modelsList = await models.ToListAsync();
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<VehicleModel>.CreateAsync(models.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

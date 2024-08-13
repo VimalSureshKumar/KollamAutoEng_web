@@ -13,15 +13,6 @@ using KollamAutoEng_web.Migrations;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
-    public class AppRoleFaultPart : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
     public class FaultPartsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;

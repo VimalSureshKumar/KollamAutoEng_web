@@ -12,15 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace KollamAutoEng_web.Controllers
 {
     [Authorize(Roles = "Admin,Employee,User")]
-    public class AppRolePayment : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
-
-    [Authorize]
     public class PaymentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -47,14 +38,12 @@ namespace KollamAutoEng_web.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 payments = payments.Where(m =>
-                    m.Amount.ToString().Contains(searchString) ||
-                    m.PaymentDate.ToString().Contains(searchString) ||
-                    m.PaymentMethod.ToString().Contains(searchString) ||
-                    m.Customer.CustomerId.ToString().Contains(searchString)
+                    m.Customer.FirstName.Contains(searchString) ||
+                    m.Customer.LastName.Contains(searchString) 
                 );
             }
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<Payment>.CreateAsync(payments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

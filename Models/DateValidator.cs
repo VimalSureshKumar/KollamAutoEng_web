@@ -15,7 +15,7 @@ namespace KollamAutoEng_web.ValidationAttributes
 
                 if (date < currentDate.Date || date > oneYearLater.Date)
                 {
-                    return new ValidationResult($"The appointment date must be between {currentDate:MM/dd/yyyy} and {oneYearLater:MM/dd/yyyy}.");
+                    return new ValidationResult($"The appointment date must be between {currentDate:d/MM/yyyy} and {oneYearLater:d/MM/yyyy}.");
                 }
             }
             return ValidationResult.Success;
