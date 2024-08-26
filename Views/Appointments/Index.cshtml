@@ -1,72 +1,49 @@
 ﻿@model PaginatedList<KollamAutoEng_web.Models.Appointment>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Appointments";
 }
 
-<h1 class="text-center">Appointments</h1>
+<body class="crud-body">
+<div class="view">
+<h1 class="text-center my-5">Manage Appointments</h1>
 
-<p>
-    <a asp-action="Create" class="create-button">Create New</a>
-</p>
-<form asp-controller="Appointments" asp-action="Index">
-    <p>
-        Search Appointment: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-        <input type="submit" value="Search" class="btn btn-primary" />
-        <a href="@Url.Action("Index", "Appointments")" class="btn btn-secondary">Clear</a>
-    </p>
-</form>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Appointment</a>
 
-<table class="table">
-    <thead>
+    <form asp-controller="Appointments" asp-action="Index" class="d-flex align-items-center">
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="@Url.Action("Index", "Appointments")" class="btn btn-outline-secondary ms-2">Clear</a>
+    </form>
+</div>
+
+<table class="table table-hover table-striped">
+    <thead class="table-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model[0].AppointmentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].AppointmentDate)
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].VehicleId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].EmployeeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].ServiceCost)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model[0].AppointmentName)</th>
+            <th>@Html.DisplayNameFor(model => model[0].AppointmentDate)</th>
+            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a></th>
+            <th>@Html.DisplayNameFor(model => model[0].VehicleId)</th>
+            <th>@Html.DisplayNameFor(model => model[0].EmployeeId)</th>
+            <th>@Html.DisplayNameFor(model => model[0].ServiceCost)</th>
+            <th class="text-center">Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AppointmentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AppointmentDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Customer.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Vehicle.Registration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Employee.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ServiceCost)
-                </td>
-                <td>
-                    <a asp-action="Edit", class="edit-button" asp-route-id="@item.AppointmentId">Edit</a> |
-                    <a asp-action="Details", class="detail-button" asp-route-id="@item.AppointmentId">Details</a> |
-                    <a asp-action="Delete", class="delete-button" asp-route-id="@item.AppointmentId">Delete</a>
+                <td>@Html.DisplayFor(modelItem => item.AppointmentName)</td>
+                <td>@Html.DisplayFor(modelItem => item.AppointmentDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.Customer.FirstName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Vehicle.Registration)</td>
+                <td>@Html.DisplayFor(modelItem => item.Employee.FirstName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ServiceCost)</td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@item.AppointmentId" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.AppointmentId" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }
@@ -74,7 +51,7 @@
 </table>
 
 <nav aria-label="Page navigation">
-    <ul class="pagination">
+    <ul class="pagination justify-content-center">
         <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
             <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
         </li>
@@ -89,3 +66,5 @@
         </li>
     </ul>
 </nav>
+</div>
+</body>

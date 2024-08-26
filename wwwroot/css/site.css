@@ -57,21 +57,61 @@ html {
 }
 
 /*-----<CRUD CSS>-----*/
-.create-button {
+.crud-body {
+    background-color: #002244;
+}
+
+.view {
+    background-color: #e9f2f9;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-form {
+    max-width: 600px;
+    width: 100%;
+}
+
+.edit-form {
+    max-width: 600px;
+    width: 100%;
+}
+
+.form-group.row {
+    margin-bottom: 15px;
+}
+
+.col-form-label {
+    text-align: right;
+    padding-right: 15px;
+}
+
+.create-button, .back-button {
     background-color: green;
     border: none;
     color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    padding: 10px 40px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
 }
 
     .create-button:hover {
-        background-color:darkgreen;
+        background-color: darkgreen;
+        color: white;
+    }
+
+.back-button {
+    background-color: dimgrey;
+}
+
+    .back-button:hover {
+        background-color: darkgray;
         color: white;
     }
 
@@ -87,6 +127,15 @@ html {
     cursor: pointer;
     border-radius: 5px;
 }
+
+.back-button {
+    background-color: dimgray;
+}
+
+    .back-button:hover {
+        background-color: darkgrey;
+        color: white;
+    }
 
 .detail-button {
     background-color: orange;
@@ -131,10 +180,10 @@ html {
 
 /*-----<Login & Register CSS>-----*/
 .authenticate {
-    background-color: #e9f2f9; 
+    background-color: #e9f2f9;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
     .authenticate h1 {
@@ -165,8 +214,8 @@ html {
     .form-floating input,
     .form-floating select {
         width: 100%;
-        padding: 1rem; 
-        font-size: 1.1rem; 
+        padding: 1rem;
+        font-size: 1.1rem;
         height: 60px;
     }
 
@@ -174,8 +223,8 @@ html {
     background-color: #007bff;
     border: none;
     color: white;
-    padding: 15px; 
-    font-size: 1.5rem; 
+    padding: 15px;
+    font-size: 1.5rem;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
@@ -185,6 +234,7 @@ html {
     #registerSubmit:hover {
         background-color: #0056b3;
     }
+
 
 /*-----<Footer CSS>-----*/
 .site-footer {
@@ -236,7 +286,7 @@ html {
 
     .footer-links a {
         color: #737373;
-        text-decoration: none; 
+        text-decoration: none;
     }
 
         .footer-links a:active,
@@ -244,7 +294,7 @@ html {
         .footer-links a:hover {
             text-decoration: none;
         }
-        
+
 .footer-links2 {
     padding-left: 0;
     list-style: none;
