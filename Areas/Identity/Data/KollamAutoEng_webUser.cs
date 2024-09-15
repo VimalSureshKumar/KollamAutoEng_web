@@ -9,14 +9,8 @@ using Microsoft.CodeAnalysis.Scripting;
 
 namespace KollamAutoEng_web.Areas.Identity.Data;
 
-public enum Gender
-{
-    Male, Female, Other, [Display(Name = "Prefer not to say")] Prefer_not_to_say
-}
-
 public class KollamAutoEng_webUser : IdentityUser
 {
-
     [Required(ErrorMessage = "Please enter First Name")]
     [MaxLength(25)]
     [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
@@ -42,9 +36,6 @@ public class KollamAutoEng_webUser : IdentityUser
     [RegularExpression(@"^(\+64|0)\d{2,4}[\s-]?\d{4}[\s-]?\d{3,4}$|^(\+91|0)\d{10}$", ErrorMessage = "Please enter a valid phone number in New Zealand or India format.")]
     [Display(Name = "Phone Number")]
     public string PhoneNumber { get; set; }
-
-    [Display(Name = "Gender")]
-    public Gender? Gender { get; set; }
 }
 
 

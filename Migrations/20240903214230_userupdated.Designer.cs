@@ -4,6 +4,7 @@ using KollamAutoEng_web.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    partial class KollamAutoEng_webContextModelSnapshot : ModelSnapshot
+    [Migration("20240903214230_userupdated")]
+    partial class userupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -446,26 +449,6 @@ namespace KollamAutoEng_web.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "3caee2c9-b1cf-434c-bc64-55100c152010",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
-                        },
-                        new
-                        {
-                            Id = "969984f0-34b0-4c4c-99f2-9c29fc0a01c8",
-                            Name = "Employee",
-                            NormalizedName = "Employee"
-                        },
-                        new
-                        {
-                            Id = "31843de6-5fd2-4d72-9451-cbaf35069597",
-                            Name = "User",
-                            NormalizedName = "User"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

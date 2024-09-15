@@ -14,83 +14,94 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
     {
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
 
-        modelBuilder.Entity<Vehicle>()
+        var admin = new IdentityRole("Admin");
+        admin.NormalizedName = "Admin";
+
+        var employee = new IdentityRole("Employee");
+        employee.NormalizedName = "Employee";
+
+        var user = new IdentityRole("User");
+        user.NormalizedName = "User";
+
+        builder.Entity<IdentityRole>().HasData(admin, employee, user);
+
+        builder.Entity<Vehicle>()
             .HasOne(v => v.Customer)
             .WithMany(c => c.Vehicles)
             .HasForeignKey(v => v.CustomerId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<Vehicle>()
+        builder.Entity<Vehicle>()
             .HasOne(v => v.VehicleBrand)
             .WithMany(b => b.Vehicles)
             .HasForeignKey(v => v.BrandId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<Vehicle>()
+        builder.Entity<Vehicle>()
             .HasOne(v => v.VehicleModel)
             .WithMany(m => m.Vehicles)
             .HasForeignKey(v => v.ModelId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<VehicleModel>()
+        builder.Entity<VehicleModel>()
             .HasOne(vm => vm.VehicleBrand)
             .WithMany(vb => vb.VehicleModels)
             .HasForeignKey(vm => vm.BrandId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<Appointment>()
+        builder.Entity<Appointment>()
             .HasOne(a => a.Customer)
             .WithMany(c => c.Appointments)
             .HasForeignKey(a => a.CustomerId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Appointment>()
+        builder.Entity<Appointment>()
             .HasOne(a => a.Vehicle)
             .WithMany(v => v.Appointments)
             .HasForeignKey(a => a.VehicleId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Appointment>()
+        builder.Entity<Appointment>()
             .HasOne(a => a.Employee)
             .WithMany(e => e.Appointments)
             .HasForeignKey(a => a.EmployeeId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Fault>()
+        builder.Entity<Fault>()
             .HasOne(f => f.Customer)
             .WithMany(c => c.Faults)
             .HasForeignKey(f => f.CustomerId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<Fault>()
+        builder.Entity<Fault>()
             .HasOne(f => f.Vehicle)
             .WithMany(v => v.Faults)
             .HasForeignKey(f => f.VehicleId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<FaultPart>()
+        builder.Entity<FaultPart>()
             .HasOne(fp => fp.Fault)
             .WithMany(f => f.FaultParts)
             .HasForeignKey(fp => fp.FaultId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<FaultPart>()
+        builder.Entity<FaultPart>()
             .HasOne(fp => fp.Part)
             .WithMany(p => p.FaultParts)
             .HasForeignKey(fp => fp.PartId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<FaultPart>()
+        builder.Entity<FaultPart>()
             .HasOne(fp => fp.Appointment)
             .WithMany(a => a.FaultParts)
             .HasForeignKey(fp => fp.AppointmentId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<Payment>()
+        builder.Entity<Payment>()
             .HasOne(p => p.Customer)
             .WithMany(a => a.Payments)
             .HasForeignKey(p => p.CustomerId)

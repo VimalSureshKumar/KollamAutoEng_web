@@ -96,6 +96,13 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required(ErrorMessage = "Please enter an phone number")]
+            [DataType(DataType.PhoneNumber)]
+            [MaxLength(17)]
+            [RegularExpression(@"^(\+64|0)\d{2,4}[\s-]?\d{4}[\s-]?\d{3,4}$|^(\+91|0)\d{10}$", ErrorMessage = "Please enter a valid phone number in New Zealand or India format.")]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -114,13 +121,6 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Required]
-
-            public string? Role { get; set; }
-
-            [ValidateNever]
-            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 
@@ -128,15 +128,6 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            Input = new InputModel()
-            {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-                {
-                    Text = i,
-                    Value = i
-                })
-            };
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -152,6 +143,9 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
 
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
+                user.Email = Input.Email;
+                user.UserName = Input.Email;
+                user.PhoneNumber = Input.PhoneNumber;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -159,7 +153,7 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, Input.Role);
+                    await _userManager.AddToRoleAsync(user, "User");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
