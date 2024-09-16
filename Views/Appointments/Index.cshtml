@@ -5,66 +5,66 @@
 }
 
 <body class="crud-body">
-<div class="view">
-<h1 class="text-center my-5">Manage Appointments</h1>
+    <div class="view">
+        <h1 class="text-center my-5">Manage Appointments</h1>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Appointment</a>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Appointment</a>
 
-    <form asp-controller="Appointments" asp-action="Index" class="d-flex align-items-center">
-        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2">
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a href="@Url.Action("Index", "Appointments")" class="btn btn-outline-secondary ms-2">Clear</a>
-    </form>
-</div>
+            <form asp-controller="Appointments" asp-action="Index" class="d-flex align-items-center">
+                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="@Url.Action("Index", "Appointments")" class="btn btn-outline-secondary ms-2">Clear</a>
+            </form>
+        </div>
 
-<table class="table table-hover table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model[0].AppointmentName)</th>
-            <th>@Html.DisplayNameFor(model => model[0].AppointmentDate)</th>
-            <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a></th>
-            <th>@Html.DisplayNameFor(model => model[0].VehicleId)</th>
-            <th>@Html.DisplayNameFor(model => model[0].EmployeeId)</th>
-            <th>@Html.DisplayNameFor(model => model[0].ServiceCost)</th>
-            <th class="text-center">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.AppointmentName)</td>
-                <td>@Html.DisplayFor(modelItem => item.AppointmentDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.Customer.FirstName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Vehicle.Registration)</td>
-                <td>@Html.DisplayFor(modelItem => item.Employee.FirstName)</td>
-                <td>@Html.DisplayFor(modelItem => item.ServiceCost)</td>
-                <td class="text-center">
-                    <a asp-action="Edit" asp-route-id="@item.AppointmentId" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.AppointmentId" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model[0].AppointmentName)</th>
+                    <th>@Html.DisplayNameFor(model => model[0].AppointmentDate)</th>
+                    <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a></th>
+                    <th>@Html.DisplayNameFor(model => model[0].VehicleId)</th>
+                    <th>@Html.DisplayNameFor(model => model[0].EmployeeId)</th>
+                    <th>@Html.DisplayNameFor(model => model[0].ServiceCost)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.AppointmentName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AppointmentDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Customer.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Vehicle.Registration)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Employee.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ServiceCost)</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.AppointmentId" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-info btn-sm">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.AppointmentId" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
-        </li>
-        @for (int i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
-            </li>
-        }
-        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
-        </li>
-    </ul>
-</nav>
-</div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </body>

@@ -1,59 +1,76 @@
 ﻿@model KollamAutoEng_web.Models.Employee
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Employee";
 }
 
-<h1>Edit</h1>
-
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EmployeeId" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+<body class="crud-body">
+    <div class="view d-flex align-items-center justify-content-center">
+        <div class="create-form text-center">
+            <h1 class="text-center">Edit Employee</h1>
+            <hr />
+            <div class="edit-form">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="EmployeeId" />
+                    <div class="form-group row">
+                        <label asp-for="FirstName" class="col-form-label col-md-4 text-md-right">First Name</label>
+                        <div class="col-md-8">
+                            <input asp-for="FirstName" class="form-control" placeholder="John" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="LastName" class="col-form-label col-md-4 text-md-right">Last Name</label>
+                        <div class="col-md-8">
+                            <input asp-for="LastName" class="form-control" placeholder="Doe" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="PhoneNumber" class="col-form-label col-md-4 text-md-right">Phone Number</label>
+                        <div class="col-md-8">
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="+123456789" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Status" class="col-form-label col-md-4 text-md-right">Status</label>
+                        <div class="col-md-8">
+                            <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()"></select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Pay" class="col-form-label col-md-4 text-md-right">Pay</label>
+                        <div class="col-md-8">
+                            <input asp-for="Pay" class="form-control" placeholder="50.00" />
+                            <span asp-validation-for="Pay" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Hours" class="col-form-label col-md-4 text-md-right">Hours</label>
+                        <div class="col-md-8">
+                            <input asp-for="Hours" class="form-control" placeholder="40" />
+                            <span asp-validation-for="Hours" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row text-center">
+                        <div class="col-md-6">
+                            <input type="submit" value="Save" class="create-button btn-block" />
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-action="Index" class="back-button btn-block">Back to List</a>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pay" class="control-label"></label>
-                <input asp-for="Pay" class="form-control" />
-                <span asp-validation-for="Pay" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Hours" class="control-label"></label>
-                <input asp-for="Hours" class="form-control" />
-                <span asp-validation-for="Hours" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</body>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
