@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employee,User")]
+    //[Authorize(Roles = "Admin,Employee,User")]
     public class VehicleModelsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -71,7 +71,6 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<VehicleModel>.CreateAsync(models.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        [Authorize]
         // GET: VehicleModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -91,7 +90,6 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicleModel);
         }
 
-        [Authorize]
         // GET: VehicleModels/Create
         public IActionResult Create()
         {
@@ -103,7 +101,6 @@ namespace KollamAutoEng_web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ModelId,ModelName,BrandId")] VehicleModel vehicleModel)
         {
@@ -117,7 +114,6 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicleModel);
         }
 
-        [Authorize]
         // GET: VehicleModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -139,7 +135,6 @@ namespace KollamAutoEng_web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ModelId,ModelName,BrandId")] VehicleModel vehicleModel)
         {
@@ -172,7 +167,6 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicleModel);
         }
 
-        [Authorize]
         // GET: VehicleModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -194,7 +188,6 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: VehicleModels/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

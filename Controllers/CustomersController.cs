@@ -70,7 +70,6 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Customer>.CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        [Authorize(Roles = "User")]
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -89,7 +88,6 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
-        [Authorize(Roles = "Admin,User")]
         // GET: Customers/Create
         public IActionResult Create()
         {
@@ -98,7 +96,6 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Customers/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
@@ -130,7 +127,6 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Customers/Edit/5
         [HttpPost]
-        [Authorize(Roles = "Admin,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
@@ -162,7 +158,6 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
-        [Authorize(Roles = "Admin")]
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -183,7 +178,6 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

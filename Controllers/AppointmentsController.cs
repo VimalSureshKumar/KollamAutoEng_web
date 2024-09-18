@@ -73,7 +73,6 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Appointment>.CreateAsync(appointments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        [Authorize]
         // GET: Appointments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -95,7 +94,6 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
-        [Authorize]
         // GET: Appointments/Create
         public IActionResult Create()
         {
@@ -107,7 +105,6 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Appointments/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,Employees,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
@@ -123,7 +120,6 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
-        [Authorize]
         // GET: Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -145,7 +141,6 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Appointments/Edit/5
         [HttpPost]
-        [Authorize(Roles = "Admin,Employees")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
@@ -180,7 +175,6 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
-        [Authorize]
         // GET: Appointments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -204,7 +198,6 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Appointments/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

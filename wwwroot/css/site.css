@@ -68,30 +68,37 @@ html {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.create-form {
+/* Form styling */
+.create-form,
+.edit-form,
+.detail-form,
+.delete-form {
     max-width: 600px;
     width: 100%;
 }
 
-.edit-form {
-    max-width: 600px;
-    width: 100%;
-}
-
+/* Form group spacing */
 .form-group.row {
     margin-bottom: 15px;
 }
 
+/* Label alignment */
 .col-form-label {
     text-align: right;
     padding-right: 15px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #333;
 }
 
-.create-button, .back-button {
-    background-color: green;
+/* Button styles */
+.create-button,
+.edit-button,
+.detail-button,
+.delete-button {
     border: none;
     color: white;
-    padding: 10px 40px;
+    padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
@@ -99,83 +106,55 @@ html {
     width: 100%;
     text-align: center;
     text-decoration: none;
+    box-sizing: border-box;
 }
-
-    .create-button:hover {
-        background-color: darkgreen;
-        color: white;
-    }
 
 .back-button {
     background-color: dimgrey;
-}
-
-    .back-button:hover {
-        background-color: darkgray;
-        color: white;
-    }
-
-.edit-button {
-    background-color: deepskyblue;
     border: none;
     color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-}
-
-.back-button {
-    background-color: dimgray;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
 }
 
     .back-button:hover {
-        background-color: darkgrey;
+        background-color: #555555;
         color: white;
     }
 
-.detail-button {
-    background-color: orange;
-    border: none;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
+/* Specific button styles */
+.create-button, .detail-button {
+    background-color: green;
+}
+
+.back-button, .edit-button {
+    background-color: dimgrey;
 }
 
 .delete-button {
     background-color: red;
-    border: none;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
 }
 
-.edit-button:hover {
-    background-color: darkblue;
-    color: white;
-}
-
+/* Hover effects */
+.create-button:hover,
 .detail-button:hover {
-    background-color: darkblue;
-    color: white;
+    background-color: darkgreen;
+}
+
+.back-button:hover,
+.edit-button:hover {
+    background-color: darkgrey;
 }
 
 .delete-button:hover {
     background-color: darkred;
-    color: white;
 }
 
 /*-----<Login & Register CSS>-----*/
