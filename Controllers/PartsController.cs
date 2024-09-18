@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    //[Authorize(Roles = "Admin,Employee")]
+    [Authorize(Roles = "Admin,Employee")]
     public class PartsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,6 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Parts
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
@@ -69,7 +70,8 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Part>.CreateAsync(parts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: Parts/Details/5
+        // GET: Parts/Details
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Part == null)
@@ -88,15 +90,15 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Parts/Create
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Parts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PartId,Reference,PartName,Cost")] Part part)
         {
@@ -109,7 +111,8 @@ namespace KollamAutoEng_web.Controllers
             return View(part);
         }
 
-        // GET: Parts/Edit/5
+        // GET: Parts/Edit
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Part == null)
@@ -125,10 +128,9 @@ namespace KollamAutoEng_web.Controllers
             return View(part);
         }
 
-        // POST: Parts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Parts/Edit
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PartId,Reference,PartName,Cost")] Part part)
         {
@@ -160,7 +162,8 @@ namespace KollamAutoEng_web.Controllers
             return View(part);
         }
 
-        // GET: Parts/Delete/5
+        // GET: Parts/Delete
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Part == null)
@@ -178,8 +181,9 @@ namespace KollamAutoEng_web.Controllers
             return View(part);
         }
 
-        // POST: Parts/Delete/5
+        // POST: Parts/Delete
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

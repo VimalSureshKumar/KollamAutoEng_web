@@ -22,6 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments
+        [Authorize(Roles = "Admin,Employee,User")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
@@ -73,7 +74,8 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Appointment>.CreateAsync(appointments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: Appointments/Details/5
+        // GET: Appointments/Details
+        [Authorize(Roles = "Admin,Employee,User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -95,6 +97,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments/Create
+        [Authorize(Roles = "Admin,Employee,User")]
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
@@ -105,6 +108,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Appointments/Create
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
@@ -120,7 +124,8 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
-        // GET: Appointments/Edit/5
+        // GET: Appointments/Edit
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Appointment == null)
@@ -139,8 +144,9 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
-        // POST: Appointments/Edit/5
+        // POST: Appointments/Edit
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
@@ -175,7 +181,8 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
-        // GET: Appointments/Delete/5
+        // GET: Appointments/Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Appointment == null)
@@ -196,8 +203,9 @@ namespace KollamAutoEng_web.Controllers
             return View(appointment);
         }
 
-        // POST: Appointments/Delete/5
+        // POST: Appointments/Delete
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

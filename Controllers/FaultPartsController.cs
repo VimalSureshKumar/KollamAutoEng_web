@@ -12,7 +12,7 @@ using KollamAutoEng_web.Migrations;
 
 namespace KollamAutoEng_web.Controllers
 {
-    //[Authorize(Roles = "Admin,Employee")]
+    [Authorize(Roles = "Admin,Employee")]
     public class FaultPartsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -23,6 +23,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: FaultParts
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
         {
             if (_context.FaultPart == null)
@@ -53,7 +54,8 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<FaultPart>.CreateAsync(faultparts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: FaultParts/Details/5
+        // GET: FaultParts/Details
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.FaultPart == null)
@@ -77,6 +79,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: FaultParts/Create
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName");
@@ -88,9 +91,8 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: FaultParts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FaultPartId,FaultId,PartId,AppointmentId,CustomerId,VehicleId")] FaultPart faultPart)
         {
@@ -108,7 +110,8 @@ namespace KollamAutoEng_web.Controllers
             return View(faultPart);
         }
 
-        // GET: FaultParts/Edit/5
+        // GET: FaultParts/Edit
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.FaultPart == null)
@@ -129,10 +132,9 @@ namespace KollamAutoEng_web.Controllers
             return View(faultPart);
         }
 
-        // POST: FaultParts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: FaultParts/Edit
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("FaultPartId,FaultId,PartId,AppointmentId,CustomerId,VehicleId")] FaultPart faultPart)
         {
@@ -169,7 +171,8 @@ namespace KollamAutoEng_web.Controllers
             return View(faultPart);
         }
 
-        // GET: FaultParts/Delete/5
+        // GET: FaultParts/Delete
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.FaultPart == null)
@@ -192,8 +195,9 @@ namespace KollamAutoEng_web.Controllers
             return View(faultPart);
         }
 
-        // POST: FaultParts/Delete/5
+        // POST: FaultParts/Delete
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

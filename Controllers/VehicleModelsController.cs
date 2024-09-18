@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    //[Authorize(Roles = "Admin,Employee,User")]
+    [Authorize(Roles = "Admin,Employee,User")]
     public class VehicleModelsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,6 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleModels
+        [Authorize(Roles = "Admin,Employee,User")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
@@ -71,7 +72,8 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<VehicleModel>.CreateAsync(models.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: VehicleModels/Details/5
+        // GET: VehicleModels/Details
+        [Authorize(Roles = "Admin,Employee,User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.VehicleModel == null)
@@ -91,6 +93,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleModels/Create
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
             ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
@@ -98,8 +101,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: VehicleModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin,Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ModelId,ModelName,BrandId")] VehicleModel vehicleModel)
@@ -114,7 +116,8 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicleModel);
         }
 
-        // GET: VehicleModels/Edit/5
+        // GET: VehicleModels/Edit
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.VehicleModel == null)
@@ -131,10 +134,9 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicleModel);
         }
 
-        // POST: VehicleModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: VehicleModels/Edit
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ModelId,ModelName,BrandId")] VehicleModel vehicleModel)
         {
@@ -167,7 +169,8 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicleModel);
         }
 
-        // GET: VehicleModels/Delete/5
+        // GET: VehicleModels/Delete
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.VehicleModel == null)
@@ -186,8 +189,9 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicleModel);
         }
 
-        // POST: VehicleModels/Delete/5
+        // POST: VehicleModels/Delete
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

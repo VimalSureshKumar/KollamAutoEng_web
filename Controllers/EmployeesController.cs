@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    //[Authorize(Roles = "Admin,Employee")]
+    [Authorize(Roles = "Admin,Employee")]
     public class EmployeesController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,6 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Employees
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
@@ -69,7 +70,8 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Employee>.CreateAsync(employees.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: Employees/Details/5
+        // GET: Employees/Details
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Employee == null)
@@ -88,15 +90,15 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Employees/Create
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,PhoneNumber,Status,Pay,Hours")] Employee employee)
         {
@@ -109,7 +111,8 @@ namespace KollamAutoEng_web.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Edit/5
+        // GET: Employees/Edit
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Employee == null)
@@ -125,10 +128,9 @@ namespace KollamAutoEng_web.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Employees/Edit
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,PhoneNumber,Status,Pay,Hours")] Employee employee)
         {
@@ -160,7 +162,8 @@ namespace KollamAutoEng_web.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Delete/5
+        // GET: Employees/Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Employee == null)
@@ -178,8 +181,9 @@ namespace KollamAutoEng_web.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Delete/5
+        // POST: Employees/Delete
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

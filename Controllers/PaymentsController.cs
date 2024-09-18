@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    //[Authorize(Roles = "Admin,Employee,User")]
+    [Authorize(Roles = "Admin,Employee,User")]
     public class PaymentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,6 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Payments
+        [Authorize(Roles = "Admin,Employee,User")]
         public async Task<IActionResult> Index(string searchString, int? pageNumber)
         {
             if (_context.Payment == null)
@@ -47,7 +48,8 @@ namespace KollamAutoEng_web.Controllers
             return View(await PaginatedList<Payment>.CreateAsync(payments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        // GET: Payments/Details/5
+        // GET: Payments/Details
+        [Authorize(Roles = "Admin,Employee,User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Payment == null)
@@ -67,6 +69,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Payments/Create
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
@@ -74,9 +77,8 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // POST: Payments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PaymentId,Amount,PaymentDate,PaymentMethod,CustomerId")] Payment payment)
         {
@@ -90,7 +92,8 @@ namespace KollamAutoEng_web.Controllers
             return View(payment);
         }
 
-        // GET: Payments/Edit/5
+        // GET: Payments/Edit
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Payment == null)
@@ -107,10 +110,9 @@ namespace KollamAutoEng_web.Controllers
             return View(payment);
         }
 
-        // POST: Payments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Payments/Edit
         [HttpPost]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PaymentId,Amount,PaymentDate,PaymentMethod,CustomerId")] Payment payment)
         {
@@ -143,7 +145,8 @@ namespace KollamAutoEng_web.Controllers
             return View(payment);
         }
 
-        // GET: Payments/Delete/5
+        // GET: Payments/Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Payment == null)
@@ -162,8 +165,9 @@ namespace KollamAutoEng_web.Controllers
             return View(payment);
         }
 
-        // POST: Payments/Delete/5
+        // POST: Payments/Delete
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
