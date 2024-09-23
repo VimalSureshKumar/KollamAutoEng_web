@@ -1,7 +1,7 @@
 ﻿@model KollamAutoEng_web.Models.Appointment
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details of Appointment";
 }
 
 <body class="crud-body">
@@ -51,10 +51,10 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm-6 text-center">
-                    <a asp-action="Edit" asp-route-id="@Model?.AppointmentId" class="detail-button btn-block">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@Model?.AppointmentId" class="detail-button">Edit</a>
                 </div>
                 <div class="col-sm-6 text-center">
-                    <a asp-action="Index" class="back-button btn-block">Back to List</a>
+                    <a asp-action="Index" class="back-button">Back to List</a>
                 </div>
             </div>
         </div>

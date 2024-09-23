@@ -1,53 +1,71 @@
 ﻿@model KollamAutoEng_web.Models.Payment
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Payment";
 
     var currentDate = DateTime.Now;
     var minDate = currentDate.AddYears(-1).ToString("yyyy-MM-dd");
     var maxDate = currentDate.AddYears(1).ToString("yyyy-MM-dd");
 }
 
-<h1>Edit</h1>
+<body class="crud-body">
+    <div class="view d-flex align-items-center justify-content-center">
+        <div class="create-form text-center">
+            <h1>Edit Payment</h1>
+            <hr />
+            <div class="edit-form">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="PaymentId" />
 
-<h4>Payment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PaymentId" />
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
+                    <div class="form-group row">
+                        <label asp-for="Amount" class="col-form-label col-md-4 text-md-right">Amount</label>
+                        <div class="col-md-8">
+                            <input asp-for="Amount" class="form-control" />
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="PaymentDate" class="col-form-label col-md-4 text-md-right">Payment Date</label>
+                        <div class="col-md-8">
+                            <input asp-for="PaymentDate" class="form-control" type="date" min="@minDate" max="@maxDate" />
+                            <span asp-validation-for="PaymentDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="PaymentMethod" class="col-form-label col-md-4 text-md-right">Payment Method</label>
+                        <div class="col-md-8">
+                            <select asp-for="PaymentMethod" class="form-control" asp-items="Html.GetEnumSelectList<PaymentMethod>()"></select>
+                            <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="CustomerId" class="col-form-label col-md-4 text-md-right">Customer</label>
+                        <div class="col-md-8">
+                            <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row text-center">
+                        <div class="col-md-6">
+                            <input type="submit" value="Save" class="create-button btn btn-primary" />
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-action="Index" class="back-button btn btn-secondary">Back to List</a>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="PaymentDate" class="control-label"></label>
-                <input asp-for="PaymentDate" class="form-control" type="date" min="@minDate" max="@maxDate" />
-                <span asp-validation-for="PaymentDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PaymentMethod" class="control-label"></label>
-                <select asp-for="PaymentMethod" class="form-control" asp-items="Html.GetEnumSelectList<PaymentMethod>()"></select>
-                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</body>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

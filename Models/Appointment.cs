@@ -39,6 +39,7 @@ namespace KollamAutoEng_web.Models
         public int EmployeeId { get; set; }
         public virtual Employee? Employee { get; set; }
 
+        [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Paymet Amount")]
         [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
         [Range(0.99, 50000, ErrorMessage = "Please enter a value between 0.99 and 50,000.")]

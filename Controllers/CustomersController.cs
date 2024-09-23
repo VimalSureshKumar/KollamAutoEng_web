@@ -107,7 +107,8 @@ namespace KollamAutoEng_web.Controllers
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("Create", "Vehicles", new { customerId = customer.CustomerId });
             }
             return View(customer);
         }

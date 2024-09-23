@@ -118,7 +118,7 @@ namespace KollamAutoEng_web.Controllers
             {
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Formsubmit", "Home", new { vehicleId = vehicle.VehicleId });
             }
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", vehicle.CustomerId);
             ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicle.BrandId);

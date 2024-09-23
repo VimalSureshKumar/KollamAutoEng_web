@@ -1,7 +1,7 @@
 ﻿@model KollamAutoEng_web.Models.Appointment
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Appointment";
 
     var currentDate = DateTime.Now;
     var minDate = currentDate.ToString("yyyy-MM-dd");
@@ -13,47 +13,47 @@
         <div class="create-form">
             <h1 class="text-center">Create New Appointment</h1>
             <hr />
-            <form asp-action="Create">
+            <form asp-action="Create" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group row">
                     <label asp-for="AppointmentName" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="AppointmentName" class="form-control" placeholder="Engine Repair etc." />
+                        <input asp-for="AppointmentName" class="form-control" placeholder="Enter appointment name" required />
                         <span asp-validation-for="AppointmentName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="AppointmentDate" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="AppointmentDate" class="form-control" type="date" min="@minDate" max="@maxDate" />
+                        <input asp-for="AppointmentDate" class="form-control" type="date" min="@minDate" max="@maxDate" required />
                         <span asp-validation-for="AppointmentDate" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="CustomerId" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId" required></select>
                         <span asp-validation-for="CustomerId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="VehicleId" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <select asp-for="VehicleId" class="form-control" asp-items="ViewBag.VehicleId"></select>
+                        <select asp-for="VehicleId" class="form-control" asp-items="ViewBag.VehicleId" required></select>
                         <span asp-validation-for="VehicleId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="EmployeeId" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+                        <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId" required></select>
                         <span asp-validation-for="EmployeeId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="ServiceCost" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="ServiceCost" class="form-control" placeholder="10 / 10.00 etc." />
+                        <input asp-for="ServiceCost" class="form-control" placeholder="Enter service cost (e.g., 10.00)" required />
                         <span asp-validation-for="ServiceCost" class="text-danger"></span>
                     </div>
                 </div>

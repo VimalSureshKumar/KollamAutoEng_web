@@ -1,78 +1,66 @@
 ﻿@model PaginatedList<KollamAutoEng_web.Models.Payment>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Payments";
 }
 
-<h1 class="text-center">Payments</h1>
+<body class="crud-body">
+    <div class="view">
+        <h1 class="text-center my-5">Manage Payments</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
-<form asp-controller="Payments" asp-action="Index">
-    <p>
-        Search Payments: <input type="text" name="SearchString" />
-        <input type="submit" value="Search" class="btn btn-primary" />
-        <a href="@Url.Action("Index", "Payments")" class="btn btn-secondary">Clear</a>
-    </p>
-</form>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Payment</a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].PaymentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].PaymentMethod)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].CustomerId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentDate)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaymentMethod)
-                </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Customer.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PaymentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PaymentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PaymentId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            <form asp-controller="Payments" asp-action="Index" class="d-flex align-items-center">
+                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Payments" class="form-control me-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="@Url.Action("Index", "Payments")" class="btn btn-outline-secondary ms-2">Clear</a>
+            </form>
+        </div>
 
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
-        </li>
-        @for (int i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
-            </li>
-        }
-        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
-        </li>
-    </ul>
-</nav>
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model[0].Amount)</th>
+                    <th>@Html.DisplayNameFor(model => model[0].PaymentDate)</th>
+                    <th>@Html.DisplayNameFor(model => model[0].PaymentMethod)</th>
+                    <th>@Html.DisplayNameFor(model => model[0].Customer.FirstName)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PaymentDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PaymentMethod)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Customer.FirstName)</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.PaymentId" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.PaymentId" class="btn btn-info btn-sm">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.PaymentId" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>

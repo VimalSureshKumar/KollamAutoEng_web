@@ -1,3 +1,3 @@
-﻿INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'31843de6-5fd2-4d72-9451-cbaf35069597', N'User', N'User', NULL)
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'3caee2c9-b1cf-434c-bc64-55100c152010', N'Admin', N'Admin', NULL)
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'969984f0-34b0-4c4c-99f2-9c29fc0a01c8', N'Employee', N'Employee', NULL)
+﻿INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'2df3a3a8-3fd4-4801-bf9e-8b6440903330', N'User', N'User', NULL)
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'895f10ba-5e89-4a78-aeb3-dde654921eae', N'Employee', N'Employee', NULL)
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'c27090b2-8deb-46c2-a3be-a9dc3a30c658', N'Admin', N'Admin', NULL)

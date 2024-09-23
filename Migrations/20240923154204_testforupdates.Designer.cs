@@ -4,6 +4,7 @@ using KollamAutoEng_web.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    partial class KollamAutoEng_webContextModelSnapshot : ModelSnapshot
+    [Migration("20240923154204_testforupdates")]
+    partial class testforupdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,7 +140,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Appointment", (string)null);
+                    b.ToTable("Appointment");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Customer", b =>
@@ -176,7 +179,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customer", (string)null);
+                    b.ToTable("Customer");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Employee", b =>
@@ -213,7 +216,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employee", (string)null);
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Fault", b =>
@@ -241,7 +244,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Fault", (string)null);
+                    b.ToTable("Fault");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.FaultPart", b =>
@@ -279,7 +282,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("FaultPart", (string)null);
+                    b.ToTable("FaultPart");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Part", b =>
@@ -304,7 +307,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("PartId");
 
-                    b.ToTable("Part", (string)null);
+                    b.ToTable("Part");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Payment", b =>
@@ -332,7 +335,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Payment", (string)null);
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Vehicle", b =>
@@ -377,7 +380,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("Vehicle", (string)null);
+                    b.ToTable("Vehicle");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.VehicleBrand", b =>
@@ -395,7 +398,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasKey("BrandId");
 
-                    b.ToTable("VehicleBrand", (string)null);
+                    b.ToTable("VehicleBrand");
                 });
 
             modelBuilder.Entity("KollamAutoEng_web.Models.VehicleModel", b =>
@@ -418,7 +421,7 @@ namespace KollamAutoEng_web.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("VehicleModel", (string)null);
+                    b.ToTable("VehicleModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

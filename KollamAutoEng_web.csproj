@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\logotrans.png" />
+    <Content Remove="wwwroot\navlogo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\logotrans.png" />
+    <None Include="wwwroot\images\navlogo.png" />
   </ItemGroup>
 
   <ItemGroup>

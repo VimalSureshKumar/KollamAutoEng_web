@@ -1,65 +1,97 @@
 ﻿@model KollamAutoEng_web.Models.Vehicle
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Vehicle";
 }
 
-<h1>Create</h1>
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
 
-<h4>Vehicle</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="BrandId" class="control-label"></label>
-                <select asp-for="BrandId" class ="form-control" asp-items="ViewBag.BrandId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModelId" class="control-label"></label>
-                <select asp-for="ModelId" class ="form-control" asp-items="ViewBag.ModelId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="VIN" class="control-label"></label>
-                <input asp-for="VIN" class="form-control" />
-                <span asp-validation-for="VIN" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Registration" class="control-label"></label>
-                <input asp-for="Registration" class="form-control" />
-                <span asp-validation-for="Registration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Colour" class="control-label"></label>
-                <select asp-for="Colour" class="form-control" asp-items="Html.GetEnumSelectList<Colour>()"></select>
-                <span asp-validation-for="Colour" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DriveType" class="control-label"></label>
-                <select asp-for="DriveType" class="form-control" asp-items="Html.GetEnumSelectList<DriveType>()"></select>
-                <span asp-validation-for="DriveType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Odometer" class="control-label"></label>
-                <input asp-for="Odometer" class="form-control" />
-                <span asp-validation-for="Odometer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class ="form-control" asp-items="ViewBag.CustomerId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<body class="crud-body">
+    <div class="view d-flex align-items-center justify-content-center">
+        <div class="create-form">
+            <h1 class="text-center">Create New Vehicle</h1>
+            <hr />
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group row">
+                    <label asp-for="BrandId" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="ModelId" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <select asp-for="ModelId" class="form-control" asp-items="ViewBag.ModelId"></select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="VIN" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="VIN" class="form-control" />
+                        <span asp-validation-for="VIN" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Registration" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Registration" class="form-control" />
+                        <span asp-validation-for="Registration" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Colour" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <select asp-for="Colour" class="form-control" asp-items="Html.GetEnumSelectList<Colour>()"></select>
+                        <span asp-validation-for="Colour" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="DriveType" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <select asp-for="DriveType" class="form-control" asp-items="Html.GetEnumSelectList<DriveType>()"></select>
+                        <span asp-validation-for="DriveType" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Odometer" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Odometer" class="form-control" />
+                        <span asp-validation-for="Odometer" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="CustomerId" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6 text-center">
+                        <input type="submit" value="Create" class="create-button btn-block" />
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <a asp-action="Index" class="back-button btn-block">Back to List</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</body>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -56,9 +56,18 @@ html {
     font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
 }
 
+.large-text {
+    font-size: 22px;
+}
+
 /*-----<CRUD CSS>-----*/
+* {
+    box-sizing: border-box;
+}
+
 .crud-body {
     background-color: #002244;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .view {
@@ -80,6 +89,7 @@ html {
 /* Form group spacing */
 .form-group.row {
     margin-bottom: 15px;
+    width: 100%; /* Ensure full width */
 }
 
 /* Label alignment */
@@ -146,6 +156,8 @@ html {
 .create-button:hover,
 .detail-button:hover {
     background-color: darkgreen;
+    text-decoration: none;
+    color: white;
 }
 
 .back-button:hover,
@@ -214,6 +226,14 @@ html {
         background-color: #0056b3;
     }
 
+#login-submit {
+    font-size: 1.25rem;
+}
+
+.btn-group-vertical .btn {
+    font-size: 1rem;
+    padding: 10px;
+}
 
 /*-----<Footer CSS>-----*/
 .site-footer {
@@ -277,10 +297,45 @@ html {
 .footer-links2 {
     padding-left: 0;
     list-style: none;
-    display: grid;
+    text-decoration: none;
     grid-template-columns: repeat(2, auto);
-    gap: 10px 30px;
     text-align: center;
+}
+
+    .footer-links2 li a {
+        text-decoration: none;
+    }
+
+.contact-us-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    margin-top: -15px;
+    margin-left: -5px;
+}
+
+    .contact-us-btn .btn {
+        font-size: 18px;
+        padding: 12px 30px;
+        background-color: #ff0000; 
+        color: #fff; 
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+        .contact-us-btn .btn:hover {
+            color: white;
+            background-color: #cc0000; 
+            text-decoration: none;
+        }
+
+@media (max-width: 767px) {
+    .contact-us-btn {
+        justify-content: center;
+        margin-top: 15px;
+    }
 }
 
 .site-footer .social-icons {

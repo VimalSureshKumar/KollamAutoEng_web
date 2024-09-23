@@ -1,7 +1,7 @@
 ﻿@model KollamAutoEng_web.Models.Customer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Customer";
 
     var currentDate = DateTime.Now;
     var maxDate = currentDate.ToString("yyyy-MM-dd");
@@ -13,47 +13,47 @@
         <div class="create-form">
             <h1 class="text-center">Create New Customer</h1>
             <hr />
-            <form asp-action="Create">
+            <form asp-action="Create" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group row">
                     <label asp-for="FirstName" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="FirstName" class="form-control" />
+                        <input asp-for="FirstName" class="form-control" required />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="LastName" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="LastName" class="form-control" />
+                        <input asp-for="LastName" class="form-control" required />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="Email" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="Email" class="form-control" />
+                        <input asp-for="Email" class="form-control" required />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="PhoneNumber" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="PhoneNumber" class="form-control" />
+                        <input asp-for="PhoneNumber" class="form-control" required />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="Gender" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()"></select>
+                        <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()" required></select>
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="DateOfBirth" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="DateOfBirth" class="form-control" type="date" min="@minDate" max="@maxDate" />
+                        <input asp-for="DateOfBirth" class="form-control" type="date" min="@minDate" max="@maxDate" required />
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
                 </div>
