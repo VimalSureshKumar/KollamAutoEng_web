@@ -9,6 +9,7 @@ INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencySta
 INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'895f10ba-5e89-4a78-aeb3-dde654921eae', N'Employee', N'Employee', NULL)
 INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'c27090b2-8deb-46c2-a3be-a9dc3a30c658', N'Admin', N'Admin', NULL)
 
+-- Assigning Vimal Kumar as Admin
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
 (N'f99cc304-aede-47ef-962b-ff96f5b1a0a2', N'c27090b2-8deb-46c2-a3be-a9dc3a30c658')  -- Admin
 
@@ -32,80 +33,73 @@ INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
 (N'9914d66d-b90f-46a8-bf37-21fce87a5c18', N'2df3a3a8-3fd4-4801-bf9e-8b6440903330');  -- User
 
-SET IDENTITY_INSERT [dbo].[Customer] ON
+SET IDENTITY_INSERT [dbo].[Customer] ON;
 
 INSERT INTO [dbo].[Customer] ([CustomerId], [FirstName], [LastName], [Email], [PhoneNumber], [Gender], [DateOfBirth]) VALUES 
-(1, N'Vimal Kumar', N'Suresh Kumar', N'vimal.kumar@example.com', N'02109011821', 0, N'2006-08-30 00:00:00'),
-(2, N'Sophie', N'Thompson', N'sophie.thompson@example.com', N'02112345678', 1, N'1990-05-12 00:00:00'),
-(3, N'Lucas', N'Nguyen', N'lucas.nguyen@example.com', N'02123456789', 0, N'1985-07-20 00:00:00'),
-(4, N'Isabella', N'Garcia', N'isabella.garcia@example.com', N'02134567890', 1, N'1995-11-15 00:00:00'),
-(5, N'Mohammed', N'Khan', N'mohammed.khan@example.com', N'02145678901', 0, N'2000-02-28 00:00:00'),
-(6, N'Ava', N'Smith', N'ava.smith@example.com', N'02156789012', 1, N'1992-04-10 00:00:00'),
-(7, N'Ethan', N'Johnson', N'ethan.johnson@example.com', N'02167890123', 0, N'1988-09-05 00:00:00'),
-(8, N'Emma', N'Williams', N'emma.williams@example.com', N'02178901234', 1, N'1994-06-25 00:00:00'),
-(9, N'Noah', N'Brown', N'noah.brown@example.com', N'02189012345', 0, N'1991-03-16 00:00:00'),
-(10, N'Olivia', N'Jones', N'olivia.jones@example.com', N'02190123456', 1, N'1996-12-01 00:00:00'),
-(11, N'Liam', N'Davis', N'liam.davis@example.com', N'02201234567', 0, N'1987-08-14 00:00:00'),
-(12, N'Mia', N'Miller', N'mia.miller@example.com', N'02212345678', 1, N'1993-10-09 00:00:00'),
-(13, N'Aiden', N'Wilson', N'aiden.wilson@example.com', N'02223456789', 0, N'1999-01-22 00:00:00'),
-(14, N'Charlotte', N'Moore', N'charlotte.moore@example.com', N'02234567890', 1, N'1997-07-30 00:00:00'),
-(15, N'Elijah', N'Taylor', N'elijah.taylor@example.com', N'02245678901', 0, N'1986-05-18 00:00:00'),
-(16, N'Amelia', N'Anderson', N'amelia.anderson@example.com', N'02256789012', 1, N'1998-03-25 00:00:00'),
-(17, N'James', N'Thomas', N'james.thomas@example.com', N'02267890123', 0, N'1990-12-13 00:00:00'),
-(18, N'Harper', N'Jackson', N'harper.jackson@example.com', N'02278901234', 1, N'1992-09-11 00:00:00'),
-(19, N'Benjamin', N'White', N'benjamin.white@example.com', N'02289012345', 0, N'1994-11-29 00:00:00'),
-(20, N'Evelyn', N'Harris', N'evelyn.harris@example.com', N'02290123456', 1, N'1993-02-08 00:00:00'),
-(21, N'Alexander', N'Martin', N'alexander.martin@example.com', N'02301234567', 0, N'1991-06-03 00:00:00'),
-(22, N'Abigail', N'Thomas', N'abigail.thomas@example.com', N'02312345678', 1, N'1995-07-07 00:00:00'),
-(23, N'William', N'Clark', N'william.clark@example.com', N'02323456789', 0, N'1988-11-22 00:00:00'),
-(24, N'Scarlett', N'Hall', N'scarlett.hall@example.com', N'02334567890', 1, N'1999-05-15 00:00:00');
+(1, N'Vimal Kumar', N'Suresh Kumar', N'vimal.kumar@example.com', N'+64 21-090-1182', 0, N'2006-08-30 00:00:00'),
+(2, N'Sophie', N'Thompson', N'sophie.thompson@example.com', N'+64 21-123-4567', 1, N'1990-05-12 00:00:00'),
+(3, N'Lucas', N'Nguyen', N'lucas.nguyen@example.com', N'+64 21-234-5678', 0, N'1985-07-20 00:00:00'),
+(4, N'Isabella', N'Garcia', N'isabella.garcia@example.com', N'+64 21-345-6789', 1, N'1995-11-15 00:00:00'),
+(5, N'Mohammed', N'Khan', N'mohammed.khan@example.com', N'+64 21-456-7890', 0, N'2000-02-28 00:00:00'),
+(6, N'Ava', N'Smith', N'ava.smith@example.com', N'+64 21-567-8901', 1, N'1992-04-10 00:00:00'),
+(7, N'Ethan', N'Johnson', N'ethan.johnson@example.com', N'+64 21-678-9012', 0, N'1988-09-05 00:00:00'),
+(8, N'Emma', N'Williams', N'emma.williams@example.com', N'+64 21-789-0123', 1, N'1994-06-25 00:00:00'),
+(9, N'Noah', N'Brown', N'noah.brown@example.com', N'+64 21-890-1234', 0, N'1991-03-16 00:00:00'),
+(10, N'Olivia', N'Jones', N'olivia.jones@example.com', N'+64 21-901-2345', 1, N'1996-12-01 00:00:00'),
+(11, N'Liam', N'Davis', N'liam.davis@example.com', N'+64 22-012-3456', 0, N'1987-08-14 00:00:00'),
+(12, N'Mia', N'Miller', N'mia.miller@example.com', N'+64 22-123-4567', 1, N'1993-10-09 00:00:00'),
+(13, N'Aiden', N'Wilson', N'aiden.wilson@example.com', N'+64 22-234-5678', 0, N'1999-01-22 00:00:00'),
+(14, N'Charlotte', N'Moore', N'charlotte.moore@example.com', N'+64 22-345-6789', 1, N'1997-07-30 00:00:00'),
+(15, N'Elijah', N'Taylor', N'elijah.taylor@example.com', N'+64 22-456-7890', 0, N'1986-05-18 00:00:00'),
+(16, N'Amelia', N'Anderson', N'amelia.anderson@example.com', N'+64 22-567-8901', 1, N'1998-03-25 00:00:00'),
+(17, N'James', N'Thomas', N'james.thomas@example.com', N'+64 22-678-9012', 0, N'1990-12-13 00:00:00'),
+(18, N'Harper', N'Jackson', N'harper.jackson@example.com', N'+64 22-789-0123', 1, N'1992-09-11 00:00:00'),
+(19, N'Benjamin', N'White', N'benjamin.white@example.com', N'+64 22-890-1234', 0, N'1994-11-29 00:00:00'),
+(20, N'Evelyn', N'Harris', N'evelyn.harris@example.com', N'+64 22-901-2345', 1, N'1993-02-08 00:00:00'),
+(21, N'Alexander', N'Martin', N'alexander.martin@example.com', N'+64 23-012-3456', 0, N'1991-06-03 00:00:00'),
+(22, N'Abigail', N'Thomas', N'abigail.thomas@example.com', N'+64 23-123-4567', 1, N'1995-07-07 00:00:00'),
+(23, N'William', N'Clark', N'william.clark@example.com', N'+64 23-234-5678', 0, N'1988-11-22 00:00:00'),
+(24, N'Scarlett', N'Hall', N'scarlett.hall@example.com', N'+64 23-345-6789', 1, N'1999-05-15 00:00:00'),
+(25, N'Rajesh', N'Sharma', N'rajesh.sharma@example.in', N'+91 98765-43210', 0, N'1980-01-15 00:00:00'),
+(26, N'Anjali', N'Patel', N'anjali.patel@example.in', N'+91 98765-43211', 1, N'1992-03-22 00:00:00'),
+(27, N'Arjun', N'Gupta', N'arjun.gupta@example.in', N'+91 98765-43212', 0, N'1985-05-10 00:00:00'),
+(28, N'Priya', N'Singh', N'priya.singh@example.in', N'+91 98765-43213', 1, N'1997-07-11 00:00:00'),
+(29, N'Karan', N'Mehta', N'karan.mehta@example.in', N'+91 98765-43214', 0, N'1990-09-30 00:00:00'),
+(30, N'Neha', N'Verma', N'neha.verma@example.in', N'+91 98765-43215', 1, N'1994-11-19 00:00:00');
 
-INSERT INTO [dbo].[Customer] ([CustomerId], [FirstName], [LastName], [Email], [PhoneNumber], [Gender], [DateOfBirth]) VALUES 
-(25, N'Rajesh', N'Sharma', N'rajesh.sharma@example.in', N'9876543210', 0, N'1980-01-15 00:00:00'),
-(26, N'Anjali', N'Patel', N'anjali.patel@example.in', N'9876543211', 1, N'1992-03-22 00:00:00'),
-(27, N'Arjun', N'Gupta', N'arjun.gupta@example.in', N'9876543212', 0, N'1985-05-10 00:00:00'),
-(28, N'Priya', N'Singh', N'priya.singh@example.in', N'9876543213', 1, N'1997-07-11 00:00:00'),
-(29, N'Karan', N'Mehta', N'karan.mehta@example.in', N'9876543214', 0, N'1990-09-30 00:00:00'),
-(30, N'Neha', N'Verma', N'neha.verma@example.in', N'9876543215', 1, N'1994-11-19 00:00:00');
-
-SET IDENTITY_INSERT [dbo].[Customer] OFF
+SET IDENTITY_INSERT [dbo].[Customer] OFF;
 
 SET IDENTITY_INSERT [dbo].[Employee] ON
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (1, N'John', N'Mangubat', N'02109055073', 0, CAST(36.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (2, N'Michael', N'Scott', N'02109012345', 1, CAST(45.50 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (3, N'Pam', N'Beesly', N'02123456789', 1, CAST(32.75 AS Decimal(18, 2)), CAST(35.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (4, N'Jim', N'Halpert', N'02134567890', 0, CAST(34.20 AS Decimal(18, 2)), CAST(45.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (5, N'Dwight', N'Schrute', N'02145678901', 0, CAST(40.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (6, N'Stanley', N'Hudson', N'02156789012', 0, CAST(28.50 AS Decimal(18, 2)), CAST(37.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (7, N'Angela', N'Martin', N'02167890123', 1, CAST(30.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (8, N'Kevin', N'Malone', N'02178901234', 0, CAST(27.50 AS Decimal(18, 2)), CAST(42.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (9, N'Kelly', N'Kapoor', N'02189012345', 1, CAST(29.75 AS Decimal(18, 2)), CAST(39.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (10, N'Ryan', N'Howard', N'02190123456', 0, CAST(35.00 AS Decimal(18, 2)), CAST(43.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (11, N'Toby', N'Flenderson', N'02201234567', 0, CAST(33.50 AS Decimal(18, 2)), CAST(38.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (12, N'Phyllis', N'Vance', N'02212345678', 1, CAST(31.25 AS Decimal(18, 2)), CAST(36.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (13, N'Erin', N'Hannon', N'02223456789', 1, CAST(30.50 AS Decimal(18, 2)), CAST(37.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (14, N'Andy', N'Bernard', N'02234567890', 0, CAST(36.50 AS Decimal(18, 2)), CAST(45.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (15, N'Meredith', N'Palmer', N'02245678901', 1, CAST(28.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (16, N'Darryl', N'Philbin', N'02256789012', 0, CAST(35.75 AS Decimal(18, 2)), CAST(42.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (17, N'Creed', N'Bratton', N'02267890123', 0, CAST(27.25 AS Decimal(18, 2)), CAST(39.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (18, N'Oscar', N'Martinez', N'02278901234', 0, CAST(34.50 AS Decimal(18, 2)), CAST(41.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (19, N'Rajat', N'Gupta', N'9876543201', 0, CAST(48.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (20, N'Anjali', N'Saxena', N'9876543202', 1, CAST(42.75 AS Decimal(18, 2)), CAST(38.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (21, N'Shruti', N'Kumar', N'9876543203', 1, CAST(40.50 AS Decimal(18, 2)), CAST(45.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (22, N'Aarav', N'Patel', N'9876543204', 0, CAST(37.25 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (23, N'Mohit', N'Singh', N'9876543205', 0, CAST(44.00 AS Decimal(18, 2)), CAST(42.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (24, N'Sanya', N'Joshi', N'9876543206', 1, CAST(39.25 AS Decimal(18, 2)), CAST(37.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (25, N'Priya', N'Sharma', N'9876543207', 1, CAST(45.75 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (26, N'Kunal', N'Mehta', N'9876543208', 0, CAST(41.50 AS Decimal(18, 2)), CAST(36.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (27, N'Riya', N'Verma', N'9876543209', 1, CAST(38.75 AS Decimal(18, 2)), CAST(44.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (28, N'Neha', N'Chopra', N'9876543210', 1, CAST(43.50 AS Decimal(18, 2)), CAST(47.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (29, N'Aakash', N'Malhotra', N'9876543211', 0, CAST(46.00 AS Decimal(18, 2)), CAST(43.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (30, N'Shivani', N'Jain', N'9876543212', 1, CAST(40.25 AS Decimal(18, 2)), CAST(39.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (31, N'Aditya', N'Aggarwal', N'9876543213', 0, CAST(47.75 AS Decimal(18, 2)), CAST(38.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (32, N'Tanvi', N'Nair', N'9876543214', 1, CAST(39.00 AS Decimal(18, 2)), CAST(41.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (33, N'Rohan', N'Desai', N'9876543215', 0, CAST(45.25 AS Decimal(18, 2)), CAST(46.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (34, N'Mira', N'Ahuja', N'9876543216', 1, CAST(42.00 AS Decimal(18, 2)), CAST(48.00 AS Decimal(18, 2)))
-INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (35, N'Suresh', N'Reddy', N'9876543217', 0, CAST(43.75 AS Decimal(18, 2)), CAST(47.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (1, N'John', N'Mangubat', N'+64 21-090-5507', 0, CAST(36.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (2, N'Michael', N'Scott', N'+64 21-090-1234', 1, CAST(45.50 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (3, N'Pam', N'Beesly', N'+64 21-234-5678', 1, CAST(32.75 AS Decimal(18, 2)), CAST(35.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (4, N'Jim', N'Halpert', N'+64 21-345-6789', 0, CAST(34.20 AS Decimal(18, 2)), CAST(45.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (5, N'Dwight', N'Schrute', N'+64 21-456-7890', 0, CAST(40.00 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (6, N'Stanley', N'Hudson', N'+64 21-567-8901', 0, CAST(28.50 AS Decimal(18, 2)), CAST(37.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (7, N'Angela', N'Martin', N'+64 21-678-9012', 1, CAST(30.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (8, N'Kevin', N'Malone', N'+64 21-789-0123', 0, CAST(27.50 AS Decimal(18, 2)), CAST(42.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (9, N'Kelly', N'Kapoor', N'+64 21-890-1234', 1, CAST(29.75 AS Decimal(18, 2)), CAST(39.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (10, N'Ryan', N'Howard', N'+64 21-901-2345', 0, CAST(35.00 AS Decimal(18, 2)), CAST(43.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (11, N'Toby', N'Flenderson', N'+64 22-012-3456', 0, CAST(33.50 AS Decimal(18, 2)), CAST(38.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (12, N'Phyllis', N'Vance', N'+64 22-123-4567', 1, CAST(31.25 AS Decimal(18, 2)), CAST(36.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (13, N'Erin', N'Hannon', N'+64 22-234-5678', 1, CAST(30.50 AS Decimal(18, 2)), CAST(37.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (14, N'Andy', N'Bernard', N'+64 22-345-6789', 0, CAST(36.50 AS Decimal(18, 2)), CAST(45.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (15, N'Meredith', N'Palmer', N'+64 22-456-7890', 1, CAST(28.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (16, N'Darryl', N'Philbin', N'+64 22-567-8901', 0, CAST(35.75 AS Decimal(18, 2)), CAST(42.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (17, N'Creed', N'Bratton', N'+64 22-678-9012', 0, CAST(27.25 AS Decimal(18, 2)), CAST(39.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (18, N'Oscar', N'Martinez', N'+64 22-789-0123', 0, CAST(34.50 AS Decimal(18, 2)), CAST(41.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (19, N'Rajat', N'Gupta', N'+91 98765-43210', 0, CAST(48.00 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (20, N'Anjali', N'Saxena', N'+91 98765-43211', 1, CAST(42.75 AS Decimal(18, 2)), CAST(38.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (21, N'Shruti', N'Kumar', N'+91 98765-43212', 1, CAST(40.50 AS Decimal(18, 2)), CAST(45.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (22, N'Aarav', N'Patel', N'+91 98765-43213', 0, CAST(37.25 AS Decimal(18, 2)), CAST(50.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (23, N'Saina', N'Khan', N'+91 98765-43214', 0, CAST(39.50 AS Decimal(18, 2)), CAST(42.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (24, N'Rahul', N'Verma', N'+91 98765-43215', 1, CAST(45.25 AS Decimal(18, 2)), CAST(36.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (25, N'Verma', N'Rani', N'+91 98765-43216', 1, CAST(43.75 AS Decimal(18, 2)), CAST(39.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (26, N'Mohit', N'Sharma', N'+91 98765-43217', 0, CAST(36.00 AS Decimal(18, 2)), CAST(48.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (27, N'Nisha', N'Gupta', N'+91 98765-43218', 0, CAST(30.25 AS Decimal(18, 2)), CAST(40.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (28, N'Rahul', N'Khan', N'+91 98765-43219', 1, CAST(32.75 AS Decimal(18, 2)), CAST(35.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (29, N'Pooja', N'Sharma', N'+91 98765-43220', 1, CAST(38.50 AS Decimal(18, 2)), CAST(42.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Employee] ([EmployeeId], [FirstName], [LastName], [PhoneNumber], [Status], [Pay], [Hours]) VALUES (30, N'Anaya', N'Malhotra', N'+91 98765-43221', 0, CAST(37.00 AS Decimal(18, 2)), CAST(41.00 AS Decimal(18, 2)))
 SET IDENTITY_INSERT [dbo].[Employee] OFF
 
 SET IDENTITY_INSERT [dbo].[Part] ON
