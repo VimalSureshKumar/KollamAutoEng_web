@@ -34,10 +34,10 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter an phone number")]
-        [DataType(DataType.PhoneNumber)]
-        [MaxLength(17)] 
-        [RegularExpression(@"^(\+64|0)\d{2,4}[\s-]?\d{4}[\s-]?\d{3,4}$|^(\+91|0)\d{10}$", ErrorMessage = "Please enter a valid phone number in New Zealand or India format.")]
+        [Required(ErrorMessage = "Please enter a phone number")]
+        [DataType(DataType.PhoneNumber), MaxLength(17)]
+        [RegularExpression(@"^(\+64|0[2-9]|022)\d{1,3}[\s-]?\d{3}[\s-]?\d{3,4}$|^(\+91|0)[6-9]\d{9}$",
+            ErrorMessage = "Please enter a valid phone number in New Zealand or India format.")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 

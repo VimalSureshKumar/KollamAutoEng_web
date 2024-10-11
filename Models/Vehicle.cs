@@ -61,6 +61,7 @@ namespace KollamAutoEng_web.Models
 
         [Required(ErrorMessage = "Please enter the odometer reading.")]
         [Display(Name = "Odometer")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         [Range(0, 1000000, ErrorMessage = "The odometer reading must be between 0 and 1,000,000.")]
         public int Odometer { get; set; }
 

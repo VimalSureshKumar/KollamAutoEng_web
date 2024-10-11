@@ -33,10 +33,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mb-3">Log in</button>
+                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary mb-4">Log in</button>
                             <div class="btn-group-vertical w-100" role="group">
-                                <a id="forgot-password" class="btn btn-secondary mb-2" asp-page="./ForgotPassword">Forgot your password?</a>
-                                <a class="btn btn-register mb-2" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                                <a id="forgot-password" class="btn btn-secondary mb-3" asp-page="./ForgotPassword">Forgot your password?</a>
+                                <a class="btn btn-info mb-3" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                                 <a id="resend-confirmation" class="btn btn-warning" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
                             </div>
                         </form>

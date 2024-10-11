@@ -24,6 +24,7 @@ namespace KollamAutoEng_web.Models
         [Display(Name = "Payment ID")]
         public int PaymentId { get; set; }
 
+        [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter Paymet Amount")]
         [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")]
         [Range(0, 500000, ErrorMessage = "Please enter a value between 0 and 500,000.")]

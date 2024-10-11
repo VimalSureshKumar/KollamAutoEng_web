@@ -41,6 +41,7 @@
                     {
                         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserAsync(User).Result.FirstName!</a>
                     }
+                    <a asp-action="Create" asp-controller="Customers" class="btn btn-success btn-lg m-3">Book Service!</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -53,38 +54,35 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="Appointments" asp-action="Index">Appointment</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Appointments" asp-action="Index">Appointment</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Employee</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Employees" asp-action="Index">Employee</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Faults" asp-action="Index">Fault</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="FaultParts" asp-action="Index">Fault Part</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="FaultParts" asp-action="Index">Fault Part</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="Parts" asp-action="Index">Part</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Parts" asp-action="Index">Part</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="Payments" asp-action="Index">Payment</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Payments" asp-action="Index">Payment</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicle</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicle</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="VehicleBrands" asp-action="Index">Vehicle Brand</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="VehicleBrands" asp-action="Index">Vehicle Brand</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="VehicleModels" asp-action="Index">Vehicle Model</a>
+                        <li class="nav-item custom-nav-item">
+                            <a class="nav-link text-light custom-nav-link" asp-area="" asp-controller="VehicleModels" asp-action="Index">Vehicle Model</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial.cshtml" />

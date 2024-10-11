@@ -1,5 +1,7 @@
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,13 +10,19 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+body {
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    margin: 0; 
 }
 
-html {
-    position: relative;
-    min-height: 100%;
+main {
+    flex-grow: 1;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .navbar {
@@ -31,9 +39,10 @@ html {
 
 /*-----<Index Page CSS>-----*/
 .bigimage {
-    max-width: 100%;
-    max-height: 1280%;
-    margin-top: -16px;
+    object-fit: fill;
+    width: 100%; 
+    max-height: 105vh; 
+    margin-top: -16px; 
 }
 
 .intro {
@@ -43,22 +52,61 @@ html {
 
 /*-----<Off Canvas CSS>-----*/
 .offcanvas-header {
-    background-color: #ffd800;
-    color: black;
-    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    background-color: #ffd800; /* Header background color */
+    color: black; /* Header text color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font family */
+    font-weight: bold; /* Font weight for header */
+    font-size: 26px; /* Increased font size for header */
+    padding: 20px; /* Padding for header */
+    border-bottom: 2px solid #ccc; /* Thicker border for a cleaner look */
 }
 
 .offcanvas-body {
-    font-size: 22px;
-    padding: 30px;
-    text-align: left;
-    background-color: #343434;
-    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    font-size: 20px; /* Increased font size for body text */
+    padding: 30px; /* More padding for spacious layout */
+    background-color: #343434; /* Background color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font family */
+    color: #f0f0f0; /* Text color */
+    line-height: 1.75; /* Line spacing */
 }
 
-.large-text {
-    font-size: 22px;
+/* Custom navigation link style */
+.custom-nav-link {
+    display: block; /* Makes the link fill the parent element */
+    color: #f0f0f0; /* Default text color */
+    font-size: 20px; /* Font size */
+    padding: 15px; /* Padding for spacing */
+    text-transform: capitalize; /* Capitalize text */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transition */
+    width: 100%; /* Ensure full width */
+    border: none; /* Remove default button border */
+    background: transparent; /* Transparent background */
+    text-align: left; /* Align text to the left */
 }
+
+    /* Hover effects for nav links */
+    .custom-nav-link:hover {
+        background-color: #5e5e5e; /* Background color on hover */
+        color: #ffffff; /* Text color on hover */
+    }
+
+/* Ensure button styles match nav link styles */
+button.custom-nav-link {
+    display: block; /* Makes the button fill */
+    color: #f0f0f0; /* Default text color */
+    font-size: 20px; /* Font size */
+    padding: 15px; /* Padding for spacing */
+    text-transform: capitalize; /* Capitalize text */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transition */
+    width: 100%; /* Ensure full width */
+    background: transparent; /* Transparent background */
+    text-align: left; /* Align text to the left */
+}
+
+    button.custom-nav-link:hover {
+        background-color: #5e5e5e; /* Background color on hover */
+        color: #ffffff; /* Text color on hover */
+    }
 
 /*-----<CRUD CSS>-----*/
 * {
@@ -67,7 +115,7 @@ html {
 
 .crud-body {
     background-color: #002244;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden;
 }
 
 .view {
@@ -89,7 +137,7 @@ html {
 /* Form group spacing */
 .form-group.row {
     margin-bottom: 15px;
-    width: 100%; /* Ensure full width */
+    width: 100%;
 }
 
 /* Label alignment */
@@ -242,6 +290,7 @@ html {
     font-size: 15px;
     line-height: 24px;
     color: #737373;
+    margin-top: auto; /* Ensures footer sticks to the bottom */
 }
 
     .site-footer hr {
@@ -309,7 +358,7 @@ html {
 .contact-us-btn {
     display: flex;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     margin-top: -15px;
     margin-left: -5px;
 }
@@ -317,8 +366,8 @@ html {
     .contact-us-btn .btn {
         font-size: 18px;
         padding: 12px 30px;
-        background-color: #ff0000; 
-        color: #fff; 
+        background-color: #ff0000;
+        color: #fff;
         border-radius: 5px;
         text-transform: uppercase;
         font-weight: 600;
@@ -327,7 +376,7 @@ html {
 
         .contact-us-btn .btn:hover {
             color: white;
-            background-color: #cc0000; 
+            background-color: #cc0000;
             text-decoration: none;
         }
 
@@ -402,8 +451,6 @@ html {
         text-align: center;
         margin-right: 8px;
         border-radius: 100%;
-        -webkit-transition: all .2s linear;
-        -o-transition: all .2s linear;
         transition: all .2s linear
     }
 
@@ -411,30 +458,3 @@ html {
             color: #fff;
             background-color: #29aafe
         }
-
-    .social-icons.size-sm a {
-        line-height: 34px;
-        height: 34px;
-        width: 34px;
-        font-size: 14px
-    }
-
-    .social-icons a.facebook:hover {
-        background-color: #3b5998
-    }
-
-    .social-icons a.twitter:hover {
-        background-color: #00aced
-    }
-
-    .social-icons a.instagram:hover {
-        background-color: #ea4c89
-    }
-
-@media (max-width:767px) {
-    .social-icons li.title {
-        display: block;
-        margin-right: 0;
-        font-weight: 600
-    }
-}

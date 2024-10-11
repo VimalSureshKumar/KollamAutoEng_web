@@ -12,13 +12,13 @@
             <div class="details-view">
                 <dl class="row">
                     <dt class="col-sm-4 text-right">
-                        @Html.DisplayNameFor(model => model.VehicleBrand)
+                        Vehicle Brand
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.VehicleBrand.BrandName)
                     </dd>
                     <dt class="col-sm-4 text-right">
-                        @Html.DisplayNameFor(model => model.VehicleModel)
+                        Vehicle Model
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.VehicleModel.ModelName)
@@ -58,6 +58,7 @@
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Customer.FirstName)
+                        @Html.DisplayFor(model => model.Customer.LastName)
                     </dd>
                 </dl>
             </div>

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit Appointment";
 
     var currentDate = DateTime.Now;
-    var minDate = currentDate.ToString("yyyy-MM-dd");
+    var minDate = currentDate.AddYears(-1).ToString("yyyy-MM-dd");
     var maxDate = currentDate.AddYears(1).ToString("yyyy-MM-dd");
 }
 

@@ -12,19 +12,19 @@
             <div class="details-view">
                 <dl class="row">
                     <dt class="col-sm-4 text-right">
-                        @Html.DisplayNameFor(model => model.Fault)
+                        Fault Name
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Fault.FaultName)
                     </dd>
                     <dt class="col-sm-4 text-right">
-                        @Html.DisplayNameFor(model => model.Part)
+                        Part Name
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Part.PartName)
                     </dd>
                     <dt class="col-sm-4 text-right">
-                        @Html.DisplayNameFor(model => model.Appointment)
+                        Appointment Name
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Appointment.AppointmentName)
@@ -34,6 +34,7 @@
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Customer.FirstName)
+                        @Html.DisplayFor(model => model.Customer.LastName)
                     </dd>
                     <dt class="col-sm-4 text-right">
                         @Html.DisplayNameFor(model => model.Vehicle)

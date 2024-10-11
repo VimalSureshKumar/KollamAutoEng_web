@@ -10,14 +10,20 @@ namespace KollamAutoEng_web.ValidationAttributes
             if (value != null)
             {
                 var date = (DateTime)value;
-                var currentDate = DateTime.Now;
-                var hundredYearBefore = currentDate.AddYears(-100);
 
-                if (date > currentDate.Date || date < hundredYearBefore.Date)
+                // Calculate the minimum valid date (current year - 100 years)
+                var minDate = DateTime.Now.AddYears(-100);
+
+                // Calculate the maximum valid date (current date - 16 years)
+                var maxDate = DateTime.Now.AddYears(-16);
+
+                // Check if the date is outside the valid range
+                if (date < minDate || date > maxDate)
                 {
-                    return new ValidationResult($"The date of birth must be between {currentDate:d/MM/yyyy} and {hundredYearBefore:d/MM/yyyy}.");
+                    return new ValidationResult($"The date of birth must be between {minDate:dd/MM/yyyy} and {maxDate:dd/MM/yyyy}.");
                 }
             }
+
             return ValidationResult.Success;
         }
     }

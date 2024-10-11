@@ -25,10 +25,11 @@
                         @Html.DisplayFor(model => model.AppointmentDate)
                     </dd>
                     <dt class="col-sm-4 text-right">
-                        @Html.DisplayNameFor(model => model.Customer.FirstName)
+                        Customer
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Customer.FirstName)
+                        @Html.DisplayFor(model => model.Customer.LastName)
                     </dd>
                     <dt class="col-sm-4 text-right">
                         @Html.DisplayNameFor(model => model.Vehicle.Registration)
@@ -37,10 +38,11 @@
                         @Html.DisplayFor(model => model.Vehicle.Registration)
                     </dd>
                     <dt class="col-sm-4 text-right">
-                        @Html.DisplayNameFor(model => model.Employee.FirstName)
+                        Employee
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Employee.FirstName)
+                        @Html.DisplayFor(model => model.Employee.LastName)
                     </dd>
                     <dt class="col-sm-4 text-right">
                         @Html.DisplayNameFor(model => model.ServiceCost)
