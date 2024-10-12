@@ -39,7 +39,7 @@
                 <div class="d-flex align-items-center">
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserAsync(User).Result.FirstName!</a>
+                        <a id="manage" class="nav-link text-dark logged-in-user" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserAsync(User).Result.FirstName!</a>
                     }
                     <a asp-action="Create" asp-controller="Customers" class="btn btn-success btn-lg m-3">Book Service!</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">

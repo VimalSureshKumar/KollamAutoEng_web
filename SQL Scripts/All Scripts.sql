@@ -5,33 +5,29 @@ INSERT INTO [dbo].[AspNetUsers] ([Id], [FirstName], [LastName], [UserName], [Nor
 INSERT INTO [dbo].[AspNetUsers] ([Id], [FirstName], [LastName], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'f99cc304-aede-47ef-962b-ff96f5b1a0a2', N'Vimal Kumar', N'Suresh Kumar', N'vimalsureshkumar33@gmail.com', N'VIMALSURESHKUMAR33@GMAIL.COM', N'vimalsureshkumar33@gmail.com', NULL, 1, N'AQAAAAIAAYagAAAAEJ7xIdR0ifR3koSudbYv9rXZ/bl6FaACILLPLrd511gwyS+UZ+drR9x9RU3EMEGqpw==', N'3ZPW3UR3E4HMMQYCWMDW26IF2AJK5SR5', N'4504209f-6eed-4542-8e10-0de0b4555ef9', N'02109011821', 0, 0, NULL, 1, 0)
 INSERT INTO [dbo].[AspNetUsers] ([Id], [FirstName], [LastName], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'fdbf978e-87ec-42c6-a8ea-d6cc97a56030', N'Muhammed', N'Amar', N'dedajef634@heweek.com', N'DEDAJEF634@HEWEEK.COM', N'dedajef634@heweek.com', NULL, 1, N'AQAAAAIAAYagAAAAEKxKhlcMgudTq5LiyNpc0/i6MPgIGQUuMuCLkQGMjWY+/pZQmSpqbVgw+Uye0uWkbw==', N'WY7UMAHIMWQZNESXCI5ADUY2STTJK5IE', N'43711ce9-2b6b-45ff-b940-cb6fb24548db', N'0212501781', 0, 0, NULL, 1, 0)
 
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'2df3a3a8-3fd4-4801-bf9e-8b6440903330', N'User', N'User', NULL)
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'895f10ba-5e89-4a78-aeb3-dde654921eae', N'Employee', N'Employee', NULL)
-INSERT INTO [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'c27090b2-8deb-46c2-a3be-a9dc3a30c658', N'Admin', N'Admin', NULL)
-
 -- Assigning Vimal Kumar as Admin
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
-(N'f99cc304-aede-47ef-962b-ff96f5b1a0a2', N'c27090b2-8deb-46c2-a3be-a9dc3a30c658')  -- Admin
+(N'f99cc304-aede-47ef-962b-ff96f5b1a0a2', N'1')  -- Admin
 
 -- Assigning Muhammed Amar as Admin
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
-(N'fdbf978e-87ec-42c6-a8ea-d6cc97a56030', N'c27090b2-8deb-46c2-a3be-a9dc3a30c658');  -- Admin
+(N'fdbf978e-87ec-42c6-a8ea-d6cc97a56030', N'1');  -- Admin
 
 -- Assigning Ashin Benni as Employee
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
-(N'3f72129d-c5e5-4427-9b2b-acae6fae8cb2', N'895f10ba-5e89-4a78-aeb3-dde654921eae');  -- Employee
+(N'3f72129d-c5e5-4427-9b2b-acae6fae8cb2', N'2');  -- Employee
 
 -- Assigning Vishnu Pillai as Employee
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
-(N'49d1fa75-f488-41a2-a56e-5ec43bebaa32', N'895f10ba-5e89-4a78-aeb3-dde654921eae');  -- Employee
+(N'49d1fa75-f488-41a2-a56e-5ec43bebaa32', N'2');  -- Employee
 
 -- Assigning Ankur Nautiyal as User
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
-(N'94f557a9-83ad-416e-93aa-cb124fdfa9d0', N'2df3a3a8-3fd4-4801-bf9e-8b6440903330');  -- User
+(N'94f557a9-83ad-416e-93aa-cb124fdfa9d0', N'3');  -- User
 
 -- Assigning Gilbert Biju as User
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES 
-(N'9914d66d-b90f-46a8-bf37-21fce87a5c18', N'2df3a3a8-3fd4-4801-bf9e-8b6440903330');  -- User
+(N'9914d66d-b90f-46a8-bf37-21fce87a5c18', N'3');  -- User
 
 SET IDENTITY_INSERT [dbo].[Customer] ON;
 

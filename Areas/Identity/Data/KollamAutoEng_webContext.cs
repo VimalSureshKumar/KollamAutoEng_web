@@ -18,16 +18,33 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
     {
         base.OnModelCreating(builder);
 
-        var admin = new IdentityRole("Admin");
-        admin.NormalizedName = "Admin";
+        // Seeding roles with RoleValue
+        var admin = new ApplicationRole
+        {
+            Id = "1", 
+            Name = "Admin",
+            NormalizedName = "ADMIN",
+            RoleValue = 1
+        };
 
-        var employee = new IdentityRole("Employee");
-        employee.NormalizedName = "Employee";
+        var employee = new ApplicationRole
+        {
+            Id = "2",
+            Name = "Employee",
+            NormalizedName = "EMPLOYEE",
+            RoleValue = 2
+        };
 
-        var user = new IdentityRole("User");
-        user.NormalizedName = "User";
+        var user = new ApplicationRole
+        {
+            Id = "3",
+            Name = "User",
+            NormalizedName = "USER",
+            RoleValue = 3
+        };
 
-        builder.Entity<IdentityRole>().HasData(admin, employee, user);
+        // Seed data into the roles table
+        builder.Entity<ApplicationRole>().HasData(admin, employee, user);
 
         builder.Entity<Vehicle>()
             .HasOne(v => v.Customer)

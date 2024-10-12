@@ -50,6 +50,10 @@ main {
     font-family: 'Times New Roman', Times, serif;
 }
 
+.logged-in-user {
+    margin-right: -15px; 
+}
+
 /*-----<Off Canvas CSS>-----*/
 .offcanvas-header {
     background-color: #ffd800; /* Header background color */
