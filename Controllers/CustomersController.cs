@@ -184,7 +184,6 @@ namespace KollamAutoEng_web.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Delete
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
@@ -192,15 +191,52 @@ namespace KollamAutoEng_web.Controllers
         {
             if (_context.Customer == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Customer'  is null.");
-            }
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer != null)
-            {
-                _context.Customer.Remove(customer);
+                return Problem("Entity set 'KollamAutoEng_webContext.Customer' is null.");
             }
 
-            await _context.SaveChangesAsync();
+            var customer = await _context.Customer
+                .Include(c => c.Vehicles)
+                .Include(c => c.Appointments)
+                .ThenInclude(a => a.FaultParts) 
+                .Include(c => c.Faults)
+                .Include(c => c.Payments)
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
+
+            if (customer != null)
+            {
+                foreach (var appointment in customer.Appointments)
+                {
+                    if (appointment.FaultParts?.Any() == true)
+                    {
+                        _context.FaultPart.RemoveRange(appointment.FaultParts);
+                    }
+                }
+
+                if (customer.Faults?.Any() == true)
+                {
+                    _context.Fault.RemoveRange(customer.Faults);
+                }
+
+                if (customer.Appointments?.Any() == true)
+                {
+                    _context.Appointment.RemoveRange(customer.Appointments);
+                }
+
+                if (customer.Vehicles?.Any() == true)
+                {
+                    _context.Vehicle.RemoveRange(customer.Vehicles);
+                }
+
+                if (customer.Payments?.Any() == true)
+                {
+                    _context.Payment.RemoveRange(customer.Payments);
+                }
+
+                _context.Customer.Remove(customer);
+
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

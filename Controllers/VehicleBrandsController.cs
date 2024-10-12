@@ -182,21 +182,21 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: VehicleBrands/Delete
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]  
+        [ValidateAntiForgeryToken]  
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.VehicleBrand == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.VehicleBrand'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleBrand' is null."); 
             }
-            var vehicleBrand = await _context.VehicleBrand.FindAsync(id);
+            var vehicleBrand = await _context.VehicleBrand.FindAsync(id);  
             if (vehicleBrand != null)
             {
-                _context.VehicleBrand.Remove(vehicleBrand);
+                _context.VehicleBrand.Remove(vehicleBrand);  
             }
-            
-            await _context.SaveChangesAsync();
+
+            await _context.SaveChangesAsync();  
             return RedirectToAction(nameof(Index));
         }
 

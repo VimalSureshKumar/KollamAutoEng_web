@@ -114,7 +114,8 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
+
             return View(vehicleModel);
         }
 
@@ -132,7 +133,7 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
             return View(vehicleModel);
         }
 
@@ -193,22 +194,22 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: VehicleModels/Delete
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]  
+        [ValidateAntiForgeryToken]  
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.VehicleModel == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");  
             }
-            var vehicleModel = await _context.VehicleModel.FindAsync(id);
+            var vehicleModel = await _context.VehicleModel.FindAsync(id);  
             if (vehicleModel != null)
             {
-                _context.VehicleModel.Remove(vehicleModel);
+                _context.VehicleModel.Remove(vehicleModel);  
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            await _context.SaveChangesAsync();  
+            return RedirectToAction(nameof(Index)); 
         }
 
         private bool VehicleModelExists(int id)

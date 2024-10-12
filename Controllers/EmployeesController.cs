@@ -182,7 +182,6 @@ namespace KollamAutoEng_web.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Delete
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
@@ -190,15 +189,34 @@ namespace KollamAutoEng_web.Controllers
         {
             if (_context.Employee == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Employee'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Employee' is null.");
             }
-            var employee = await _context.Employee.FindAsync(id);
+
+            var employee = await _context.Employee
+                .Include(e => e.Appointments)
+                .ThenInclude(a => a.FaultParts)
+                .FirstOrDefaultAsync(m => m.EmployeeId == id);
+
             if (employee != null)
             {
+                foreach (var appointment in employee.Appointments)
+                {
+                    if (appointment.FaultParts?.Any() == true)
+                    {
+                        _context.FaultPart.RemoveRange(appointment.FaultParts);
+                    }
+                }
+
+                if (employee.Appointments?.Any() == true)
+                {
+                    _context.Appointment.RemoveRange(employee.Appointments);
+                }
+
                 _context.Employee.Remove(employee);
+
+                await _context.SaveChangesAsync();
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

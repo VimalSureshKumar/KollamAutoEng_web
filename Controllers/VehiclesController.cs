@@ -88,9 +88,9 @@ namespace KollamAutoEng_web.Controllers
             }
 
             var vehicle = await _context.Vehicle
-                .Include(v => v.Customer)
-                .Include(v => v.VehicleBrand)
-                .Include(v => v.VehicleModel)
+                .Include(m => m.Customer)
+                .Include(m => m.VehicleBrand)
+                .Include(m => m.VehicleModel)
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {
@@ -195,9 +195,9 @@ namespace KollamAutoEng_web.Controllers
             }
 
             var vehicle = await _context.Vehicle
-                .Include(v => v.Customer)
-                .Include(v => v.VehicleBrand)
-                .Include(v => v.VehicleModel)
+                .Include(m => m.Customer)
+                .Include(m => m.VehicleBrand)
+                .Include(m => m.VehicleModel)
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {
@@ -207,7 +207,7 @@ namespace KollamAutoEng_web.Controllers
             return View(vehicle);
         }
 
-        // POST: Vehicles/Delete
+        // POST: Vehicles/Delete/5
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
@@ -215,16 +215,41 @@ namespace KollamAutoEng_web.Controllers
         {
             if (_context.Vehicle == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle' is null.");
             }
-            var vehicle = await _context.Vehicle.FindAsync(id);
+
+            var vehicle = await _context.Vehicle
+                .Include(m => m.Appointments) 
+                .ThenInclude(m => m.FaultParts) 
+                .Include(m => m.Faults) 
+                .FirstOrDefaultAsync(m => m.VehicleId == id);
+
             if (vehicle != null)
             {
+                foreach (var appointment in vehicle.Appointments)
+                {
+                    if (appointment.FaultParts?.Any() == true)
+                    {
+                        _context.FaultPart.RemoveRange(appointment.FaultParts);
+                    }
+                }
+
+                if (vehicle.Appointments?.Any() == true)
+                {
+                    _context.Appointment.RemoveRange(vehicle.Appointments);
+                }
+
+                if (vehicle.Faults?.Any() == true)
+                {
+                    _context.Fault.RemoveRange(vehicle.Faults);
+                }
+
+                // Remove the vehicle itself
                 _context.Vehicle.Remove(vehicle);
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            await _context.SaveChangesAsync(); 
+            return RedirectToAction(nameof(Index)); 
         }
 
         private bool VehicleExists(int id)

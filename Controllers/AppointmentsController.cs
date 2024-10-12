@@ -218,14 +218,24 @@ namespace KollamAutoEng_web.Controllers
             {
                 return Problem("Entity set 'KollamAutoEng_webContext.Appointment' is null.");
             }
-            var appointment = await _context.Appointment.FindAsync(id);
+
+            var appointment = await _context.Appointment
+                .Include(a => a.FaultParts)
+                .FirstOrDefaultAsync(m => m.AppointmentId == id);
+
             if (appointment != null)
             {
+                if (appointment.FaultParts != null && appointment.FaultParts.Any())
+                {
+                    _context.FaultPart.RemoveRange(appointment.FaultParts);
+                }
+
                 _context.Appointment.Remove(appointment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
 
         private bool AppointmentExists(int id)
