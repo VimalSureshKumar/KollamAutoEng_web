@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employee,User")]
+    [Authorize(Roles = "Admin,Employee")]
     public class AppointmentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,7 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
@@ -54,9 +54,12 @@ namespace KollamAutoEng_web.Controllers
                 appointments = appointments.Where(m =>
                    m.Customer.FirstName.Contains(searchString) ||
                    m.Customer.LastName.Contains(searchString) ||
+                   (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString) ||
                    m.Employee.FirstName.Contains(searchString) ||
                    m.Employee.LastName.Contains(searchString) ||
-                   m.Vehicle.Registration.Contains(searchString) 
+                   (m.Employee.FirstName + " " + m.Employee.LastName).Contains(searchString) ||
+                   m.Vehicle.Registration.Contains(searchString) ||
+                   m.AppointmentName.Contains(searchString)
                 );
             }
 
@@ -75,7 +78,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments/Details
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -97,7 +100,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments/Create
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
@@ -108,7 +111,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Appointments/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {

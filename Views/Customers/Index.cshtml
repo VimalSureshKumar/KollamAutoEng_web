@@ -12,7 +12,7 @@
             <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Customer</a>
 
             <form asp-controller="Customers" asp-action="Index" class="d-flex align-items-center">
-                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2">
+                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Customer" class="form-control me-2">
                 <button type="submit" class="btn btn-primary">Search</button>
                 <a href="@Url.Action("Index", "Customers")" class="btn btn-outline-secondary ms-2">Clear</a>
             </form>

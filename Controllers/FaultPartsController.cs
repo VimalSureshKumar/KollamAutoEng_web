@@ -9,6 +9,8 @@ using KollamAutoEng_web.Areas.Identity.Data;
 using KollamAutoEng_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using KollamAutoEng_web.Migrations;
+using Microsoft.Data.SqlClient;
+using NuGet.Protocol.Plugins;
 
 namespace KollamAutoEng_web.Controllers
 {
@@ -24,8 +26,19 @@ namespace KollamAutoEng_web.Controllers
 
         // GET: FaultParts
         [Authorize(Roles = "Admin,Employee")]
-        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
+            ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
             if (_context.FaultPart == null)
             {
                 return Problem("Entity set 'KollamAutoEng_webContext.FaultPart' is null.");
@@ -44,10 +57,24 @@ namespace KollamAutoEng_web.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 faultparts = faultparts.Where(m =>
-                    m.Fault.FaultId.ToString().Contains(searchString) ||
-                    m.Part.PartId.ToString().Contains(searchString) ||
-                    m.Appointment.AppointmentId.ToString().Contains(searchString)
+                    m.Fault.FaultName.Contains(searchString) ||
+                    m.Part.PartName.Contains(searchString) ||
+                    m.Appointment.AppointmentName.Contains(searchString) ||
+                    m.Vehicle.Registration.Contains(searchString) ||
+                    m.Customer.FirstName.Contains(searchString) ||
+                    m.Customer.LastName.Contains(searchString) ||
+                   (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString)
                 );
+            }
+
+            switch (sortOrder)
+            {
+                case "Customer":
+                    faultparts = faultparts.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
+                    break;
+                case "customer_desc":
+                    faultparts = faultparts.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
+                    break;
             }
 
             int pageSize = 5;

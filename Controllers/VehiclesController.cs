@@ -23,11 +23,10 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Vehicles
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["Customer.FirstNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
 
             if (searchString != null)
             {
@@ -56,19 +55,22 @@ namespace KollamAutoEng_web.Controllers
                 vehicles = vehicles.Where(m =>
                     m.VIN.Contains(searchString) ||
                     m.Registration.Contains(searchString) ||
-                    m.Customer.FirstName.Contains(searchString) ||
                     m.VehicleBrand.BrandName.Contains(searchString) ||
-                    m.VehicleModel.ModelName.Contains(searchString)
+                    m.VehicleModel.ModelName.Contains(searchString) ||
+                    (m.VehicleBrand.BrandName + " " + m.VehicleModel.ModelName).Contains(searchString) ||
+                    m.Customer.FirstName.Contains(searchString) ||
+                    m.Customer.LastName.Contains(searchString) ||
+                    (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString)
                 );
             }
 
             switch (sortOrder)
             {
-                case "name_desc":
-                    vehicles = vehicles.OrderByDescending(m => m.Customer.FirstName);
+                case "Customer":
+                    vehicles = vehicles.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
                     break;
-                default:
-                    vehicles = vehicles.OrderBy(m => m.Customer.FirstName);
+                case "customer_desc":
+                    vehicles = vehicles.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
                     break;
             }
 
@@ -77,7 +79,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Vehicles/Details
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Vehicle == null)
@@ -99,7 +101,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Vehicles/Create
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee,User")]
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
@@ -110,7 +112,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Vehicles/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VehicleId,BrandId,ModelId,VIN,Registration,Colour,DriveType,Odometer,CustomerId")] Vehicle vehicle)
         {

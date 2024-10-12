@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employee,User")]
+    [Authorize(Roles = "Admin,Employee")]
     public class VehicleBrandsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,7 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleBrands
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
@@ -70,7 +70,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleBrands/Details
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.VehicleBrand == null)
@@ -162,7 +162,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleBrands/Delete
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.VehicleBrand == null)
@@ -182,7 +182,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: VehicleBrands/Delete
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

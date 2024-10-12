@@ -12,7 +12,7 @@
             <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Fault</a>
 
             <form asp-controller="Faults" asp-action="Index" class="d-flex align-items-center">
-                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2" />
+                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Faults" class="form-control me-2" />
                 <button type="submit" class="btn btn-primary">Search</button>
                 <a href="@Url.Action("Index", "Faults")" class="btn btn-outline-secondary ms-2">Clear</a>
             </form>
@@ -22,7 +22,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>@Html.DisplayNameFor(model => model[0].Vehicle)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].Customer)</th>
+                        <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a></th>
                         <th>@Html.DisplayNameFor(model => model[0].FaultName)</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -32,7 +32,7 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Vehicle.Registration)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Customer.FirstName) @Html.DisplayFor(modelItem => item.Customer.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Customer.FirstName) @Html.DisplayFor(modelItem => item.Customer.LastName)</td>
                             <td>@Html.DisplayFor(modelItem => item.FaultName)</td>
                             <td class="text-center">
                                 <a asp-action="Edit" asp-route-id="@item.FaultId" class="btn btn-warning btn-sm">Edit</a>

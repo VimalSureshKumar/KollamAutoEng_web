@@ -12,13 +12,13 @@
             <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Vehicle</a>
 
             <form asp-controller="Vehicles" asp-action="Index" class="d-flex align-items-center">
-                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2">
+                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Vehicles" class="form-control me-2">
                 <button type="submit" class="btn btn-primary">Search</button>
                 <a href="@Url.Action("Index", "Vehicles")" class="btn btn-outline-secondary ms-2">Clear</a>
             </form>
         </div>
         <div class="table-responsive">
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped table-sm">
                 <thead class="table-dark">
                     <tr>
                         <th>Vehicle</th>
@@ -27,6 +27,7 @@
                         <th>@Html.DisplayNameFor(model => model[0].Colour)</th>
                         <th>@Html.DisplayNameFor(model => model[0].DriveType)</th>
                         <th>@Html.DisplayNameFor(model => model[0].Odometer)</th>
+                        <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a></th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -34,13 +35,13 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.VehicleBrand.BrandName) 
-                                @Html.DisplayFor(modelItem => item.VehicleModel.ModelName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.VehicleBrand.BrandName) @Html.DisplayFor(modelItem => item.VehicleModel.ModelName)</td>
                             <td>@Html.DisplayFor(modelItem => item.VIN)</td>
                             <td>@Html.DisplayFor(modelItem => item.Registration)</td>
                             <td>@Html.DisplayFor(modelItem => item.Colour)</td>
                             <td>@Html.DisplayFor(modelItem => item.DriveType)</td>
                             <td>@Html.DisplayFor(modelItem => item.Odometer)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Customer.FirstName) @Html.DisplayFor(modelItem => item.Customer.LastName)</td>
                             <td class="text-center">
                                 <a asp-action="Edit" asp-route-id="@item.VehicleId" class="btn btn-warning btn-sm">Edit</a>
                                 <a asp-action="Details" asp-route-id="@item.VehicleId" class="btn btn-info btn-sm">Details</a>
@@ -50,7 +51,7 @@
                     }
                 </tbody>
             </table>
-        </div> 
+        </div>
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">

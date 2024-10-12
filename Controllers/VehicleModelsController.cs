@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employee,User")]
+    [Authorize(Roles = "Admin,Employee")]
     public class VehicleModelsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,21 +22,21 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleModels
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["ModelNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             if (searchString != null)
             {
                 pageNumber = 1;
             }
-
             else
             {
                 searchString = currentFilter;
             }
+
             if (_context.VehicleModel == null)
             {
                 return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");
@@ -52,17 +52,19 @@ namespace KollamAutoEng_web.Controllers
             {
                 models = models.Where(m =>
                     m.ModelName.Contains(searchString) ||
-                    m.VehicleBrand.BrandName.Contains(searchString)
+                    m.VehicleBrand.BrandName.Contains(searchString) ||
+                    (m.VehicleBrand.BrandName + " " + m.ModelName).Contains(searchString) ||
+                    (m.ModelName + " " + m.VehicleBrand.BrandName).Contains(searchString)
                        );
             }
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    models = models.OrderByDescending(m => m.ModelName);
+                    models = models.OrderByDescending(m => m.VehicleBrand.BrandName);
                     break;
                 default:
-                    models = models.OrderBy(m => m.ModelName);
+                    models = models.OrderBy(m => m.VehicleBrand.BrandName);
                     break;
             }
 
@@ -73,7 +75,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleModels/Details
-        [Authorize(Roles = "Admin,Employee,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.VehicleModel == null)
@@ -170,7 +172,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleModels/Delete
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.VehicleModel == null)
@@ -191,7 +193,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: VehicleModels/Delete
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

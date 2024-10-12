@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,User")]
+    [Authorize(Roles = "Admin,Employee,User")]
     public class CustomersController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
@@ -22,7 +22,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Customers
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
@@ -52,8 +52,9 @@ namespace KollamAutoEng_web.Controllers
                 customers = customers.Where(m =>
                     m.FirstName.Contains(searchString) ||
                     m.LastName.Contains(searchString) ||
+                    (m.FirstName + " " + m.LastName).Contains(searchString) ||
                     m.Email.Contains(searchString) ||
-                    m.PhoneNumber.Contains(searchString) 
+                    m.PhoneNumber.Contains(searchString)
                 );
             }
 
@@ -72,7 +73,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Customers/Details
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Customer == null)
@@ -91,7 +92,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Customers/Create
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin,Employee,User")]
         public IActionResult Create()
         {
             return View();
@@ -99,7 +100,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Customers/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin,Employee,User")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
@@ -114,7 +115,7 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Customers/Edit
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Customer == null)
@@ -132,7 +133,7 @@ namespace KollamAutoEng_web.Controllers
 
         // POST: Customers/Edit
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {

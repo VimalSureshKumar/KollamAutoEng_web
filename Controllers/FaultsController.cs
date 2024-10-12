@@ -23,8 +23,19 @@ namespace KollamAutoEng_web.Controllers
 
         // GET: Faults
         [Authorize(Roles = "Admin,Employee")]
-        public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
             if (_context.Fault == null)
             {
                 return Problem("Entity set 'KollamAutoEng_webContext.Fault' is null.");
@@ -41,8 +52,21 @@ namespace KollamAutoEng_web.Controllers
             {
                 faults = faults.Where(m =>
                    m.Vehicle.Registration.Contains(searchString) ||
-                   m.Customer.FirstName.Contains(searchString)
+                   m.FaultName.Contains(searchString) ||
+                   m.Customer.FirstName.Contains(searchString) ||
+                   m.Customer.LastName.Contains(searchString) ||
+                   (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString)
                        );
+            }
+
+            switch (sortOrder)
+            {
+                case "Customer":
+                    faults = faults.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
+                    break;
+                case "customer_desc":
+                    faults = faults.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
+                    break;
             }
 
             int pageSize = 10;

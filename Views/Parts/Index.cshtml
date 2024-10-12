@@ -23,9 +23,7 @@
                     <tr>
                         <th>@Html.DisplayNameFor(model => model[0].Reference)</th>
                         <th>@Html.DisplayNameFor(model => model[0].PartName)</th>
-                        <th>
-                            <a asp-action="Index" asp-route-sortOrder="@ViewData["CostSortParm"]">Cost</a>
-                        </th>
+                        <th>@Html.DisplayNameFor(model => model[0].Cost)</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>

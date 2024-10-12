@@ -24,7 +24,7 @@
                         <th>@Html.DisplayNameFor(model => model[0].Amount)</th>
                         <th>@Html.DisplayNameFor(model => model[0].PaymentDate)</th>
                         <th>@Html.DisplayNameFor(model => model[0].PaymentMethod)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].Customer)</th>
+                        <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a></th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>

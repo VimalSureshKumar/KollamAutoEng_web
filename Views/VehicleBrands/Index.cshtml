@@ -12,7 +12,7 @@
             <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Vehicle Brand</a>
 
             <form asp-controller="VehicleBrands" asp-action="Index" class="d-flex align-items-center">
-                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2">
+                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Brands" class="form-control me-2">
                 <button type="submit" class="btn btn-primary">Search</button>
                 <a href="@Url.Action("Index", "VehicleBrands")" class="btn btn-outline-secondary ms-2">Clear</a>
             </form>

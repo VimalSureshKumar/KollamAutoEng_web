@@ -52,6 +52,7 @@ namespace KollamAutoEng_web.Controllers
                 employees = employees.Where(m =>
                     m.FirstName.Contains(searchString) ||
                     m.LastName.Contains(searchString) ||
+                    (m.FirstName + " " + m.LastName).Contains(searchString) ||
                     m.PhoneNumber.Contains(searchString)
                 );
             }

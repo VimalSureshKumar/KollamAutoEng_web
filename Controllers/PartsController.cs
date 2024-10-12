@@ -23,20 +23,8 @@ namespace KollamAutoEng_web.Controllers
 
         // GET: Parts
         [Authorize(Roles = "Admin,Employee")]
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string currentFilter, string searchString, int? pageNumber)
         {
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["CostParm"] = sortOrder == "Cost" ? "cost_desc" : "Cost";
-
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
             if (_context.Part == null)
             {
                 return Problem("Entity set 'KollamAutoEng_webContext.Part' is null.");
@@ -51,19 +39,8 @@ namespace KollamAutoEng_web.Controllers
             {
                 parts = parts.Where(m =>
                     m.Reference.Contains(searchString) ||
-                    m.PartName.Contains(searchString) ||
-                    m.Cost.ToString().Contains(searchString) 
+                    m.PartName.Contains(searchString)
                 );
-            }
-
-            switch (sortOrder)
-            {
-                case "Cost":
-                    parts = parts.OrderBy(c => c.Cost);
-                    break;
-                case "cost_desc":
-                    parts = parts.OrderByDescending(c => c.Cost);
-                    break;
             }
 
             int pageSize = 10;

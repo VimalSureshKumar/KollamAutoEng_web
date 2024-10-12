@@ -12,7 +12,7 @@
             <a asp-action="Create" class="btn btn-success btn-lg">+ Create New Fault Part</a>
 
             <form asp-controller="FaultParts" asp-action="Index" class="d-flex align-items-center">
-                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search" class="form-control me-2">
+                <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search Fault Parts" class="form-control me-2">
                 <button type="submit" class="btn btn-primary">Search</button>
                 <a href="@Url.Action("Index", "FaultParts")" class="btn btn-outline-secondary ms-2">Clear</a>
             </form>
@@ -24,7 +24,7 @@
                         <th>@Html.DisplayNameFor(model => model[0].Fault.FaultName)</th>
                         <th>@Html.DisplayNameFor(model => model[0].Part.PartName)</th>
                         <th>@Html.DisplayNameFor(model => model[0].Appointment.AppointmentName)</th>
-                        <th>@Html.DisplayNameFor(model => model[0].Customer)</th>
+                        <th><a asp-action="Index" asp-route-sortOrder="@ViewData["CustomerSortParm"]">Customer</a></th>
                         <th>@Html.DisplayNameFor(model => model[0].Vehicle.Registration)</th>
                         <th class="text-center">Actions</th>
                     </tr>
