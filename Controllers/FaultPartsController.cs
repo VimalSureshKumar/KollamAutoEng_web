@@ -25,59 +25,68 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: FaultParts
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
+            // Set up sorting parameters for customer sorting
             ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
 
+            // Reset the page number if a new search is performed
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset to the first page when a new search is made
             }
             else
             {
+                // Retain the current filter string for pagination
                 searchString = currentFilter;
             }
 
+            // Check if the FaultPart context is null
             if (_context.FaultPart == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.FaultPart' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.FaultPart' is null."); // Return an error if it is
             }
 
+            // Store the current search string for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Query to retrieve fault parts, including related entities
             var faultparts = from faultp in _context.FaultPart
-                               .Include(m => m.Fault)
-                               .Include(m => m.Part)
-                               .Include(m => m.Appointment)
-                               .Include(m => m.Customer)
-                               .Include(m => m.Vehicle)
+                             .Include(m => m.Fault)
+                             .Include(m => m.Part)
+                             .Include(m => m.Appointment)
+                             .Include(m => m.Customer)
+                             .Include(m => m.Vehicle)
                              select faultp;
 
+            // If the search string is not empty, filter the fault parts based on various fields
             if (!String.IsNullOrEmpty(searchString))
             {
                 faultparts = faultparts.Where(m =>
-                    m.Fault.FaultName.Contains(searchString) ||
-                    m.Part.PartName.Contains(searchString) ||
-                    m.Appointment.AppointmentName.Contains(searchString) ||
-                    m.Vehicle.Registration.Contains(searchString) ||
-                    m.Customer.FirstName.Contains(searchString) ||
-                    m.Customer.LastName.Contains(searchString) ||
-                   (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString)
+                    m.Fault.FaultName.Contains(searchString) || // Search by fault name
+                    m.Part.PartName.Contains(searchString) || // Search by part name
+                    m.Appointment.AppointmentName.Contains(searchString) || // Search by appointment name
+                    m.Vehicle.Registration.Contains(searchString) || // Search by vehicle registration
+                    m.Customer.FirstName.Contains(searchString) || // Search by customer's first name
+                    m.Customer.LastName.Contains(searchString) || // Search by customer's last name
+                    (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString) // Search by full customer name
                 );
             }
 
+            // Sort fault parts based on the selected sort order
             switch (sortOrder)
             {
                 case "Customer":
-                    faultparts = faultparts.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
+                    faultparts = faultparts.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName); // Ascending order
                     break;
                 case "customer_desc":
-                    faultparts = faultparts.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
+                    faultparts = faultparts.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName); // Descending order
                     break;
             }
 
-            int pageSize = 5;
+            int pageSize = 5; // Define the number of items per page
+                              // Return the paginated list of fault parts to the view
             return View(await PaginatedList<FaultPart>.CreateAsync(faultparts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

@@ -1,10 +1,15 @@
-﻿namespace KollamAutoEng_web.RazorPage.Settings;
-
-public class SendGridSettings
+﻿namespace KollamAutoEng_web.RazorPage.Settings
 {
-    public string FromEmail { get; set; }
+    // Class representing the settings for SendGrid email configuration
+    public class SendGridSettings
+    {
+        // Email address that will appear as the sender of the emails
+        public string FromEmail { get; set; }
 
-    public string EmailName { get; set; }
+        // Name associated with the sender's email address
+        public string EmailName { get; set; }
 
-    public string ApiKey { get; set; }
+        // API key for authenticating with the SendGrid service
+        public string ApiKey { get; set; }
+    }
 }

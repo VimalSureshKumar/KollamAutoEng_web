@@ -22,58 +22,67 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            // Set up sort parameters for customers
             ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
 
+            // If a search has been performed, reset the page number to 1
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset to the first page when a new search is made
             }
             else
             {
+                // If no new search is made, retain the current filter string
                 searchString = currentFilter;
             }
 
+            // Check if the Appointment context is null
             if (_context.Appointment == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Appointment' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Appointment' is null."); // Return an error if it is
             }
 
+            // Store the current search string for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Query to retrieve appointments, including related customer, vehicle, and employee data
             var appointments = from app in _context.Appointment
                                .Include(m => m.Customer)
                                .Include(m => m.Vehicle)
                                .Include(m => m.Employee)
                                select app;
 
+            // If the search string is not empty, filter the appointments based on various fields
             if (!String.IsNullOrEmpty(searchString))
             {
                 appointments = appointments.Where(m =>
-                   m.Customer.FirstName.Contains(searchString) ||
-                   m.Customer.LastName.Contains(searchString) ||
-                   (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString) ||
-                   m.Employee.FirstName.Contains(searchString) ||
-                   m.Employee.LastName.Contains(searchString) ||
-                   (m.Employee.FirstName + " " + m.Employee.LastName).Contains(searchString) ||
-                   m.Vehicle.Registration.Contains(searchString) ||
-                   m.AppointmentName.Contains(searchString)
+                    m.Customer.FirstName.Contains(searchString) || // Search by customer's first name
+                    m.Customer.LastName.Contains(searchString) ||  // Search by customer's last name
+                    (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString) || // Search by full customer name
+                    m.Employee.FirstName.Contains(searchString) ||  // Search by employee's first name
+                    m.Employee.LastName.Contains(searchString) ||   // Search by employee's last name
+                    (m.Employee.FirstName + " " + m.Employee.LastName).Contains(searchString) || // Search by full employee name
+                    m.Vehicle.Registration.Contains(searchString) || // Search by vehicle registration number
+                    m.AppointmentName.Contains(searchString) // Search by appointment name
                 );
             }
 
+            // Sort appointments based on the selected sort order
             switch (sortOrder)
             {
                 case "Customer":
-                    appointments = appointments.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
+                    appointments = appointments.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName); // Ascending order
                     break;
                 case "customer_desc":
-                    appointments = appointments.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
+                    appointments = appointments.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName); // Descending order
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 10; // Define the number of items per page
+                               // Return the paginated list of appointments to the view
             return View(await PaginatedList<Appointment>.CreateAsync(appointments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

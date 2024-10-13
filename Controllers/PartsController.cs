@@ -22,28 +22,33 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Parts
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Ensure that only users with Admin or Employee roles can access this action
         public async Task<IActionResult> Index(string currentFilter, string searchString, int? pageNumber)
         {
+            // Check if the Part context is null
             if (_context.Part == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Part' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Part' is null."); // Return an error if it is null
             }
 
+            // Store the current search string for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Query to retrieve all parts from the database
             var parts = from par in _context.Part
-                            select par;
+                        select par;
 
+            // If the search string is not empty, filter the parts based on the reference or part name
             if (!String.IsNullOrEmpty(searchString))
             {
                 parts = parts.Where(m =>
-                    m.Reference.Contains(searchString) ||
-                    m.PartName.Contains(searchString)
+                    m.Reference.Contains(searchString) || // Search by part reference
+                    m.PartName.Contains(searchString) // Search by part name
                 );
             }
 
-            int pageSize = 10;
+            int pageSize = 10; // Define the number of items per page
+                               // Return the paginated list of parts to the view
             return View(await PaginatedList<Part>.CreateAsync(parts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

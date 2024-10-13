@@ -16,18 +16,21 @@ namespace KollamAutoEng_web.Models
         public int CustomerId { get; set; }
 
         [Required(ErrorMessage = "Please enter Customer First Name")]
+        [MinLength(3)]
         [MaxLength(25)]
         [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Please enter Customer Last Name")]
+        [MinLength(3)]
         [MaxLength(25)]
         [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter an email address")]
+        [MaxLength (50)]
         [DataType(DataType.EmailAddress)]
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Please enter a valid email address.")]
         [EmailAddress]

@@ -22,52 +22,63 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Employees
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            // Store the current sort order for use in the view
             ViewData["CurrentSort"] = sortOrder;
+
+            // Set up sort parameters for last name sorting
             ViewData["LastNameSortParm"] = sortOrder == "LastName" ? "last_name_desc" : "LastName";
 
+            // If a new search is performed, reset the page number to 1
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset to the first page when a new search is made
             }
             else
             {
+                // If no new search is made, retain the current filter string
                 searchString = currentFilter;
             }
 
+            // Check if the Employee context is null
             if (_context.Employee == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Employee' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Employee' is null."); // Return an error if it is
             }
 
+            // Store the current search string for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Query to retrieve employees
             var employees = from emp in _context.Employee
                             select emp;
 
+            // If the search string is not empty, filter the employees based on various fields
             if (!String.IsNullOrEmpty(searchString))
             {
                 employees = employees.Where(m =>
-                    m.FirstName.Contains(searchString) ||
-                    m.LastName.Contains(searchString) ||
-                    (m.FirstName + " " + m.LastName).Contains(searchString) ||
-                    m.PhoneNumber.Contains(searchString)
+                    m.FirstName.Contains(searchString) || // Search by employee's first name
+                    m.LastName.Contains(searchString) ||  // Search by employee's last name
+                    (m.FirstName + " " + m.LastName).Contains(searchString) || // Search by full employee name
+                    m.PhoneNumber.Contains(searchString) // Search by phone number
                 );
             }
 
+            // Sort employees based on the selected sort order
             switch (sortOrder)
             {
                 case "LastName":
-                    employees = employees.OrderBy(c => c.LastName);
+                    employees = employees.OrderBy(c => c.LastName); // Ascending order
                     break;
                 case "last_name_desc":
-                    employees = employees.OrderByDescending(c => c.LastName);
+                    employees = employees.OrderByDescending(c => c.LastName); // Descending order
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 10; // Define the number of items per page
+                               // Return the paginated list of employees to the view
             return View(await PaginatedList<Employee>.CreateAsync(employees.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

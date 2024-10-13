@@ -4,29 +4,43 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Net.Mail;
 
-namespace KollamAutoEng_web.RazorPage.Services;
-
-public class EmailSenderService : IEmailSender
+namespace KollamAutoEng_web.RazorPage.Services
 {
-    private readonly ISendGridClient _sendGridClient;
-    private readonly SendGridSettings _sendGridSettings;
-    public EmailSenderService(ISendGridClient sendGridClient,
-    IOptions<SendGridSettings> sendGridSettings)
+    // Service class for sending emails using SendGrid
+    public class EmailSenderService : IEmailSender
     {
-        _sendGridClient = sendGridClient;
-        _sendGridSettings = sendGridSettings.Value;
-    }
-    public async Task SendEmailAsync(string email, string subject, string htmlMessage)
-    {
-        var msg = new SendGridMessage()
+        // SendGrid client for sending emails
+        private readonly ISendGridClient _sendGridClient;
+
+        // Configuration settings for SendGrid
+        private readonly SendGridSettings _sendGridSettings;
+
+        // Constructor that initializes the SendGrid client and settings
+        public EmailSenderService(ISendGridClient sendGridClient,
+            IOptions<SendGridSettings> sendGridSettings)
         {
-            From = new EmailAddress(_sendGridSettings.FromEmail, _sendGridSettings.EmailName),
-            Subject = subject,
-            HtmlContent = htmlMessage
-        };
-        msg.AddTo(email);
-        await _sendGridClient.SendEmailAsync(msg);
+            _sendGridClient = sendGridClient; // Assigning the SendGrid client
+            _sendGridSettings = sendGridSettings.Value; // Extracting SendGrid settings
+        }
+
+        // Method to send an email asynchronously
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        {
+            // Creating a new SendGrid message
+            var msg = new SendGridMessage()
+            {
+                // Setting the sender's email and name
+                From = new EmailAddress(_sendGridSettings.FromEmail, _sendGridSettings.EmailName),
+                Subject = subject, // Setting the email subject
+                HtmlContent = htmlMessage // Setting the HTML content of the email
+            };
+
+            // Adding the recipient's email address
+            msg.AddTo(email);
+
+            // Sending the email asynchronously
+            await _sendGridClient.SendEmailAsync(msg);
+        }
     }
 }

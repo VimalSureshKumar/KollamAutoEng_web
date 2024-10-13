@@ -23,58 +23,67 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Vehicles
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restrict access to users with Admin or Employee roles
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            // Set the sort order for customers based on the provided parameter
             ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
 
+            // Check if the search string has changed; reset the page number if it has
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset page number to 1 for a new search
             }
             else
             {
-                searchString = currentFilter;
+                searchString = currentFilter; // Preserve the current filter for pagination
             }
 
+            // Check if the Vehicle context is null
             if (_context.Vehicle == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle' is null."); // Return an error if it is null
             }
 
+            // Store the current search string in ViewData for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Retrieve vehicles from the context, including related Customer, VehicleBrand, and VehicleModel entities
             var vehicles = from veh in _context.Vehicle
-                                .Include(m => m.Customer)
-                                .Include(m => m.VehicleBrand)
-                                .Include(m => m.VehicleModel)
+                           .Include(m => m.Customer)
+                           .Include(m => m.VehicleBrand)
+                           .Include(m => m.VehicleModel)
                            select veh;
 
+            // Filter vehicles based on the search string, checking VIN, registration, brand names, model names, and customer names
             if (!String.IsNullOrEmpty(searchString))
             {
                 vehicles = vehicles.Where(m =>
-                    m.VIN.Contains(searchString) ||
-                    m.Registration.Contains(searchString) ||
-                    m.VehicleBrand.BrandName.Contains(searchString) ||
-                    m.VehicleModel.ModelName.Contains(searchString) ||
-                    (m.VehicleBrand.BrandName + " " + m.VehicleModel.ModelName).Contains(searchString) ||
-                    m.Customer.FirstName.Contains(searchString) ||
-                    m.Customer.LastName.Contains(searchString) ||
-                    (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString)
+                    m.VIN.Contains(searchString) || // Check VIN
+                    m.Registration.Contains(searchString) || // Check registration
+                    m.VehicleBrand.BrandName.Contains(searchString) || // Check brand name
+                    m.VehicleModel.ModelName.Contains(searchString) || // Check model name
+                    (m.VehicleBrand.BrandName + " " + m.VehicleModel.ModelName).Contains(searchString) || // Combined search for brand and model
+                    m.Customer.FirstName.Contains(searchString) || // Check customer's first name
+                    m.Customer.LastName.Contains(searchString) || // Check customer's last name
+                    (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString) // Combined search for full customer name
                 );
             }
 
+            // Sorting logic based on the selected sort order
             switch (sortOrder)
             {
                 case "Customer":
-                    vehicles = vehicles.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
+                    vehicles = vehicles.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName); // Ascending order
                     break;
                 case "customer_desc":
-                    vehicles = vehicles.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
+                    vehicles = vehicles.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName); // Descending order
                     break;
             }
 
+            // Define the number of items per page
             int pageSize = 10;
+            // Return the paginated list of vehicles to the view
             return View(await PaginatedList<Vehicle>.CreateAsync(vehicles.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
@@ -244,7 +253,6 @@ namespace KollamAutoEng_web.Controllers
                     _context.Fault.RemoveRange(vehicle.Faults);
                 }
 
-                // Remove the vehicle itself
                 _context.Vehicle.Remove(vehicle);
             }
 

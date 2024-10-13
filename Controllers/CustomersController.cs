@@ -22,53 +22,64 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Customers
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            // Store the current sort order for use in the view
             ViewData["CurrentSort"] = sortOrder;
+
+            // Set up sort parameters for last name sorting
             ViewData["LastNameSortParm"] = sortOrder == "LastName" ? "last_name_desc" : "LastName";
 
+            // If a new search is performed, reset the page number to 1
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset to the first page when a new search is made
             }
             else
             {
+                // If no new search is made, retain the current filter string
                 searchString = currentFilter;
             }
 
+            // Check if the Customer context is null
             if (_context.Customer == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Customer' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Customer' is null."); // Return an error if it is
             }
 
+            // Store the current search string for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Query to retrieve customers
             var customers = from cus in _context.Customer
                             select cus;
 
+            // If the search string is not empty, filter the customers based on various fields
             if (!String.IsNullOrEmpty(searchString))
             {
                 customers = customers.Where(m =>
-                    m.FirstName.Contains(searchString) ||
-                    m.LastName.Contains(searchString) ||
-                    (m.FirstName + " " + m.LastName).Contains(searchString) ||
-                    m.Email.Contains(searchString) ||
-                    m.PhoneNumber.Contains(searchString)
+                    m.FirstName.Contains(searchString) || // Search by customer's first name
+                    m.LastName.Contains(searchString) ||  // Search by customer's last name
+                    (m.FirstName + " " + m.LastName).Contains(searchString) || // Search by full customer name
+                    m.Email.Contains(searchString) || // Search by email
+                    m.PhoneNumber.Contains(searchString) // Search by phone number
                 );
             }
 
+            // Sort customers based on the selected sort order
             switch (sortOrder)
             {
                 case "LastName":
-                    customers = customers.OrderBy(c => c.LastName);
+                    customers = customers.OrderBy(c => c.LastName); // Ascending order
                     break;
                 case "last_name_desc":
-                    customers = customers.OrderByDescending(c => c.LastName);
+                    customers = customers.OrderByDescending(c => c.LastName); // Descending order
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 10; // Define the number of items per page
+                               // Return the paginated list of customers to the view
             return View(await PaginatedList<Customer>.CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

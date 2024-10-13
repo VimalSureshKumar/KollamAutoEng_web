@@ -24,51 +24,59 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Payments
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restrict access to users with Admin or Employee roles
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            // Set the sort parameter for customers based on the current sort order
             ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
 
+            // Check if the search string has been modified; reset the page number if it has
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset page number to 1 if searching
             }
             else
             {
-                searchString = currentFilter;
+                searchString = currentFilter; // Preserve the current filter for pagination
             }
 
+            // Check if the Payment context is null
             if (_context.Payment == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Payment' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Payment' is null."); // Return an error if it is null
             }
 
+            // Store the current search string in ViewData for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Retrieve payments including the associated customers
             var payments = from pay in _context.Payment
                            .Include(m => m.Customer)
                            select pay;
 
+            // Filter payments based on the search string, checking first and last names of customers
             if (!String.IsNullOrEmpty(searchString))
             {
                 payments = payments.Where(m =>
-                    m.Customer.FirstName.Contains(searchString) ||
-                    m.Customer.LastName.Contains(searchString) ||
-                   (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString)
+                    m.Customer.FirstName.Contains(searchString) || // Search by customer's first name
+                    m.Customer.LastName.Contains(searchString) || // Search by customer's last name
+                    (m.Customer.FirstName + " " + m.Customer.LastName).Contains(searchString) // Full name search
                 );
             }
 
+            // Sorting logic based on the selected sort order
             switch (sortOrder)
             {
                 case "Customer":
-                    payments = payments.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName);
+                    payments = payments.OrderBy(s => s.Customer.FirstName).ThenBy(s => s.Customer.LastName); // Ascending order
                     break;
                 case "customer_desc":
-                    payments = payments.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName);
+                    payments = payments.OrderByDescending(s => s.Customer.FirstName).ThenByDescending(s => s.Customer.LastName); // Descending order
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 10; // Define the number of items per page
+                               // Return the paginated list of payments to the view
             return View(await PaginatedList<Payment>.CreateAsync(payments.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 

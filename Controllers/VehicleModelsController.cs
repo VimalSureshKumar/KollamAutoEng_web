@@ -22,55 +22,62 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleModels
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restrict access to users with Admin or Employee roles
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            // Set the current sort order and initialize the sorting parameter for model names
             ViewData["CurrentSort"] = sortOrder;
             ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
+            // Check if the search string has been modified; reset the page number if it has
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset page number to 1 if searching
             }
             else
             {
-                searchString = currentFilter;
+                searchString = currentFilter; // Preserve the current filter for pagination
             }
 
+            // Check if the VehicleModel context is null
             if (_context.VehicleModel == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null."); // Return an error if it is null
             }
 
+            // Store the current search string in ViewData for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Retrieve vehicle models from the context, including related VehicleBrand entities
             var models = from mod in _context.VehicleModel
-                             .Include(m => m.VehicleBrand)
+                         .Include(m => m.VehicleBrand)
                          select mod;
 
+            // Filter vehicle models based on the search string, checking model names and brand names
             if (!String.IsNullOrEmpty(searchString))
             {
                 models = models.Where(m =>
-                    m.ModelName.Contains(searchString) ||
-                    m.VehicleBrand.BrandName.Contains(searchString) ||
-                    (m.VehicleBrand.BrandName + " " + m.ModelName).Contains(searchString) ||
-                    (m.ModelName + " " + m.VehicleBrand.BrandName).Contains(searchString)
-                       );
+                    m.ModelName.Contains(searchString) || // Check model name
+                    m.VehicleBrand.BrandName.Contains(searchString) || // Check associated brand name
+                    (m.VehicleBrand.BrandName + " " + m.ModelName).Contains(searchString) || // Combined search
+                    (m.ModelName + " " + m.VehicleBrand.BrandName).Contains(searchString) // Combined search
+                );
             }
 
+            // Sorting logic based on the selected sort order
             switch (sortOrder)
             {
                 case "name_desc":
-                    models = models.OrderByDescending(m => m.VehicleBrand.BrandName);
+                    models = models.OrderByDescending(m => m.VehicleBrand.BrandName); // Descending order by brand name
                     break;
                 default:
-                    models = models.OrderBy(m => m.VehicleBrand.BrandName);
+                    models = models.OrderBy(m => m.VehicleBrand.BrandName); // Ascending order by brand name
                     break;
             }
 
-            var modelsList = await models.ToListAsync();
-
+            // Define the number of items per page
             int pageSize = 10;
+            // Return the paginated list of vehicle models to the view
             return View(await PaginatedList<VehicleModel>.CreateAsync(models.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
@@ -114,7 +121,7 @@ namespace KollamAutoEng_web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);
 
             return View(vehicleModel);
         }
@@ -125,6 +132,7 @@ namespace KollamAutoEng_web.Controllers
         {
             if (id == null || _context.VehicleModel == null)
             {
+                ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
                 return NotFound();
             }
 
@@ -133,7 +141,7 @@ namespace KollamAutoEng_web.Controllers
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
+            ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);
             return View(vehicleModel);
         }
 

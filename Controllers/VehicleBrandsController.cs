@@ -22,52 +22,59 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: VehicleBrands
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restrict access to users with Admin or Employee roles
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            // Set the current sort order and initialize the sorting parameter for brand names
             ViewData["CurrentSort"] = sortOrder;
             ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
+            // Check if the search string has been modified; reset the page number if it has
             if (searchString != null)
             {
-                pageNumber = 1;
+                pageNumber = 1; // Reset page number to 1 if searching
             }
             else
             {
-                searchString = currentFilter;
+                searchString = currentFilter; // Preserve the current filter for pagination
             }
 
+            // Check if the VehicleBrand context is null
             if (_context.VehicleBrand == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.VehicleBrand' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleBrand' is null."); // Return an error if it is null
             }
 
+            // Store the current search string in ViewData for use in the view
             ViewData["CurrentFilter"] = searchString;
 
+            // Retrieve vehicle brands from the context
             var brands = from bra in _context.VehicleBrand
-                            select bra;
+                         select bra;
 
+            // Filter vehicle brands based on the search string, checking brand names
             if (!String.IsNullOrEmpty(searchString))
             {
-                brands = brands.Where(m =>
-                    m.BrandName.Contains(searchString) 
-                       );
+                brands = brands.Where(m => m.BrandName.Contains(searchString)); // Filter by brand name
             }
 
+            // Sorting logic based on the selected sort order
             switch (sortOrder)
             {
                 case "name_desc":
-                    brands = brands.OrderByDescending(m => m.BrandName);
+                    brands = brands.OrderByDescending(m => m.BrandName); // Descending order
                     break;
                 default:
-                    brands = brands.OrderBy(m => m.BrandName);
+                    brands = brands.OrderBy(m => m.BrandName); // Ascending order
                     break;
             }
 
-            var brandsList = await brands.ToListAsync();
+            // Define the number of items per page
             int pageSize = 10;
+            // Return the paginated list of vehicle brands to the view
             return View(await PaginatedList<VehicleBrand>.CreateAsync(brands.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         // GET: VehicleBrands/Details
         [Authorize(Roles = "Admin,Employee")]
