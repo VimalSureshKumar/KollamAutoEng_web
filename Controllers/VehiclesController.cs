@@ -215,35 +215,11 @@ namespace KollamAutoEng_web.Controllers
         {
             if (_context.Vehicle == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Vehicle'  is null.");
             }
-
-            var vehicle = await _context.Vehicle
-                .Include(m => m.Appointments)
-                .ThenInclude(m => m.FaultParts)
-                .Include(m => m.Faults)
-                .FirstOrDefaultAsync(m => m.VehicleId == id);
-
+            var vehicle = await _context.Vehicle.FindAsync(id);
             if (vehicle != null)
             {
-                foreach (var appointment in vehicle.Appointments)
-                {
-                    if (appointment.FaultParts?.Any() == true)
-                    {
-                        _context.FaultPart.RemoveRange(appointment.FaultParts);
-                    }
-                }
-
-                if (vehicle.Appointments?.Any() == true)
-                {
-                    _context.Appointment.RemoveRange(vehicle.Appointments);
-                }
-
-                if (vehicle.Faults?.Any() == true)
-                {
-                    _context.Fault.RemoveRange(vehicle.Faults);
-                }
-
                 _context.Vehicle.Remove(vehicle);
             }
 

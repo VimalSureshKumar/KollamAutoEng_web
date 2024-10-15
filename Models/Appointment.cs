@@ -16,7 +16,7 @@ namespace KollamAutoEng_web.Models
 
         // Name of the appointment - required with min and max length validation
         [Required(ErrorMessage = "Please enter valid Appointment Name")] // Field is mandatory
-        [MaxLength(10, ErrorMessage = "Appointment Name cannot exceed 10 characters.")] // Maximum of 10 characters allowed
+        [MaxLength(25, ErrorMessage = "Appointment Name cannot exceed 25 characters.")] // Maximum of 10 characters allowed
         [MinLength(3, ErrorMessage = "Appointment Name must be at least 3 characters long.")] // Minimum of 3 characters required
         [RegularExpression("^[A-Za-z\\s]+$", ErrorMessage = "Only letters and spaces are allowed.")] // Restricts input to letters and spaces only
         [Display(Name = "Appointment Name")] // Display label for UI

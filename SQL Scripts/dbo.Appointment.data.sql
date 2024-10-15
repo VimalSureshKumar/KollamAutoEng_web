@@ -1,4 +1,4 @@
-﻿﻿SET IDENTITY_INSERT [dbo].[Appointment] ON
+﻿SET IDENTITY_INSERT [dbo].[Appointment] ON
 INSERT INTO [dbo].[Appointment] ([AppointmentId], [AppointmentDate], [CustomerId], [VehicleId], [EmployeeId], [ServiceCost], [AppointmentName]) VALUES (1, N'2024-08-08 09:00:00', 1, 1, 1, CAST(175.00 AS Decimal(18, 2)), N'WOF')
 INSERT INTO [dbo].[Appointment] ([AppointmentId], [AppointmentDate], [CustomerId], [VehicleId], [EmployeeId], [ServiceCost], [AppointmentName]) VALUES (2, N'2024-08-09 10:00:00', 2, 2, 2, CAST(200.00 AS Decimal(18, 2)), N'Tire Replacement')
 INSERT INTO [dbo].[Appointment] ([AppointmentId], [AppointmentDate], [CustomerId], [VehicleId], [EmployeeId], [ServiceCost], [AppointmentName]) VALUES (3, N'2024-08-10 11:00:00', 3, 3, 3, CAST(150.00 AS Decimal(18, 2)), N'Engine Repair')
