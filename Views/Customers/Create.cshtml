@@ -1,4 +1,10 @@
-﻿@model KollamAutoEng_web.Models.Customer
+﻿@using KollamAutoEng_web.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<KollamAutoEng_webUser> SignInManager
+@inject UserManager<KollamAutoEng_webUser> UserManager
+
+@model KollamAutoEng_web.Models.Customer
+
 
 @{
     ViewData["Title"] = "Create Customer";
@@ -17,28 +23,28 @@
                 <div class="form-group row">
                     <label asp-for="FirstName" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="FirstName" class="form-control" required />
+                        <input asp-for="FirstName" class="form-control" value="@UserManager.GetUserAsync(User).Result.FirstName" required />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="LastName" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="LastName" class="form-control" required />
+                        <input asp-for="LastName" class="form-control" value="@UserManager.GetUserAsync(User).Result.LastName" required />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="Email" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="Email" class="form-control" required />
+                        <input asp-for="Email" class="form-control" value="@UserManager.GetUserAsync(User).Result.Email" required />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label asp-for="PhoneNumber" class="col-sm-4 col-form-label"></label>
                     <div class="col-sm-8">
-                        <input asp-for="PhoneNumber" class="form-control" required />
+                        <input asp-for="PhoneNumber" class="form-control" value="@UserManager.GetUserAsync(User).Result.PhoneNumber" required />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>

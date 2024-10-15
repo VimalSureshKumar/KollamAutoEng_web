@@ -49,7 +49,7 @@ main {
 .bigimage {
     object-fit: fill; /* Allows image to fill its container */
     width: 100%; /* Full width */
-    max-height: 105vh; /* Maximum height for responsiveness */
+    max-height: 100vh; /* Maximum height for responsiveness */
     margin-top: -16px; /* Adjusts image position */
 }
 
