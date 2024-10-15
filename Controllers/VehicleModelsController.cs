@@ -226,16 +226,37 @@ namespace KollamAutoEng_web.Controllers
         [ValidateAntiForgeryToken] // Validate anti-forgery token
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Check if the VehicleModel entity set is null
             if (_context.VehicleModel == null)
             {
                 return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");
             }
-            // Fetch the vehicle model by its id
-            var vehicleModel = await _context.VehicleModel.FindAsync(id);
+
+            // Fetch the vehicle model by its id, including related vehicles
+            var vehicleModel = await _context.VehicleModel
+                .Include(vm => vm.Vehicles) // Include related vehicles
+                .ThenInclude(v => v.Faults) // Include related faults for each vehicle
+                .FirstOrDefaultAsync(vm => vm.ModelId == id);
+
             if (vehicleModel != null)
             {
-                _context.VehicleModel.Remove(vehicleModel); // Remove the vehicle model from the context
+                // Loop through related vehicles
+                if (vehicleModel.Vehicles != null && vehicleModel.Vehicles.Any())
+                {
+                    foreach (var vehicle in vehicleModel.Vehicles)
+                    {
+                        // Remove related faults
+                        if (vehicle.Faults != null && vehicle.Faults.Any())
+                        {
+                            _context.Fault.RemoveRange(vehicle.Faults); // Remove all faults for this vehicle
+                        }
+
+                        // Now remove the vehicle itself
+                        _context.Vehicle.Remove(vehicle);
+                    }
+                }
+
+                // Finally, remove the vehicle model
+                _context.VehicleModel.Remove(vehicleModel);
             }
 
             await _context.SaveChangesAsync(); // Save changes to the database

@@ -49,31 +49,30 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
         // Seed data into the roles table
         builder.Entity<ApplicationRole>().HasData(admin, employee, user);
 
-        // Configure relationships for the Vehicle entity
         builder.Entity<Vehicle>()
             .HasOne(v => v.Customer) // Each Vehicle has one Customer
             .WithMany(c => c.Vehicles) // A Customer can have many Vehicles
             .HasForeignKey(v => v.CustomerId) // Foreign key relationship
-            .OnDelete(DeleteBehavior.NoAction); // Specify delete behavior
+            .OnDelete(DeleteBehavior.Cascade); // Specify delete behavior
 
         builder.Entity<Vehicle>()
             .HasOne(v => v.VehicleBrand) // Each Vehicle has one VehicleBrand
             .WithMany(b => b.Vehicles) // A VehicleBrand can have many Vehicles
             .HasForeignKey(v => v.BrandId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Vehicle>()
             .HasOne(v => v.VehicleModel) // Each Vehicle has one VehicleModel
             .WithMany(m => m.Vehicles) // A VehicleModel can have many Vehicles
             .HasForeignKey(v => v.ModelId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure relationships for the VehicleModel entity
         builder.Entity<VehicleModel>()
             .HasOne(vm => vm.VehicleBrand) // Each VehicleModel has one VehicleBrand
             .WithMany(vb => vb.VehicleModels) // A VehicleBrand can have many VehicleModels
             .HasForeignKey(vm => vm.BrandId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure relationships for the Appointment entity
         builder.Entity<Appointment>()
@@ -99,13 +98,13 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
             .HasOne(f => f.Customer) // Each Fault has one Customer
             .WithMany(c => c.Faults) // A Customer can have many Faults
             .HasForeignKey(f => f.CustomerId)
-            .OnDelete(DeleteBehavior.NoAction); // Do not delete Faults when the Customer is deleted
+            .OnDelete(DeleteBehavior.Cascade); // Do not delete Faults when the Customer is deleted
 
         builder.Entity<Fault>()
             .HasOne(f => f.Vehicle) // Each Fault has one Vehicle
             .WithMany(v => v.Faults) // A Vehicle can have many Faults
             .HasForeignKey(f => f.VehicleId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure relationships for the FaultPart entity
         builder.Entity<FaultPart>()
@@ -124,7 +123,7 @@ public class KollamAutoEng_webContext : IdentityDbContext<KollamAutoEng_webUser>
             .HasOne(fp => fp.Appointment) // Each FaultPart has one Appointment
             .WithMany(a => a.FaultParts) // An Appointment can have many FaultParts
             .HasForeignKey(fp => fp.AppointmentId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure relationships for the Payment entity
         builder.Entity<Payment>()
