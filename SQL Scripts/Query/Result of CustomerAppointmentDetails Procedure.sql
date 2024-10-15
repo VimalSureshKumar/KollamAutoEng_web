@@ -1,0 +1,1 @@
+﻿EXEC GetCustomerAppointmentDetails @CustomerId = 19;
