@@ -11,218 +11,241 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    // Restrict access to users with "Admin" or "Employee" roles
     [Authorize(Roles = "Admin,Employee")]
     public class VehicleModelsController : Controller
     {
-        private readonly KollamAutoEng_webContext _context;
+        private readonly KollamAutoEng_webContext _context; // Database context for accessing data
 
+        // Constructor to initialize the context
         public VehicleModelsController(KollamAutoEng_webContext context)
         {
             _context = context;
         }
 
         // GET: VehicleModels
-        [Authorize(Roles = "Admin,Employee")] // Restrict access to users with Admin or Employee roles
+        // Method to display the list of vehicle models with sorting and searching features
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            // Set the current sort order and initialize the sorting parameter for model names
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CurrentSort"] = sortOrder; // Save current sort order
+            ViewData["BrandNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : ""; // Set sort parameter
 
-            // Check if the search string has been modified; reset the page number if it has
+            // Reset page number if the search string is changed
             if (searchString != null)
             {
-                pageNumber = 1; // Reset page number to 1 if searching
+                pageNumber = 1;
             }
             else
             {
-                searchString = currentFilter; // Preserve the current filter for pagination
+                searchString = currentFilter; // Maintain current filter if not searching
             }
 
-            // Check if the VehicleModel context is null
+            // Check if the VehicleModel entity set is null
             if (_context.VehicleModel == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null."); // Return an error if it is null
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");
             }
 
-            // Store the current search string in ViewData for use in the view
-            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentFilter"] = searchString; // Store current filter value
 
-            // Retrieve vehicle models from the context, including related VehicleBrand entities
-            var models = from mod in _context.VehicleModel
-                         .Include(m => m.VehicleBrand)
+            // Query vehicle models including their associated brands
+            var models = from mod in _context.VehicleModel.Include(m => m.VehicleBrand)
                          select mod;
 
-            // Filter vehicle models based on the search string, checking model names and brand names
+            // Apply search filter if provided
             if (!String.IsNullOrEmpty(searchString))
             {
                 models = models.Where(m =>
-                    m.ModelName.Contains(searchString) || // Check model name
-                    m.VehicleBrand.BrandName.Contains(searchString) || // Check associated brand name
-                    (m.VehicleBrand.BrandName + " " + m.ModelName).Contains(searchString) || // Combined search
-                    (m.ModelName + " " + m.VehicleBrand.BrandName).Contains(searchString) // Combined search
-                );
+                    m.ModelName.Contains(searchString) ||
+                    m.VehicleBrand.BrandName.Contains(searchString) ||
+                    (m.VehicleBrand.BrandName + " " + m.ModelName).Contains(searchString) ||
+                    (m.ModelName + " " + m.VehicleBrand.BrandName).Contains(searchString));
             }
 
-            // Sorting logic based on the selected sort order
+            // Apply sorting based on the sort order
             switch (sortOrder)
             {
                 case "name_desc":
-                    models = models.OrderByDescending(m => m.VehicleBrand.BrandName); // Descending order by brand name
+                    models = models.OrderByDescending(m => m.VehicleBrand.BrandName); // Sort by brand name descending
                     break;
                 default:
-                    models = models.OrderBy(m => m.VehicleBrand.BrandName); // Ascending order by brand name
+                    models = models.OrderBy(m => m.VehicleBrand.BrandName); // Sort by brand name ascending
                     break;
             }
 
-            // Define the number of items per page
-            int pageSize = 10;
-            // Return the paginated list of vehicle models to the view
+            // Execute the query and convert the result to a list
+            var modelsList = await models.ToListAsync();
+
+            int pageSize = 10; // Set the page size for pagination
+            // Return the view with paginated list of vehicle models
             return View(await PaginatedList<VehicleModel>.CreateAsync(models.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: VehicleModels/Details
+        // Method to display the details of a specific vehicle model
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
+            // Check if the id is null or the VehicleModel entity set is null
             if (id == null || _context.VehicleModel == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no id is provided
             }
 
+            // Fetch the vehicle model along with its associated brand
             var vehicleModel = await _context.VehicleModel
                 .Include(v => v.VehicleBrand)
                 .FirstOrDefaultAsync(m => m.ModelId == id);
             if (vehicleModel == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the vehicle model doesn't exist
             }
 
-            return View(vehicleModel);
+            return View(vehicleModel); // Return the view with the vehicle model details
         }
 
         // GET: VehicleModels/Create
+        // Method to display the view for creating a new vehicle model
         [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
+            // Populate the select list for vehicle brands
             ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
-            return View();
+            return View(); // Return the view for creating a vehicle model
         }
 
         // POST: VehicleModels/Create
+        // Method to handle the creation of a new vehicle model
         [Authorize(Roles = "Admin,Employee")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost] // Specify that this action is for POST requests
+        [ValidateAntiForgeryToken] // Validate anti-forgery token
         public async Task<IActionResult> Create([Bind("ModelId,ModelName,BrandId")] VehicleModel vehicleModel)
         {
+            // Check if the model state is valid
             if (ModelState.IsValid)
             {
-                _context.Add(vehicleModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Add(vehicleModel); // Add the new vehicle model to the context
+                await _context.SaveChangesAsync(); // Save changes to the database
+                return RedirectToAction(nameof(Index)); // Redirect to the index action
             }
+            // Repopulate the select list in case of validation failure
             ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);
-
-            return View(vehicleModel);
+            return View(vehicleModel); // Return the view with the current vehicle model
         }
 
         // GET: VehicleModels/Edit
+        // Method to display the view for editing a specific vehicle model
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
+            // Check if the id is null or the VehicleModel entity set is null
             if (id == null || _context.VehicleModel == null)
             {
-                ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName");
-                return NotFound();
+                return NotFound(); // Return NotFound if no id is provided
             }
 
+            // Fetch the vehicle model by its id
             var vehicleModel = await _context.VehicleModel.FindAsync(id);
             if (vehicleModel == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the vehicle model doesn't exist
             }
+            // Populate the select list for vehicle brands
             ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);
-            return View(vehicleModel);
+            return View(vehicleModel); // Return the view for editing the vehicle model
         }
 
         // POST: VehicleModels/Edit
-        [HttpPost]
+        // Method to handle the update of an existing vehicle model
+        [HttpPost] // Specify that this action is for POST requests
         [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // Validate anti-forgery token
         public async Task<IActionResult> Edit(int id, [Bind("ModelId,ModelName,BrandId")] VehicleModel vehicleModel)
         {
+            // Check if the id matches the model's id
             if (id != vehicleModel.ModelId)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the ids do not match
             }
 
+            // Check if the model state is valid
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(vehicleModel);
-                    await _context.SaveChangesAsync();
+                    _context.Update(vehicleModel); // Update the vehicle model in the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    // Handle concurrency issues if the vehicle model no longer exists
                     if (!VehicleModelExists(vehicleModel.ModelId))
                     {
-                        return NotFound();
+                        return NotFound(); // Return NotFound if the vehicle model doesn't exist
                     }
                     else
                     {
-                        throw;
+                        throw; // Re-throw the exception for handling elsewhere
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Redirect to the index action
             }
+            // Repopulate the select list in case of validation failure
             ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);
-            return View(vehicleModel);
+            return View(vehicleModel); // Return the view with the current vehicle model
         }
 
         // GET: VehicleModels/Delete
+        // Method to display the view for confirming the deletion of a vehicle model
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
+            // Check if the id is null or the VehicleModel entity set is null
             if (id == null || _context.VehicleModel == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no id is provided
             }
 
+            // Fetch the vehicle model along with its associated brand
             var vehicleModel = await _context.VehicleModel
                 .Include(v => v.VehicleBrand)
                 .FirstOrDefaultAsync(m => m.ModelId == id);
             if (vehicleModel == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the vehicle model doesn't exist
             }
 
-            return View(vehicleModel);
+            return View(vehicleModel); // Return the view for confirming deletion
         }
 
         // POST: VehicleModels/Delete
+        // Method to handle the actual deletion of a vehicle model
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]  
-        [ValidateAntiForgeryToken]  
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken] // Validate anti-forgery token
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Check if the VehicleModel entity set is null
             if (_context.VehicleModel == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");  
+                return Problem("Entity set 'KollamAutoEng_webContext.VehicleModel' is null.");
             }
-            var vehicleModel = await _context.VehicleModel.FindAsync(id);  
+            // Fetch the vehicle model by its id
+            var vehicleModel = await _context.VehicleModel.FindAsync(id);
             if (vehicleModel != null)
             {
-                _context.VehicleModel.Remove(vehicleModel);  
+                _context.VehicleModel.Remove(vehicleModel); // Remove the vehicle model from the context
             }
 
-            await _context.SaveChangesAsync();  
-            return RedirectToAction(nameof(Index)); 
+            await _context.SaveChangesAsync(); // Save changes to the database
+            return RedirectToAction(nameof(Index)); // Redirect to the index action
         }
 
+        // Helper method to check if a vehicle model exists by its id
         private bool VehicleModelExists(int id)
         {
-          return (_context.VehicleModel?.Any(e => e.ModelId == id)).GetValueOrDefault();
+            return (_context.VehicleModel?.Any(e => e.ModelId == id)).GetValueOrDefault(); // Check for existence
         }
     }
 }

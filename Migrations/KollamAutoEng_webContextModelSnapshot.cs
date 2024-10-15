@@ -114,8 +114,8 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("AppointmentName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -154,7 +154,8 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -369,19 +370,13 @@ namespace KollamAutoEng_web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("VehicleBrandBrandId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VehicleModelModelId")
-                        .HasColumnType("int");
-
                     b.HasKey("VehicleId");
+
+                    b.HasIndex("BrandId");
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("VehicleBrandBrandId");
-
-                    b.HasIndex("VehicleModelModelId");
+                    b.HasIndex("ModelId");
 
                     b.ToTable("Vehicle", (string)null);
                 });
@@ -396,8 +391,8 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("BrandName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("BrandId");
 
@@ -417,15 +412,12 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("ModelName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("VehicleBrandBrandId")
-                        .HasColumnType("int");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("ModelId");
 
-                    b.HasIndex("VehicleBrandBrandId");
+                    b.HasIndex("BrandId");
 
                     b.ToTable("VehicleModel", (string)null);
                 });
@@ -640,13 +632,13 @@ namespace KollamAutoEng_web.Migrations
                     b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
                         .WithMany("Faults")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("KollamAutoEng_web.Models.Vehicle", "Vehicle")
                         .WithMany("Faults")
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -659,7 +651,7 @@ namespace KollamAutoEng_web.Migrations
                     b.HasOne("KollamAutoEng_web.Models.Appointment", "Appointment")
                         .WithMany("FaultParts")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
@@ -710,19 +702,23 @@ namespace KollamAutoEng_web.Migrations
 
             modelBuilder.Entity("KollamAutoEng_web.Models.Vehicle", b =>
                 {
+                    b.HasOne("KollamAutoEng_web.Models.VehicleBrand", "VehicleBrand")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("KollamAutoEng_web.Models.Customer", "Customer")
                         .WithMany("Vehicles")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("KollamAutoEng_web.Models.VehicleBrand", "VehicleBrand")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("VehicleBrandBrandId");
 
                     b.HasOne("KollamAutoEng_web.Models.VehicleModel", "VehicleModel")
                         .WithMany("Vehicles")
-                        .HasForeignKey("VehicleModelModelId");
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Customer");
 
@@ -735,7 +731,9 @@ namespace KollamAutoEng_web.Migrations
                 {
                     b.HasOne("KollamAutoEng_web.Models.VehicleBrand", "VehicleBrand")
                         .WithMany("VehicleModels")
-                        .HasForeignKey("VehicleBrandBrandId");
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("VehicleBrand");
                 });

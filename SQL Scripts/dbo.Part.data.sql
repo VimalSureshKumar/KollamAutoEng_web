@@ -1,35 +1,32 @@
-﻿INSERT INTO [dbo].[Part] 
-    ([PartId], [Reference], [PartName], [Cost]) 
-VALUES 
-    (1,  N'XYZA-00001', N'Brake Pad', CAST(89.99 AS Decimal(18, 2))),
-    (2,  N'XYZA-00002', N'Engine', CAST(1245.99 AS Decimal(18, 2))),
-    (3,  N'XYZA-00003', N'Air Filter', CAST(45.50 AS Decimal(18, 2))),
-    (4,  N'XYZA-00004', N'Oil Filter', CAST(35.75 AS Decimal(18, 2))),
-    (5,  N'XYZA-00005', N'Alternator', CAST(239.99 AS Decimal(18, 2))),
-    (6,  N'XYZA-00006', N'Battery', CAST(120.00 AS Decimal(18, 2))),
-    (7,  N'XYZA-00007', N'Headlight', CAST(75.00 AS Decimal(18, 2))),
-    (8,  N'XYZA-00008', N'Tail Light', CAST(50.00 AS Decimal(18, 2))),
-    (9,  N'XYZA-00009', N'Spark Plug', CAST(8.99 AS Decimal(18, 2))),
-    (10, N'XYZA-00010', N'Radiator', CAST(345.00 AS Decimal(18, 2))),
-    (11, N'XYZA-00011', N'Fuel Pump', CAST(199.99 AS Decimal(18, 2))),
-    (12, N'XYZA-00012', N'Water Pump', CAST(150.00 AS Decimal(18, 2))),
-    (13, N'XYZA-00013', N'Clutch', CAST(220.00 AS Decimal(18, 2))),
-    (14, N'XYZA-00014', N'Transmission', CAST(900.00 AS Decimal(18, 2))),
-    (15, N'XYZA-00015', N'Window Motor', CAST(85.00 AS Decimal(18, 2))),
-    (16, N'XYZA-00016', N'Door Handle', CAST(40.00 AS Decimal(18, 2))),
-    (17, N'XYZA-00017', N'Ignition Coil', CAST(60.00 AS Decimal(18, 2))),
-    (18, N'XYZA-00018', N'Stimulator', CAST(120.00 AS Decimal(18, 2))),
-    (19, N'XYZA-00019', N'Wheel Bearing', CAST(90.00 AS Decimal(18, 2))),
-    (20, N'XYZA-00020', N'Sway Bar Link', CAST(55.00 AS Decimal(18, 2))),
-    (21, N'XYZA-00021', N'Control Arm', CAST(180.00 AS Decimal(18, 2))),
-    (22, N'XYZA-00022', N'Ball Joint', CAST(100.00 AS Decimal(18, 2))),
-    (23, N'XYZA-00023', N'Strut', CAST(250.00 AS Decimal(18, 2))),
-    (24, N'XYZA-00024', N'Spring', CAST(140.00 AS Decimal(18, 2))),
-    (25, N'XYZA-00025', N'Fuel Filter', CAST(30.00 AS Decimal(18, 2))),
-    (26, N'XYZA-00026', N'Fuse', CAST(10.00 AS Decimal(18, 2))),
-    (27, N'XYZA-00027', N'Cooling Fan', CAST(75.00 AS Decimal(18, 2))),
-    (28, N'XYZA-00028', N'Hubcap', CAST(20.00 AS Decimal(18, 2))),
-    (29, N'XYZA-00029', N'Brake Rotor', CAST(135.00 AS Decimal(18, 2))),
-    (30, N'XYZA-00030', N'Cabin Filter', CAST(50.00 AS Decimal(18, 2)));
-
-SET IDENTITY_INSERT [dbo].[Part] OFF;
+﻿SET IDENTITY_INSERT [dbo].[Part] ON
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (1, N'XYZA-00001', N'Brake Pad', CAST(89.99 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (2, N'XYZA-00002', N'Engine', CAST(1245.99 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (3, N'XYZA-00003', N'Air Filter', CAST(45.50 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (4, N'XYZA-00004', N'Oil Filter', CAST(35.75 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (5, N'XYZA-00005', N'Alternator', CAST(239.99 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (6, N'XYZA-00006', N'Battery', CAST(120.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (7, N'XYZA-00007', N'Headlight', CAST(75.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (8, N'XYZA-00008', N'Tail Light', CAST(50.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (9, N'XYZA-00009', N'Spark Plug', CAST(8.99 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (10, N'XYZA-00010', N'Radiator', CAST(345.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (11, N'XYZA-00011', N'Fuel Pump', CAST(199.99 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (12, N'XYZA-00012', N'Water Pump', CAST(150.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (13, N'XYZA-00013', N'Clutch', CAST(220.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (14, N'XYZA-00014', N'Transmission', CAST(900.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (15, N'XYZA-00015', N'Window Motor', CAST(85.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (16, N'XYZA-00016', N'Door Handle', CAST(40.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (17, N'XYZA-00017', N'Ignition Coil', CAST(60.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (18, N'XYZA-00018', N'Stimulator', CAST(120.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (19, N'XYZA-00019', N'Wheel Bearing', CAST(90.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (20, N'XYZA-00020', N'Sway Bar Link', CAST(55.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (21, N'XYZA-00021', N'Control Arm', CAST(180.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (22, N'XYZA-00022', N'Ball Joint', CAST(100.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (23, N'XYZA-00023', N'Strut', CAST(250.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (24, N'XYZA-00024', N'Spring', CAST(140.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (25, N'XYZA-00025', N'Fuel Filter', CAST(30.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (26, N'XYZA-00026', N'Fuse', CAST(10.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (27, N'XYZA-00027', N'Cooling Fan', CAST(75.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (28, N'XYZA-00028', N'Hubcap', CAST(20.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (29, N'XYZA-00029', N'Brake Rotor', CAST(135.00 AS Decimal(18, 2)))
+INSERT INTO [dbo].[Part] ([PartId], [Reference], [PartName], [Cost]) VALUES (30, N'XYZA-00030', N'Cabin Filter', CAST(50.00 AS Decimal(18, 2)))
+SET IDENTITY_INSERT [dbo].[Part] OFF
