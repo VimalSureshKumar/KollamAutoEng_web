@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace KollamAutoEng_web.Areas.Identity.Pages.Account
 {
@@ -76,27 +77,33 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required(ErrorMessage = "Please enter First Name")]
-            [MaxLength(25)]
-            [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
-            [Display(Name = "First Name")]
+            [Required(ErrorMessage = "Please enter Customer First Name")] // Ensures first name is mandatory
+            [MinLength(3)] // Ensures the name has a minimum of 3 characters
+            [MaxLength(25)] // Ensures the name has a maximum of 25 characters
+            [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Each word must start with a capital letter, and only letters and single spaces are allowed.")]
+            // Ensures that the first letter of each word is capitalized and that only letters and single spaces are allowed
+            [Display(Name = "First Name")] // Display name for FirstName in views
             public string FirstName { get; set; } = null!;
 
-            [Required(ErrorMessage = "Please enter Last Name")]
-            [MaxLength(25)]
-            [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")]
-            [Display(Name = "Last Name")]
+            [Required(ErrorMessage = "Please enter Customer Last Name")] // Ensures last name is mandatory
+            [MinLength(3)] // Ensures the last name has a minimum of 3 characters
+            [MaxLength(25)] // Ensures the last name has a maximum of 25 characters
+            [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Each word must start with a capital letter, and only letters and single spaces are allowed.")]
+            // Ensures that each word in the last name starts with a capital letter, followed by lowercase letters, and only letters and single spaces are allowed
+            [Display(Name = "Last Name")] // Display name for LastName in views
             public string LastName { get; set; } = null!;
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
             [EmailAddress]
+            [Required(ErrorMessage = "Please enter an email address")] // Ensures the field is required
+            [DataType(DataType.EmailAddress)] // Specifies the data type for email
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [DataType(DataType.PhoneNumber), MaxLength(17)]
+            [Required]
+            [DataType(DataType.PhoneNumber), MaxLength(17)] // Specifies that this is a phone number field, with a maximum length of 17 characters
             [RegularExpression(@"^\+((64 (\b(2[0-6])\b)-\d{3,4}-\d{4,5})|(91 \d{5}-\d{5}))$",
             ErrorMessage = "Phone Number is not valid.\n\n" +
                    "For New Zealand:\n" +
@@ -107,7 +114,8 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
                    "For India:\n" +
                    "+91 followed by two groups of 5 digits separated by a hyphen.\n" +
                    "(e.g., +91 75920-12345).")]
-            [Display(Name = "Phone Number")]
+            // Validates phone number format for New Zealand and India
+            [Display(Name = "Phone Number")] // Display name for PhoneNumber in views
             public string PhoneNumber { get; set; }
 
             /// <summary>
@@ -115,7 +123,7 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -130,7 +138,6 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -141,10 +148,10 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
@@ -153,6 +160,14 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
                 user.Email = Input.Email;
                 user.UserName = Input.Email;
                 user.PhoneNumber = Input.PhoneNumber;
+
+                // Check for existing user with the same email
+                var existingEmailUser = await _userManager.FindByEmailAsync(Input.Email);
+                if (existingEmailUser != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Email already exists. Please use a different email.");
+                    return Page(); // Return the page with validation errors
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -184,6 +199,7 @@ namespace KollamAutoEng_web.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

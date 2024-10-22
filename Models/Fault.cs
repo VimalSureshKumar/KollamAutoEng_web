@@ -14,8 +14,10 @@ namespace KollamAutoEng_web.Models
 
         // Name of the faulty part - required with validation rules
         [Required(ErrorMessage = "Please enter Faulty Part")] // Ensures this field is mandatory
-        [MaxLength(50, ErrorMessage = "The Fault Name cannot exceed 50 characters.")] // Limits the length of the fault name to 50 characters
-        [RegularExpression(@"^[A-Za-z\s]*$", ErrorMessage = "Only letters and spaces are allowed.")] // Restricts input to only letters and spaces
+        [MinLength(3, ErrorMessage = "The Fault Name must be at least 3 characters long.")] // Ensures the fault name is at least 3 characters long
+        [MaxLength(35, ErrorMessage = "The Fault Name cannot exceed 35 characters.")] // Limits the length of the fault name to 35 characters
+        [RegularExpression(@"^([A-Z][a-z]*)(\s[A-Z][a-z]*)*$", ErrorMessage = "Each word must start with an uppercase letter, followed by lowercase letters.")]
+        // This regex ensures each word starts with a capital letter followed by lowercase
         [Display(Name = "Fault Name")] // Display label for the fault name in the UI
         public string FaultName { get; set; }
 

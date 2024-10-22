@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employee,User")]
+    [Authorize(Roles = "Admin,Employee,User")] // Authorize access for Admin, Employee, and User roles
     public class CustomersController : Controller
     {
-        private readonly KollamAutoEng_webContext _context;
+        private readonly KollamAutoEng_webContext _context; // Database context for accessing data
 
         public CustomersController(KollamAutoEng_webContext context)
         {
-            _context = context;
+            _context = context; // Initialize the context
         }
 
         // GET: Customers
@@ -87,26 +87,28 @@ namespace KollamAutoEng_web.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
+            // Check if the ID is null or if the Customer context is null
             if (id == null || _context.Customer == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no ID is provided or the context is null
             }
 
+            // Retrieve the customer with the specified ID
             var customer = await _context.Customer
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the customer doesn't exist
             }
 
-            return View(customer);
+            return View(customer); // Return the details view for the customer
         }
 
         // GET: Customers/Create
         [Authorize(Roles = "Admin,Employee,User")]
         public IActionResult Create()
         {
-            return View();
+            return View(); // Return the Create view
         }
 
         // POST: Customers/Create
@@ -115,31 +117,45 @@ namespace KollamAutoEng_web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                // Check for existing customers with the same Email or PhoneNumber
+                var existingCustomer = await _context.Customer
+                    .FirstOrDefaultAsync(c => c.Email == customer.Email || c.PhoneNumber == customer.PhoneNumber);
 
-                return RedirectToAction("Create", "Vehicles", new { customerId = customer.CustomerId });
+                if (existingCustomer != null) // If a duplicate is found
+                {
+                    // Add an error message to the model state
+                    ModelState.AddModelError("Email", "A customer with the same email or phone number already exists.");
+                }
+                else
+                {
+                    _context.Add(customer); // Add the new customer to the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
+
+                    return RedirectToAction("Create", "Vehicles", new { customerId = customer.CustomerId }); // Redirect to the Vehicles creation
+                }
             }
-            return View(customer);
+            return View(customer); // Return the view with validation errors
         }
 
         // GET: Customers/Edit
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
+            // Check if the ID is null or if the Customer context is null
             if (id == null || _context.Customer == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no ID is provided or the context is null
             }
 
+            // Retrieve the customer with the specified ID
             var customer = await _context.Customer.FindAsync(id);
             if (customer == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the customer doesn't exist
             }
-            return View(customer);
+            return View(customer); // Return the Edit view for the customer
         }
 
         // POST: Customers/Edit
@@ -148,73 +164,80 @@ namespace KollamAutoEng_web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Email,PhoneNumber,Gender,DateOfBirth")] Customer customer)
         {
+            // Check if the provided ID matches the customer ID
             if (id != customer.CustomerId)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the IDs do not match
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    _context.Update(customer); // Update the customer in the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException) // Handle concurrency exceptions
                 {
-                    if (!CustomerExists(customer.CustomerId))
+                    if (!CustomerExists(customer.CustomerId)) // Check if the customer still exists
                     {
-                        return NotFound();
+                        return NotFound(); // Return NotFound if the customer does not exist
                     }
                     else
                     {
-                        throw;
+                        throw; // Re-throw the exception if it is a different issue
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Redirect to the Index action
             }
-            return View(customer);
+            return View(customer); // Return the view with validation errors
         }
 
         // GET: Customers/Delete
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
+            // Check if the ID is null or if the Customer context is null
             if (id == null || _context.Customer == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no ID is provided or the context is null
             }
 
+            // Retrieve the customer with the specified ID
             var customer = await _context.Customer
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the customer doesn't exist
             }
 
-            return View(customer);
+            return View(customer); // Return the Delete confirmation view for the customer
         }
 
+        // POST: Customers/Delete
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Check if the Customer context is null
             if (_context.Customer == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Customer' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Customer' is null."); // Return an error if it is
             }
 
+            // Retrieve the customer with the specified ID and include related data
             var customer = await _context.Customer
                 .Include(c => c.Vehicles)
                 .Include(c => c.Appointments)
-                .ThenInclude(a => a.FaultParts) 
+                .ThenInclude(a => a.FaultParts)
                 .Include(c => c.Faults)
                 .Include(c => c.Payments)
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
 
-            if (customer != null)
+            if (customer != null) // If the customer exists
             {
+                // Remove related fault parts for each appointment
                 foreach (var appointment in customer.Appointments)
                 {
                     if (appointment.FaultParts?.Any() == true)
@@ -223,37 +246,42 @@ namespace KollamAutoEng_web.Controllers
                     }
                 }
 
+                // Remove related faults if they exist
                 if (customer.Faults?.Any() == true)
                 {
                     _context.Fault.RemoveRange(customer.Faults);
                 }
 
+                // Remove related appointments if they exist
                 if (customer.Appointments?.Any() == true)
                 {
                     _context.Appointment.RemoveRange(customer.Appointments);
                 }
 
+                // Remove related vehicles if they exist
                 if (customer.Vehicles?.Any() == true)
                 {
                     _context.Vehicle.RemoveRange(customer.Vehicles);
                 }
 
+                // Remove related payments if they exist
                 if (customer.Payments?.Any() == true)
                 {
                     _context.Payment.RemoveRange(customer.Payments);
                 }
 
-                _context.Customer.Remove(customer);
+                _context.Customer.Remove(customer); // Remove the customer
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(); // Save changes to the database
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index)); // Redirect to the Index action
         }
 
+        // Check if a customer exists by ID
         private bool CustomerExists(int id)
         {
-            return (_context.Customer?.Any(e => e.CustomerId == id)).GetValueOrDefault();
+            return (_context.Customer?.Any(e => e.CustomerId == id)).GetValueOrDefault(); // Return true if the customer exists
         }
     }
 }

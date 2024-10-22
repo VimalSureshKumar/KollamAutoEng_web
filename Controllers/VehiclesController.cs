@@ -123,9 +123,21 @@ namespace KollamAutoEng_web.Controllers
         {
             if (ModelState.IsValid) // Check if the submitted model is valid
             {
-                _context.Add(vehicle); // Add the new vehicle to the context
-                await _context.SaveChangesAsync(); // Save changes to the database
-                return RedirectToAction("Formsubmit", "Home", new { vehicleId = vehicle.VehicleId }); // Redirect to the form submit page
+                // Check for an existing vehicle with the same VIN
+                var existingVehicle = await _context.Vehicle
+                    .FirstOrDefaultAsync(v => v.VIN == vehicle.VIN);
+
+                if (existingVehicle != null)
+                {
+                    // Add an error message to the model state if a duplicate is found
+                    ModelState.AddModelError("VIN", "A vehicle with this VIN already exists.");
+                }
+                else
+                {
+                    _context.Add(vehicle); // Add the new vehicle to the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
+                    return RedirectToAction("Formsubmit", "Home", new { vehicleId = vehicle.VehicleId }); // Redirect to the form submit page
+                }
             }
             // Repopulate dropdown lists if the model state is invalid
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", vehicle.CustomerId);

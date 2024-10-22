@@ -11,11 +11,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employee")]
+    [Authorize(Roles = "Admin,Employee")] // Restrict access to Admin and Employee roles
     public class FaultsController : Controller
     {
-        private readonly KollamAutoEng_webContext _context;
+        private readonly KollamAutoEng_webContext _context; // Database context
 
+        // Constructor to inject the database context
         public FaultsController(KollamAutoEng_webContext context)
         {
             _context = context;
@@ -78,156 +79,176 @@ namespace KollamAutoEng_web.Controllers
             }
 
             int pageSize = 10; // Define the number of items per page
-                               // Return the paginated list of faults to the view
+            // Return the paginated list of faults to the view
             return View(await PaginatedList<Fault>.CreateAsync(faults.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Faults/Details
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Ensure only users with appropriate roles can access
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Fault == null)
+            if (id == null || _context.Fault == null) // Check if ID is null or Fault context is unavailable
             {
-                return NotFound();
+                return NotFound(); // Return Not Found if ID is null
             }
 
+            // Retrieve the fault details along with related customer and vehicle information
             var fault = await _context.Fault
                 .Include(f => f.Customer)
                 .Include(f => f.Vehicle)
                 .FirstOrDefaultAsync(m => m.FaultId == id);
             if (fault == null)
             {
-                return NotFound();
+                return NotFound(); // Return Not Found if no fault matches the ID
             }
 
-            return View(fault);
+            return View(fault); // Return the fault details view
         }
 
         // GET: Faults/Create
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Ensure only authorized users can access this action
         public IActionResult Create()
         {
+            // Populate dropdown lists for selecting customer and vehicle
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");
-            return View();
+            return View(); // Return the view to create a new fault
         }
 
         // POST: Faults/Create
-        [Authorize(Roles = "Admin,Employee")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")] // Ensure only authorized users can access this action
+        [HttpPost] // Specifies that this action responds to POST requests
+        [ValidateAntiForgeryToken] // Prevent CSRF attacks
         public async Task<IActionResult> Create([Bind("FaultId,VehicleId,CustomerId,FaultName")] Fault fault)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
-                _context.Add(fault);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Check for an existing fault with the same VehicleId and FaultName
+                var existingFault = await _context.Fault
+                    .FirstOrDefaultAsync(f => f.VehicleId == fault.VehicleId && f.FaultName == fault.FaultName);
+
+                if (existingFault != null) // If a duplicate is found
+                {
+                    // Add an error message to the model state
+                    ModelState.AddModelError("FaultName", "A fault with this name for the selected vehicle already exists.");
+                }
+                else
+                {
+                    _context.Add(fault); // Add the new fault to the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
+                    return RedirectToAction(nameof(Index)); // Redirect to the index action
+                }
             }
+
+            // Repopulate dropdown lists if the model state is invalid or if a duplicate was found
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", fault.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", fault.VehicleId);
-            return View(fault);
+            return View(fault); // Return the view with validation errors
         }
 
         // GET: Faults/Edit
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Ensure only authorized users can access this action
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Fault == null)
+            if (id == null || _context.Fault == null) // Check if ID is null or Fault context is unavailable
             {
-                return NotFound();
+                return NotFound(); // Return Not Found if ID is null
             }
 
-            var fault = await _context.Fault.FindAsync(id);
-            if (fault == null)
+            var fault = await _context.Fault.FindAsync(id); // Retrieve fault by ID
+            if (fault == null) // Check if fault exists
             {
-                return NotFound();
+                return NotFound(); // Return Not Found if no fault matches the ID
             }
+            // Populate dropdown lists for editing the fault
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", fault.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", fault.VehicleId);
-            return View(fault);
+            return View(fault); // Return the view to edit the fault
         }
 
         // POST: Faults/Edit
-        [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [HttpPost] // Specifies that this action responds to POST requests
+        [Authorize(Roles = "Admin,Employee")] // Ensure only authorized users can access this action
+        [ValidateAntiForgeryToken] // Prevent CSRF attacks
         public async Task<IActionResult> Edit(int id, [Bind("FaultId,VehicleId,CustomerId,FaultName")] Fault fault)
         {
-            if (id != fault.FaultId)
+            if (id != fault.FaultId) // Ensure the ID in the route matches the fault ID
             {
-                return NotFound();
+                return NotFound(); // Return Not Found if they do not match
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
                 try
                 {
-                    _context.Update(fault);
-                    await _context.SaveChangesAsync();
+                    _context.Update(fault); // Update the fault in the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException) // Handle concurrency issues
                 {
-                    if (!FaultExists(fault.FaultId))
+                    if (!FaultExists(fault.FaultId)) // Check if the fault still exists
                     {
-                        return NotFound();
+                        return NotFound(); // Return Not Found if no fault matches the ID
                     }
                     else
                     {
-                        throw;
+                        throw; // Rethrow the exception if it's not a concurrency issue
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Redirect to the index action
             }
+            // Repopulate dropdown lists if the model state is invalid
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", fault.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", fault.VehicleId);
-            return View(fault);
+            return View(fault); // Return the view with validation errors
         }
 
         // GET: Faults/Delete
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Ensure only authorized users can access this action
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Fault == null)
+            if (id == null || _context.Fault == null) // Check if ID is null or Fault context is unavailable
             {
-                return NotFound();
+                return NotFound(); // Return Not Found if ID is null
             }
 
+            // Retrieve the fault details along with related customer and vehicle information
             var fault = await _context.Fault
                 .Include(f => f.Customer)
                 .Include(f => f.Vehicle)
                 .FirstOrDefaultAsync(m => m.FaultId == id);
-            if (fault == null)
+            if (fault == null) // Check if fault exists
             {
-                return NotFound();
+                return NotFound(); // Return Not Found if no fault matches the ID
             }
 
-            return View(fault);
+            return View(fault); // Return the view to confirm deletion
         }
 
         // POST: Faults/Delete
-        [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete")] // Specifies this action is called "Delete" for POST requests
+        [Authorize(Roles = "Admin,Employee")] // Ensure only authorized users can access this action
+        [ValidateAntiForgeryToken] // Prevent CSRF attacks
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Fault == null)
+            if (_context.Fault == null) // Check if Fault context is unavailable
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Fault'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Fault'  is null."); // Return an error
             }
-            var fault = await _context.Fault.FindAsync(id);
-            if (fault != null)
+            var fault = await _context.Fault.FindAsync(id); // Find the fault by ID
+            if (fault != null) // If the fault exists
             {
-                _context.Fault.Remove(fault);
+                _context.Fault.Remove(fault); // Remove the fault from the context
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync(); // Save changes to the database
+            return RedirectToAction(nameof(Index)); // Redirect to the index action
         }
 
+        // Check if a fault exists by ID
         private bool FaultExists(int id)
         {
-            return (_context.Fault?.Any(e => e.FaultId == id)).GetValueOrDefault();
+            return (_context.Fault?.Any(e => e.FaultId == id)).GetValueOrDefault(); // Return true if the fault exists
         }
     }
 }

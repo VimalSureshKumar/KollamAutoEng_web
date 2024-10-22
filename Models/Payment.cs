@@ -30,14 +30,15 @@ namespace KollamAutoEng_web.Models
         // Amount of the payment, required with validation for currency, range, and format
         [DataType(DataType.Currency)] // Specifies that this field represents a currency value
         [Required(ErrorMessage = "Please enter Payment Amount")] // Ensures this field is mandatory
-        [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")] // Validates the input to allow only positive numbers with optional decimal values
-        [Range(0, 500000, ErrorMessage = "Please enter a value between 0 and 500,000.")] // Enforces a valid range for the payment amount
+        [RegularExpression(@"^(0|[1-9][0-9]{0,4}(,[0-9]{3})*)(\.[0-9]{1,2})?$", ErrorMessage = "Please enter a valid positive number (e.g., 50,000 or 50000).")]
+        // This regex allows numbers with optional commas as thousands separators and decimals with up to 2 decimal places.
+        [Range(0.99, 50000, ErrorMessage = "Please enter a value between 0.99 and 50,000.")] // Enforces a valid range for the payment amount
         [Display(Name = "Payment Amount")] // Specifies the display label for the payment amount field in the UI
         public decimal Amount { get; set; }
 
         // Date of the payment, required and validated by a custom DateValidator
         [Required] // Ensures the payment date is mandatory
-        [DateValidator(ErrorMessage = "The payment date must be within one year from today.")] // Custom validation attribute to check if the date is within a valid range (within one year)
+        [DateValidator(ErrorMessage = "The payment date must be within 2 weeks from today.")] // Custom validation attribute to check if the date is within a valid range (within 2 weeks)
         [DataType(DataType.Date)] // Specifies the field as a date type for correct formatting in UI
         [Display(Name = "Payment Date")] // Specifies the display label for the payment date in the UI
         public DateTime? PaymentDate { get; set; }

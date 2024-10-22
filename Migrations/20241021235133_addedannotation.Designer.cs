@@ -4,6 +4,7 @@ using KollamAutoEng_web.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KollamAutoEng_web.Migrations
 {
     [DbContext(typeof(KollamAutoEng_webContext))]
-    partial class KollamAutoEng_webContextModelSnapshot : ModelSnapshot
+    [Migration("20241021235133_addedannotation")]
+    partial class addedannotation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,8 +233,8 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("FaultName")
                         .IsRequired()
-                        .HasMaxLength(35)
-                        .HasColumnType("nvarchar(35)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("VehicleId")
                         .HasColumnType("int");
@@ -296,13 +299,12 @@ namespace KollamAutoEng_web.Migrations
 
                     b.Property<string>("PartName")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Reference")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PartId");
 

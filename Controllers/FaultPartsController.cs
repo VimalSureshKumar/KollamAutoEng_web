@@ -14,11 +14,13 @@ using NuGet.Protocol.Plugins;
 
 namespace KollamAutoEng_web.Controllers
 {
+    // Ensure only users with Admin or Employee roles can access this controller
     [Authorize(Roles = "Admin,Employee")]
     public class FaultPartsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
 
+        // Constructor to inject the database context
         public FaultPartsController(KollamAutoEng_webContext context)
         {
             _context = context;
@@ -53,11 +55,11 @@ namespace KollamAutoEng_web.Controllers
 
             // Query to retrieve fault parts, including related entities
             var faultparts = from faultp in _context.FaultPart
-                             .Include(m => m.Fault)
-                             .Include(m => m.Part)
-                             .Include(m => m.Appointment)
-                             .Include(m => m.Customer)
-                             .Include(m => m.Vehicle)
+                             .Include(m => m.Fault) // Include related Fault entity
+                             .Include(m => m.Part) // Include related Part entity
+                             .Include(m => m.Appointment) // Include related Appointment entity
+                             .Include(m => m.Customer) // Include related Customer entity
+                             .Include(m => m.Vehicle) // Include related Vehicle entity
                              select faultp;
 
             // If the search string is not empty, filter the fault parts based on various fields
@@ -86,19 +88,21 @@ namespace KollamAutoEng_web.Controllers
             }
 
             int pageSize = 5; // Define the number of items per page
-                              // Return the paginated list of fault parts to the view
+            // Return the paginated list of fault parts to the view
             return View(await PaginatedList<FaultPart>.CreateAsync(faultparts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: FaultParts/Details
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public async Task<IActionResult> Details(int? id)
         {
+            // Check if the id is null or if the FaultPart context is null
             if (id == null || _context.FaultPart == null)
             {
-                return NotFound();
+                return NotFound(); // Return not found if id is null
             }
 
+            // Fetch the fault part details including related entities
             var faultPart = await _context.FaultPart
                 .Include(f => f.Appointment)
                 .Include(f => f.Fault)
@@ -108,114 +112,140 @@ namespace KollamAutoEng_web.Controllers
                 .FirstOrDefaultAsync(m => m.FaultPartId == id);
             if (faultPart == null)
             {
-                return NotFound();
+                return NotFound(); // Return not found if the fault part is not found
             }
 
-            return View(faultPart);
+            return View(faultPart); // Return the details view
         }
 
         // GET: FaultParts/Create
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public IActionResult Create()
         {
+            // Populate dropdown lists for creating a new FaultPart
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName");
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName");
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName");
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");
-            return View();
+            return View(); // Return the create view
         }
 
         // POST: FaultParts/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
+        [ValidateAntiForgeryToken] // Validate the request
         public async Task<IActionResult> Create([Bind("FaultPartId,FaultId,PartId,AppointmentId,CustomerId,VehicleId")] FaultPart faultPart)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
-                _context.Add(faultPart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Check for an existing FaultPart with the same FaultId and PartId
+                var existingFaultPart = await _context.FaultPart
+                    .FirstOrDefaultAsync(fp =>
+                        fp.FaultId == faultPart.FaultId &&
+                        fp.PartId == faultPart.PartId &&
+                        fp.AppointmentId == faultPart.AppointmentId &&
+                        fp.CustomerId == faultPart.CustomerId &&
+                        fp.VehicleId == faultPart.VehicleId);
+
+                if (existingFaultPart != null) // If a duplicate is found
+                {
+                    // Add an error message to the model state
+                    ModelState.AddModelError("PartId", "This part for the selected fault already exists.");
+                }
+                else
+                {
+                    _context.Add(faultPart); // Add the new fault part to the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
+                    return RedirectToAction(nameof(Index)); // Redirect to the index action
+                }
             }
+
+            // Repopulate dropdown lists if the model state is invalid or if a duplicate was found
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", faultPart.VehicleId);
-            return View(faultPart);
+            return View(faultPart); // Return the view with validation errors
         }
 
         // GET: FaultParts/Edit
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public async Task<IActionResult> Edit(int? id)
         {
+            // Check if the id is null or if the FaultPart context is null
             if (id == null || _context.FaultPart == null)
             {
-                return NotFound();
+                return NotFound(); // Return not found if id is null
             }
 
+            // Fetch the fault part for editing
             var faultPart = await _context.FaultPart.FindAsync(id);
             if (faultPart == null)
             {
-                return NotFound();
+                return NotFound(); // Return not found if the fault part is not found
             }
+            // Populate dropdown lists for editing the FaultPart
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", faultPart.VehicleId);
-            return View(faultPart);
+            return View(faultPart); // Return the edit view
         }
 
         // POST: FaultParts/Edit
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
+        [ValidateAntiForgeryToken] // Validate the request
         public async Task<IActionResult> Edit(int id, [Bind("FaultPartId,FaultId,PartId,AppointmentId,CustomerId,VehicleId")] FaultPart faultPart)
         {
-            if (id != faultPart.FaultPartId)
+            if (id != faultPart.FaultPartId) // Check if the id matches the FaultPartId
             {
-                return NotFound();
+                return NotFound(); // Return not found if they don't match
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
                 try
                 {
-                    _context.Update(faultPart);
-                    await _context.SaveChangesAsync();
+                    _context.Update(faultPart); // Update the fault part in the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException) // Handle concurrency issues
                 {
-                    if (!FaultPartExists(faultPart.FaultPartId))
+                    if (!FaultPartExists(faultPart.FaultPartId)) // Check if the fault part still exists
                     {
-                        return NotFound();
+                        return NotFound(); // Return not found if it does not exist
                     }
                     else
                     {
-                        throw;
+                        throw; // Rethrow the exception if it still exists
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Redirect to the index action after editing
             }
+            // Repopulate dropdown lists if the model state is invalid
             ViewData["AppointmentId"] = new SelectList(_context.Appointment, "AppointmentId", "AppointmentName", faultPart.AppointmentId);
             ViewData["FaultId"] = new SelectList(_context.Fault, "FaultId", "FaultName", faultPart.FaultId);
             ViewData["PartId"] = new SelectList(_context.Part, "PartId", "PartName", faultPart.PartId);
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", faultPart.CustomerId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", faultPart.VehicleId);
-            return View(faultPart);
+            return View(faultPart); // Return the view with validation errors
         }
 
         // GET: FaultParts/Delete
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
         public async Task<IActionResult> Delete(int? id)
         {
+            // Check if the id is null or if the FaultPart context is null
             if (id == null || _context.FaultPart == null)
             {
-                return NotFound();
+                return NotFound(); // Return not found if id is null
             }
 
+            // Fetch the fault part to confirm deletion
             var faultPart = await _context.FaultPart
                 .Include(f => f.Appointment)
                 .Include(f => f.Fault)
@@ -225,35 +255,37 @@ namespace KollamAutoEng_web.Controllers
                 .FirstOrDefaultAsync(m => m.FaultPartId == id);
             if (faultPart == null)
             {
-                return NotFound();
+                return NotFound(); // Return not found if the fault part is not found
             }
 
-            return View(faultPart);
+            return View(faultPart); // Return the delete confirmation view
         }
 
         // POST: FaultParts/Delete
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
+        [ValidateAntiForgeryToken] // Validate the request
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.FaultPart == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.FaultPart'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.FaultPart' is null."); // Return error if the context is null
             }
+            // Fetch the fault part to delete
             var faultPart = await _context.FaultPart.FindAsync(id);
-            if (faultPart != null)
+            if (faultPart != null) // If the fault part exists
             {
-                _context.FaultPart.Remove(faultPart);
+                _context.FaultPart.Remove(faultPart); // Remove it from the context
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            await _context.SaveChangesAsync(); // Save changes to the database
+            return RedirectToAction(nameof(Index)); // Redirect to the index action after deletion
         }
 
+        // Helper method to check if a FaultPart exists
         private bool FaultPartExists(int id)
         {
-          return (_context.FaultPart?.Any(e => e.FaultPartId == id)).GetValueOrDefault();
+            return (_context.FaultPart?.Any(e => e.FaultPartId == id)).GetValueOrDefault(); // Check existence in the context
         }
     }
 }

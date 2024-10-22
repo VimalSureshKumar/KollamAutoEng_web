@@ -125,9 +125,21 @@ namespace KollamAutoEng_web.Controllers
             // Check if the model state is valid
             if (ModelState.IsValid)
             {
-                _context.Add(vehicleModel); // Add the new vehicle model to the context
-                await _context.SaveChangesAsync(); // Save changes to the database
-                return RedirectToAction(nameof(Index)); // Redirect to the index action
+                // Check for existing vehicle model with the same name and brand
+                var existingModel = await _context.VehicleModel
+                    .FirstOrDefaultAsync(vm => vm.ModelName == vehicleModel.ModelName && vm.BrandId == vehicleModel.BrandId);
+
+                if (existingModel != null)
+                {
+                    // Add an error message to the model state if a duplicate is found
+                    ModelState.AddModelError("ModelName", "A vehicle model with the same name and brand already exists.");
+                }
+                else
+                {
+                    _context.Add(vehicleModel); // Add the new vehicle model to the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
+                    return RedirectToAction(nameof(Index)); // Redirect to the index action
+                }
             }
             // Repopulate the select list in case of validation failure
             ViewData["BrandId"] = new SelectList(_context.VehicleBrand, "BrandId", "BrandName", vehicleModel.BrandId);

@@ -18,49 +18,51 @@ namespace KollamAutoEng_web.Models
         public int EmployeeId { get; set; }
 
         // Employee's first name - required field with minimum and maximum length constraints
-        // Only letters and single spaces allowed between words
-        [Required(ErrorMessage = "Please enter Employee First Name")] // Field must be filled out
-        [MaxLength(25, ErrorMessage = "First Name cannot exceed 25 characters.")] // Limits the maximum number of characters to 25
-        [MinLength(2, ErrorMessage = "First Name must be at least 2 characters long.")] // Ensures at least 2 characters
-        [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")] // Restricts input to letters and single spaces
-        [Display(Name = "First Name")] // Display name in UI
+        [Required(ErrorMessage = "Please enter Employee First Name")] // Ensures first name is mandatory
+        [MinLength(3)] // Ensures the name has a minimum of 3 characters
+        [MaxLength(25)] // Ensures the name has a maximum of 25 characters
+        [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Each word must start with a capital letter, and only letters and single spaces are allowed.")]
+        // Ensures that the first letter of each word is capitalized and that only letters and single spaces are allowed
+        [Display(Name = "First Name")] // Display name for FirstName in views
         public string FirstName { get; set; }
 
         // Employee's last name - required field with minimum and maximum length constraints
-        // Only letters and single spaces allowed between words
-        [Required(ErrorMessage = "Please enter Employee Last Name")] // Field must be filled out
-        [MaxLength(25, ErrorMessage = "Last Name cannot exceed 25 characters.")] // Limits the maximum number of characters to 25
-        [MinLength(2, ErrorMessage = "Last Name must be at least 2 characters long.")] // Ensures at least 2 characters
-        [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")] // Restricts input to letters and single spaces
-        [Display(Name = "Last Name")] // Display name in UI
+        [Required(ErrorMessage = "Please enter Employee Last Name")] // Ensures last name is mandatory
+        [MinLength(3)] // Ensures the last name has a minimum of 3 characters
+        [MaxLength(25)] // Ensures the last name has a maximum of 25 characters
+        [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Each word must start with a capital letter, and only letters and single spaces are allowed.")]
+        // Ensures that each word in the last name starts with a capital letter, followed by lowercase letters, and only letters and single spaces are allowed
+        [Display(Name = "Last Name")] // Display name for LastName in views
         public string LastName { get; set; }
 
-        // Employee's phone number - optional, validated with custom phone number format rules for New Zealand and India
-        [DataType(DataType.PhoneNumber)] // Specifies the data type as a phone number
-        [MaxLength(17)] // Limits the phone number to a maximum of 17 characters
+        // Employee's phone number - validated with custom phone number format rules for New Zealand and India
+        [Required]
+        [DataType(DataType.PhoneNumber), MaxLength(17)] // Specifies that this is a phone number field, with a maximum length of 17 characters
         [RegularExpression(@"^\+((64 (\b(2[0-6])\b)-\d{3,4}-\d{4,5})|(91 \d{5}-\d{5}))$",
-            ErrorMessage = "Phone Number is not valid.\n\n" +
-            "For New Zealand:\n" +
-            "+64 followed by a 2-digit area code (20-26),\n" +
-            "a 3- or 4-digit local number,\n" +
-            "and a 4- or 5-digit subscriber number.\n" +
-            "(e.g., +64 20-345-6789 or +64 22-1234-5678).\n\n" +
-            "For India:\n" +
-            "+91 followed by two groups of 5 digits separated by a hyphen.\n" +
-            "(e.g., +91 75920-12345).")] // Regular expression to validate specific formats for New Zealand and India phone numbers
-        [Display(Name = "Phone Number")] // Display name in UI
+        ErrorMessage = "Phone Number is not valid.\n\n" +
+               "For New Zealand:\n" +
+               "+64 followed by a 2-digit area code (20-26),\n" +
+               "a 3- or 4-digit local number,\n" +
+               "and a 4- or 5-digit subscriber number.\n" +
+               "(e.g., +64 20-345-6789 or +64 22-1234-5678).\n\n" +
+               "For India:\n" +
+               "+91 followed by two groups of 5 digits separated by a hyphen.\n" +
+               "(e.g., +91 75920-12345).")]
+        // Validates phone number format for New Zealand and India
+        [Display(Name = "Phone Number")] // Display name for PhoneNumber in views
         public string PhoneNumber { get; set; }
 
         // Employee's status (Active or Inactive)
         [Display(Name = "Status")] // Display name in UI
         public Status? Status { get; set; }
 
-        // Employee's pay - required, validated as a currency, and must fall within a specified range
-        [DataType(DataType.Currency)] // Specifies that the field should be treated as currency
-        [Required(ErrorMessage = "Please enter Employee Pay")] // Field must be filled out
-        [RegularExpression("^(0|[1-9][0-9]*)(\\.[0-9]+)?$", ErrorMessage = "Please enter a valid positive number.")] // Validates that the input is a valid number, including decimals
-        [Range(0.99, 50000, ErrorMessage = "Please enter a value between 0.99 and 50,000.")] // Ensures the pay value falls between 0.99 and 50,000
-        [Display(Name = "Pay")] // Display name in UI
+        // Employee's pay - required, validated as a currency, and restricted to a valid range
+        [DataType(DataType.Currency)] // Specifies that the field should be treated as a currency value
+        [Required(ErrorMessage = "Please enter Employee Pay")] // Field is mandatory
+        [RegularExpression(@"^(0|[1-9][0-9]{0,4}(,[0-9]{3})*)(\.[0-9]{1,2})?$", ErrorMessage = "Please enter a valid positive number (e.g., 1,000 or 1000).")]
+        // This regex allows numbers with optional commas as thousands separators and decimals with up to 2 places.
+        [Range(0.99, 1000, ErrorMessage = "Please enter a value between 0.99 and 1,000.")]
+        [Display(Name = "Pay")] // Display label for UI
         public decimal Pay { get; set; }
 
         // Employee's working hours - required, must fall within a specified range, and allows up to two decimal places

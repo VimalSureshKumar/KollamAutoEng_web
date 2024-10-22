@@ -1,7 +1,7 @@
 ﻿SET IDENTITY_INSERT [dbo].[Vehicle] ON
 INSERT INTO [dbo].[Vehicle] ([VehicleId], [BrandId], [ModelId], [VIN], [Registration], [Colour], [DriveType], [Odometer], [CustomerId]) VALUES (1, 1, 1, N'1C4PJLCB2EW232968', N'KJZ515', 1, 3, 95000, 1)
 INSERT INTO [dbo].[Vehicle] ([VehicleId], [BrandId], [ModelId], [VIN], [Registration], [Colour], [DriveType], [Odometer], [CustomerId]) VALUES (2, 2, 4, N'2FMPK4K95LBB64948', N'ABZ123', 4, 0, 10200, 2)
-INSERT INTO [dbo].[Vehicle] ([VehicleId], [BrandId], [ModelId], [VIN], [Registration], [Colour], [DriveType], [Odometer], [CustomerId]) VALUES (3, 3, 7, N'3FA6P0H72JR270563', N'Red123', 0, 1, 6700, 3)
+INSERT INTO [dbo].[Vehicle] ([VehicleId], [BrandId], [ModelId], [VIN], [Registration], [Colour], [DriveType], [Odometer], [CustomerId]) VALUES (3, 3, 7, N'3FA6P0H72JR270563', N'RED123', 0, 1, 6700, 3)
 INSERT INTO [dbo].[Vehicle] ([VehicleId], [BrandId], [ModelId], [VIN], [Registration], [Colour], [DriveType], [Odometer], [CustomerId]) VALUES (4, 4, 10, N'WPOAB2A98JL123456', N'CAR911', 2, 3, 12000, 4)
 INSERT INTO [dbo].[Vehicle] ([VehicleId], [BrandId], [ModelId], [VIN], [Registration], [Colour], [DriveType], [Odometer], [CustomerId]) VALUES (5, 5, 13, N'4T1BF1FK8HU123456', N'TY1234', 3, 0, 98000, 5)
 INSERT INTO [dbo].[Vehicle] ([VehicleId], [BrandId], [ModelId], [VIN], [Registration], [Colour], [DriveType], [Odometer], [CustomerId]) VALUES (6, 6, 16, N'1GCGTBEA1G1234567', N'CHV100', 3, 3, 45600, 6)

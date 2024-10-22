@@ -100,6 +100,16 @@ namespace KollamAutoEng_web.Controllers
         {
             if (ModelState.IsValid) // Check if the submitted model is valid
             {
+                // Check if a brand with the same name already exists (case-insensitive)
+                bool isDuplicate = _context.VehicleBrand
+                                    .Any(vb => vb.BrandName.ToLower() == vehicleBrand.BrandName.ToLower());
+
+                if (isDuplicate)
+                {
+                    ModelState.AddModelError("BrandName", "A brand with this name already exists.");
+                    return View(vehicleBrand); // Return view with error message if duplicate is found
+                }
+
                 _context.Add(vehicleBrand); // Add the new brand to the context
                 await _context.SaveChangesAsync(); // Save changes to the database
                 return RedirectToAction(nameof(Index)); // Redirect to the brand index page

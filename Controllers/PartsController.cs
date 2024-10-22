@@ -11,14 +11,16 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
+    // Restrict access to users with "Admin" or "Employee" roles
     [Authorize(Roles = "Admin,Employee")]
     public class PartsController : Controller
     {
-        private readonly KollamAutoEng_webContext _context;
+        private readonly KollamAutoEng_webContext _context; // Database context for accessing data
 
+        // Constructor to initialize the context
         public PartsController(KollamAutoEng_webContext context)
         {
-            _context = context;
+            _context = context; // Assign the database context
         }
 
         // GET: Parts
@@ -48,7 +50,7 @@ namespace KollamAutoEng_web.Controllers
             }
 
             int pageSize = 10; // Define the number of items per page
-                               // Return the paginated list of parts to the view
+            // Return the paginated list of parts to the view
             return View(await PaginatedList<Part>.CreateAsync(parts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
@@ -56,40 +58,57 @@ namespace KollamAutoEng_web.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Details(int? id)
         {
+            // Check if the id is null or the Part context is null
             if (id == null || _context.Part == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no id is provided
             }
 
+            // Fetch the part based on its id
             var part = await _context.Part
                 .FirstOrDefaultAsync(m => m.PartId == id);
             if (part == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the part doesn't exist
             }
 
-            return View(part);
+            return View(part); // Return the view with the part details
         }
 
         // GET: Parts/Create
         [Authorize(Roles = "Admin,Employee")]
         public IActionResult Create()
         {
+            // Return the view for creating a new part
             return View();
         }
 
         // POST: Parts/Create
         [HttpPost]
         [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // Validate anti-forgery token to prevent CSRF attacks
         public async Task<IActionResult> Create([Bind("PartId,Reference,PartName,Cost")] Part part)
         {
+            // Check if the model state is valid
             if (ModelState.IsValid)
             {
-                _context.Add(part);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Check for an existing part with the same Reference or PartName
+                var existingPart = await _context.Part
+                    .FirstOrDefaultAsync(p => p.Reference == part.Reference || p.PartName == part.PartName);
+
+                if (existingPart != null)
+                {
+                    // Add an error message to the model state if a duplicate is found
+                    ModelState.AddModelError("Reference", "A part with this reference or name already exists.");
+                }
+                else
+                {
+                    _context.Add(part); // Add the new part to the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
+                    return RedirectToAction(nameof(Index)); // Redirect to the index action
+                }
             }
+            // Return the view with validation errors if the model state is not valid
             return View(part);
         }
 
@@ -97,50 +116,56 @@ namespace KollamAutoEng_web.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
+            // Check if the id is null or the Part context is null
             if (id == null || _context.Part == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no id is provided
             }
 
+            // Fetch the part based on its id for editing
             var part = await _context.Part.FindAsync(id);
             if (part == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the part doesn't exist
             }
-            return View(part);
+            return View(part); // Return the view for editing the part
         }
 
         // POST: Parts/Edit
         [HttpPost]
         [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // Validate anti-forgery token to prevent CSRF attacks
         public async Task<IActionResult> Edit(int id, [Bind("PartId,Reference,PartName,Cost")] Part part)
         {
+            // Check if the id matches the model's id
             if (id != part.PartId)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the ids do not match
             }
 
+            // Check if the model state is valid
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(part);
-                    await _context.SaveChangesAsync();
+                    _context.Update(part); // Update the part in the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                    // Handle concurrency issues if the part no longer exists
                     if (!PartExists(part.PartId))
                     {
-                        return NotFound();
+                        return NotFound(); // Return NotFound if the part doesn't exist
                     }
                     else
                     {
-                        throw;
+                        throw; // Re-throw the exception for handling elsewhere
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Redirect to the index action
             }
+            // Return the view with validation errors if the model state is not valid
             return View(part);
         }
 
@@ -148,44 +173,50 @@ namespace KollamAutoEng_web.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
+            // Check if the id is null or the Part context is null
             if (id == null || _context.Part == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if no id is provided
             }
 
+            // Fetch the part based on its id for deletion confirmation
             var part = await _context.Part
                 .FirstOrDefaultAsync(m => m.PartId == id);
             if (part == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the part doesn't exist
             }
 
-            return View(part);
+            return View(part); // Return the view for confirming deletion
         }
 
         // POST: Parts/Delete
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] // Validate anti-forgery token to prevent CSRF attacks
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Check if the Part context is null
             if (_context.Part == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Part'  is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Part' is null."); // Return an error if it is null
             }
+
+            // Fetch the part based on its id
             var part = await _context.Part.FindAsync(id);
             if (part != null)
             {
-                _context.Part.Remove(part);
+                _context.Part.Remove(part); // Remove the part from the context
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            await _context.SaveChangesAsync(); // Save changes to the database
+            return RedirectToAction(nameof(Index)); // Redirect to the index action
         }
 
+        // Helper method to check if a part exists by its id
         private bool PartExists(int id)
         {
-          return (_context.Part?.Any(e => e.PartId == id)).GetValueOrDefault();
+            return (_context.Part?.Any(e => e.PartId == id)).GetValueOrDefault(); // Check for existence
         }
     }
 }

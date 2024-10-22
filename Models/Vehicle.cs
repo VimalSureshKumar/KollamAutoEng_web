@@ -57,7 +57,7 @@ namespace KollamAutoEng_web.Models
         // Vehicle registration number, required with specific validation rules
         [Required(ErrorMessage = "Please enter the vehicle registration number.")] // Ensures this field is mandatory with a custom error message
         [Display(Name = "Registration")] // Specifies the display label for the registration field
-        [RegularExpression(@"^([A-Z]{2}\d{2}[A-Z]{2}\d{4}|[A-Z]{3}\d{3}|[A-Z]{2}\d{4}|[A-Z]{5}|[A-Z]{3}\d{3}[A-Z]?|[A-Z]{2}\d{4})$", ErrorMessage = "The registration number must be in a valid format (e.g., MH12AB1234, ABC123, AB1234, ABCDE, ABC123, or ABC123D).")] // Validates the registration number format
+        [RegularExpression(@"^([A-Z]{2}\d{2}[A-Z]{2}\d{4}|[A-Z]{3}\d{3}|[A-Z]{2}\d{4}|[A-Z]{5}|[A-Z]{3}\d{3}[A-Z]?)$", ErrorMessage = "The registration number must be in a valid format (e.g., MH12AB1234, ABC123, AB1234, ABCDE, or ABC123D).")]
         public string Registration { get; set; }
 
         // Colour of the vehicle, required field
@@ -74,7 +74,7 @@ namespace KollamAutoEng_web.Models
         [Required(ErrorMessage = "Please enter the odometer reading.")] // Ensures this field is mandatory with a custom error message
         [Display(Name = "Odometer")] // Specifies the display label for the odometer field
         [DisplayFormat(DataFormatString = "{0:N0}")] // Formats the display to show no decimal places with thousand separators
-        [Range(0, 1000000, ErrorMessage = "The odometer reading must be between 0 and 1,000,000.")] // Validates that the odometer is within a specific range
+        [Range(0, 500000, ErrorMessage = "The odometer reading must be between 0 and 500,000.")] // Validates that the odometer is within a specific range
         public int Odometer { get; set; }
 
         // Foreign key for Customer, required field

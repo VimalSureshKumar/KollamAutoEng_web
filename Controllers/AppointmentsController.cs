@@ -11,31 +11,32 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KollamAutoEng_web.Controllers
 {
-    [Authorize(Roles = "Admin,Employee")]
+    [Authorize(Roles = "Admin,Employee")] // Restricts access to Admin and Employee roles
     public class AppointmentsController : Controller
     {
         private readonly KollamAutoEng_webContext _context;
 
+        // Constructor that accepts the database context
         public AppointmentsController(KollamAutoEng_webContext context)
         {
             _context = context;
         }
 
         // GET: Appointments
-        [Authorize(Roles = "Admin,Employee")] // Restricts access to users with the Admin or Employee role
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to Admin and Employee roles
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            // Set up sort parameters for customers
+            // Set up sort parameters for appointments
             ViewData["CustomerSortParm"] = sortOrder == "Customer" ? "customer_desc" : "Customer";
 
-            // If a search has been performed, reset the page number to 1
+            // Reset the page number if a new search is performed
             if (searchString != null)
             {
                 pageNumber = 1; // Reset to the first page when a new search is made
             }
             else
             {
-                // If no new search is made, retain the current filter string
+                // Retain the current filter string if no new search is made
                 searchString = currentFilter;
             }
 
@@ -50,12 +51,12 @@ namespace KollamAutoEng_web.Controllers
 
             // Query to retrieve appointments, including related customer, vehicle, and employee data
             var appointments = from app in _context.Appointment
-                               .Include(m => m.Customer)
-                               .Include(m => m.Vehicle)
-                               .Include(m => m.Employee)
+                               .Include(m => m.Customer) // Include related Customer data
+                               .Include(m => m.Vehicle) // Include related Vehicle data
+                               .Include(m => m.Employee) // Include related Employee data
                                select app;
 
-            // If the search string is not empty, filter the appointments based on various fields
+            // Filter appointments based on search string
             if (!String.IsNullOrEmpty(searchString))
             {
                 appointments = appointments.Where(m =>
@@ -87,172 +88,193 @@ namespace KollamAutoEng_web.Controllers
         }
 
         // GET: Appointments/Details
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to Admin and Employee roles
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if ID is null
             }
 
+            // Retrieve the appointment including related data
             var appointment = await _context.Appointment
-                .Include(a => a.Customer)
-                .Include(a => a.Employee)
-                .Include(a => a.Vehicle)
+                .Include(a => a.Customer) // Include related Customer data
+                .Include(a => a.Employee) // Include related Employee data
+                .Include(a => a.Vehicle) // Include related Vehicle data
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
             if (appointment == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the appointment is not found
             }
 
-            return View(appointment);
+            return View(appointment); // Return the details view with the appointment data
         }
 
         // GET: Appointments/Create
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to Admin and Employee roles
         public IActionResult Create()
         {
+            // Populate dropdowns for related entities
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName");
             ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName");
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration");
-            return View();
+            return View(); // Return the create view
         }
 
         // POST: Appointments/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to Admin and Employee roles
+        [ValidateAntiForgeryToken] // Validate the anti-forgery token
         public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
-                _context.Add(appointment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Check for existing appointments for the same customer, date, and appointment name
+                var existingAppointment = await _context.Appointment
+                    .FirstOrDefaultAsync(a => a.CustomerId == appointment.CustomerId &&
+                                               a.AppointmentDate == appointment.AppointmentDate &&
+                                               a.AppointmentName == appointment.AppointmentName);
+
+                if (existingAppointment != null) // If a duplicate appointment is found
+                {
+                    // Add an error message to the model state
+                    ModelState.AddModelError("AppointmentDate", "An appointment with the same name for this customer already exists on the selected date.");
+                }
+                else
+                {
+                    _context.Add(appointment); // Add the new appointment to the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
+                    return RedirectToAction(nameof(Index)); // Redirect to the Index action
+                }
             }
 
+            // If we reach this point, something failed; re-populate the view data for the dropdowns
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", appointment.CustomerId);
             ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName", appointment.EmployeeId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", appointment.VehicleId);
-            return View(appointment);
+            return View(appointment); // Return the view with validation errors
         }
 
-
         // GET: Appointments/Edit
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to Admin and Employee roles
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Appointment == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if ID is null or context is null
             }
 
-            var appointment = await _context.Appointment.FindAsync(id);
+            var appointment = await _context.Appointment.FindAsync(id); // Find the appointment by ID
             if (appointment == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the appointment is not found
             }
+
+            // Populate dropdowns for related entities
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", appointment.CustomerId);
             ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName", appointment.EmployeeId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", appointment.VehicleId);
-            return View(appointment);
+            return View(appointment); // Return the edit view with the appointment data
         }
 
         // POST: Appointments/Edit
         [HttpPost]
-        [Authorize(Roles = "Admin,Employee")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")] // Restricts access to Admin and Employee roles
+        [ValidateAntiForgeryToken] // Validate the anti-forgery token
         public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentName,AppointmentDate,CustomerId,VehicleId,EmployeeId,ServiceCost")] Appointment appointment)
         {
             if (id != appointment.AppointmentId)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the ID does not match the appointment ID
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Check if the model state is valid
             {
                 try
                 {
-                    _context.Update(appointment);
-                    await _context.SaveChangesAsync();
+                    _context.Update(appointment); // Update the appointment in the context
+                    await _context.SaveChangesAsync(); // Save changes to the database
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException) // Handle concurrency exceptions
                 {
                     if (!AppointmentExists(appointment.AppointmentId))
                     {
-                        return NotFound();
+                        return NotFound(); // Return NotFound if the appointment does not exist
                     }
                     else
                     {
-                        throw;
+                        throw; // Re-throw the exception if it is a different error
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)); // Redirect to the Index action
             }
+
+            // If we reach this point, something failed; re-populate the view data for the dropdowns
             ViewData["CustomerId"] = new SelectList(_context.Customer, "CustomerId", "FirstName", appointment.CustomerId);
             ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "FirstName", appointment.EmployeeId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicle, "VehicleId", "Registration", appointment.VehicleId);
-            return View(appointment);
+            return View(appointment); // Return the view with validation errors
         }
 
         // GET: Appointments/Delete
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")] // Restricts access to Admin role
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Appointment == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if ID is null or context is null
             }
 
+            // Retrieve the appointment including related data
             var appointment = await _context.Appointment
-                .Include(a => a.Customer)
-                .Include(a => a.Employee)
-                .Include(a => a.Vehicle)
+                .Include(a => a.Customer) // Include related Customer data
+                .Include(a => a.Employee) // Include related Employee data
+                .Include(a => a.Vehicle) // Include related Vehicle data
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
             if (appointment == null)
             {
-                return NotFound();
+                return NotFound(); // Return NotFound if the appointment is not found
             }
 
-            return View(appointment);
+            return View(appointment); // Return the delete view with the appointment data
         }
 
         // POST: Appointments/Delete
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")] // Restricts access to Admin role
+        [ValidateAntiForgeryToken] // Validate the anti-forgery token
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Appointment == null)
             {
-                return Problem("Entity set 'KollamAutoEng_webContext.Appointment' is null.");
+                return Problem("Entity set 'KollamAutoEng_webContext.Appointment' is null."); // Return an error if the context is null
             }
 
+            // Retrieve the appointment including related FaultParts data
             var appointment = await _context.Appointment
-                .Include(a => a.FaultParts)
+                .Include(a => a.FaultParts) // Include related FaultParts data
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
 
             if (appointment != null)
             {
+                // Remove related FaultParts if any exist
                 if (appointment.FaultParts != null && appointment.FaultParts.Any())
                 {
                     _context.FaultPart.RemoveRange(appointment.FaultParts);
                 }
 
-                _context.Appointment.Remove(appointment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Appointment.Remove(appointment); // Remove the appointment from the context
+                await _context.SaveChangesAsync(); // Save changes to the database
+                return RedirectToAction(nameof(Index)); // Redirect to the Index action
             }
 
-            return NotFound();
+            return NotFound(); // Return NotFound if the appointment is not found
         }
 
+        // Check if an appointment exists by ID
         private bool AppointmentExists(int id)
         {
-            return (_context.Appointment?.Any(e => e.AppointmentId == id)).GetValueOrDefault();
+            return (_context.Appointment?.Any(e => e.AppointmentId == id)).GetValueOrDefault(); // Check for existence
         }
     }
 }
-
-
-

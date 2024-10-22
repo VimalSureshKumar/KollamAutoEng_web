@@ -11,18 +11,20 @@ namespace KollamAutoEng_web.Areas.Identity.Data
     // Custom user class inheriting from IdentityUser
     public class KollamAutoEng_webUser : IdentityUser
     {
-        // Property for user's first name
-        [Required(ErrorMessage = "Please enter First Name")] // Ensures the field is required
-        [MaxLength(25)] // Limits the length to 25 characters
-        [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")] // Validates that the input only contains letters and single spaces
-        [Display(Name = "First Name")] // Specifies how this property will be displayed in UI
+        [Required(ErrorMessage = "Please enter Customer First Name")] // Ensures first name is mandatory
+        [MinLength(3)] // Ensures the name has a minimum of 3 characters
+        [MaxLength(25)] // Ensures the name has a maximum of 25 characters
+        [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Each word must start with a capital letter, and only letters and single spaces are allowed.")]
+        // Ensures that the first letter of each word is capitalized and that only letters and single spaces are allowed
+        [Display(Name = "First Name")] // Display name for FirstName in UI
         public string FirstName { get; set; }
 
-        // Property for user's last name
-        [Required(ErrorMessage = "Please enter Last Name")] // Ensures the field is required
-        [MaxLength(25)] // Limits the length to 25 characters
-        [RegularExpression("^[A-Za-z]+( [A-Za-z]+)*$", ErrorMessage = "Only letters and single spaces between words are allowed.")] // Validates input
-        [Display(Name = "Last Name")] // Specifies the display name for the UI
+        [Required(ErrorMessage = "Please enter Customer Last Name")] // Ensures last name is mandatory
+        [MinLength(3)] // Ensures the last name has a minimum of 3 characters
+        [MaxLength(25)] // Ensures the last name has a maximum of 25 characters
+        [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Each word must start with a capital letter, and only letters and single spaces are allowed.")]
+        // Ensures that each word in the last name starts with a capital letter, followed by lowercase letters, and only letters and single spaces are allowed
+        [Display(Name = "Last Name")] // Display name for LastName in UI
         public string LastName { get; set; }
 
         // Property for user's email address
@@ -34,9 +36,9 @@ namespace KollamAutoEng_web.Areas.Identity.Data
         public string Email { get; set; }
 
         // Property for user's phone number
-        [DataType(DataType.PhoneNumber)] // Specifies the data type for phone number
-        [MaxLength(17)] // Limits the length to 17 characters for international formats
-        [RegularExpression(@"^\+((64 (\b(2[0-6])\b)-\d{3,4}-\d{4,5})|(91 \d{5}-\d{5}))$", // Validates international phone numbers for New Zealand and India
+        [Required]
+        [DataType(DataType.PhoneNumber), MaxLength(17)] // Specifies that this is a phone number field, with a maximum length of 17 characters
+        [RegularExpression(@"^\+((64 (\b(2[0-6])\b)-\d{3,4}-\d{4,5})|(91 \d{5}-\d{5}))$",
         ErrorMessage = "Phone Number is not valid.\n\n" +
                "For New Zealand:\n" +
                "+64 followed by a 2-digit area code (20-26),\n" +
@@ -46,7 +48,8 @@ namespace KollamAutoEng_web.Areas.Identity.Data
                "For India:\n" +
                "+91 followed by two groups of 5 digits separated by a hyphen.\n" +
                "(e.g., +91 75920-12345).")]
-        [Display(Name = "Phone Number")] // Specifies the display name for the UI
+        // Validates phone number format for New Zealand and India
+        [Display(Name = "Phone Number")] // Display name for PhoneNumber in UI
         public string PhoneNumber { get; set; }
     }
 }
