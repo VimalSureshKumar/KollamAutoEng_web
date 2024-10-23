@@ -15,6 +15,7 @@ namespace KollamAutoEng_web.Models
         [Required(ErrorMessage = "Please enter the model name.")] // Ensures this field is mandatory with a custom error message
         [Display(Name = "Model Name")] // Specifies the display label for the ModelName field in the UI
         [MaxLength(25, ErrorMessage = "The model name cannot exceed 25 characters.")] // Limits the maximum length of the model name
+        [MinLength(1)] // Ensures the name has a minimum of 1 character
         [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "The model name can only contain letters, numbers, and spaces.")] // Validates that the model name contains only letters, numbers, and spaces
         public string ModelName { get; set; }
 

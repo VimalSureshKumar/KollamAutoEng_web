@@ -48,6 +48,8 @@ namespace KollamAutoEng_web.Models
         public virtual VehicleModel? VehicleModel { get; set; } // Navigation property for related VehicleModel
 
         // Vehicle Identification Number (VIN), required with specific validation rules
+        [MaxLength(17)] // Ensures the name has a maximum of 17 characters
+        [MinLength(17)] // Ensures the name has a minimum of 17 characters
         [Required(ErrorMessage = "Please enter the Vehicle Identification Number (VIN).")] // Ensures this field is mandatory with a custom error message
         [Display(Name = "VIN")] // Specifies the display label for the VIN field
         [RegularExpression(@"^[A-HJ-NPR-Z0-9]{17}$", ErrorMessage = "The VIN must be exactly 17 characters long and can only contain capital letters " +
@@ -55,6 +57,8 @@ namespace KollamAutoEng_web.Models
         public string VIN { get; set; }
 
         // Vehicle registration number, required with specific validation rules
+        [MaxLength(10)] // Ensures the name has a maximum of 25 characters
+        [MinLength(6)] // Ensures the name has a minimum of 6 characters
         [Required(ErrorMessage = "Please enter the vehicle registration number.")] // Ensures this field is mandatory with a custom error message
         [Display(Name = "Registration")] // Specifies the display label for the registration field
         [RegularExpression(@"^([A-Z]{2}\d{2}[A-Z]{2}\d{4}|[A-Z]{3}\d{3}|[A-Z]{2}\d{4}|[A-Z]{5}|[A-Z]{3}\d{3}[A-Z]?)$", ErrorMessage = "The registration number must be in a valid format (e.g., MH12AB1234, ABC123, AB1234, ABCDE, or ABC123D).")]
